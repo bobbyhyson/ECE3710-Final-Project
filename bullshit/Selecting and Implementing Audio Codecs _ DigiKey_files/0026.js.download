@@ -1,0 +1,49 @@
+(function () {
+    let testId = "0026"; 
+    let testName = "Quick Quote"; 
+
+    if (!__dktst.getCookie("dktst_" + testId)) {
+        __dktst.splitUsers(testId);
+    }
+
+    if (__dktst.getCookie("dktst_" + testId) == "variant") {
+
+        __dktst.waitForEl('.header__bottom a[track-data="ref_page_event=Request Quote"]', () => {
+            
+            const requestAQuoteBtn = document.querySelector('.header__bottom .flymenu__nav-bar ul > li.flymenu__section:last-child');
+            requestAQuoteBtn.addEventListener('click', addQuickQuoteFiles);
+            requestAQuoteBtn.addEventListener('keyup', addQuickQuoteFiles);
+
+            function addQuickQuoteFiles(event) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                if(event.type.toLowerCase() === "click" || (event.type.toLowerCase() === "keyup" && event.key.toLowerCase() === "enter")) {
+                    
+                    dk.uniqueSiteMask("quickQuoteLoadMask", true).show();
+
+                    if(!document.querySelector('link[href*="0026.css"]')) {
+                        // append css file to page with test styles
+                        __dktst.addCssFile("/-/media/files/dktst/css/0026.css?v=2");
+                    }
+
+                    if(!document.querySelector('script[src*="quick-quote.js"]')) {
+                        // append js file to page with test styles
+                        __dktst.addScriptFile("/-/media/files/dktst/js/quick-quote.js?v=7", testId);
+                    }
+
+                    // PREVENT ADDING FILES AGAIN
+                    requestAQuoteBtn.removeEventListener('click', addQuickQuoteFiles);
+                    requestAQuoteBtn.removeEventListener('keyup', addQuickQuoteFiles);
+                }
+            }
+        });
+
+        __dktst.setTrackDynamicVariable(testId, testName, "variant");
+
+    } else if(__dktst.getCookie("dktst_" + testId) == "control") {
+
+        __dktst.setTrackDynamicVariable(testId, testName, "control");
+    }
+})();
