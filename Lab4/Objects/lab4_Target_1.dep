@@ -1,0 +1,30 @@
+Dependencies for Project 'lab4', Target 'Target_1': (DO NOT MODIFY !)
+CompilerVersion: 6240000::V6.24::ARMCLANG
+F (..\Lab04_LCD\LCD.c)(0x690D08AC)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I "C:/Users/A02390656/Downloads/additionalCFiles"-I./RTE/_Target_1-IC:/Keil/ARM/CMSIS/6.2.0/CMSIS/Core/Include-D__UVISION_VERSION="543" -DSTM32L476xx -D_RTE_-o ./objects/lcd.o -MMD)
+I (..\Lab04_LCD\LCD.h)(0x690BB05D)
+I (..\Lab04_LCD\stm32l476xx.h)(0x68DED716)
+I (C:\Keil\ARM\CMSIS\6.2.0\CMSIS\Core\Include\core_cm4.h)(0x68BEFC05)
+I (C:\Users\A02390656\Downloads\additionalCFiles\system_stm32l4xx.h)(0x68DEE224)
+F (..\Lab04_LCD\LCD.h)(0x690BB05D)()
+F (..\Lab04_LCD\main.c)(0x690D08AB)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I "C:/Users/A02390656/Downloads/additionalCFiles"-I./RTE/_Target_1-IC:/Keil/ARM/CMSIS/6.2.0/CMSIS/Core/Include-D__UVISION_VERSION="543" -DSTM32L476xx -D_RTE_-o ./objects/main.o -MMD)
+I (..\Lab04_LCD\stm32l476xx.h)(0x68DED716)
+I (C:\Keil\ARM\CMSIS\6.2.0\CMSIS\Core\Include\core_cm4.h)(0x68BEFC05)
+I (C:\Users\A02390656\Downloads\additionalCFiles\system_stm32l4xx.h)(0x68DEE224)
+I (..\Lab04_LCD\LCD.h)(0x690BB05D)
+I (..\Lab04_LCD\handlers.h)(0x690BB88B)
+F (..\Lab04_LCD\startup_stm32l476xx.s)(0x68FA8E5B)(--target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto  -Wa,armasm,--diag_suppress=A1950W -c-gdwarf-4 -Wa,armasm,--pd,"__EVAL SETA 1"-I./RTE/_Target_1-IC:/Keil/ARM/CMSIS/6.2.0/CMSIS/Core/Include-Wa,armasm,--pd,"__UVISION_VERSION SETA 543" -Wa,armasm,--pd,"STM32L476xx SETA 1" -Wa,armasm,--pd,"_RTE_ SETA 1"-o ./objects/startup_stm32l476xx.o)
+F (..\Lab04_LCD\stm32l476xx.h)(0x68DED716)()
+F (..\..\Downloads\additionalCFiles\core_cm4_constants.s)(0x68DEE224)(--target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto  -Wa,armasm,--diag_suppress=A1950W -c-gdwarf-4 -Wa,armasm,--pd,"__EVAL SETA 1"-I./RTE/_Target_1-IC:/Keil/ARM/CMSIS/6.2.0/CMSIS/Core/Include-Wa,armasm,--pd,"__UVISION_VERSION SETA 543" -Wa,armasm,--pd,"STM32L476xx SETA 1" -Wa,armasm,--pd,"_RTE_ SETA 1"-o ./objects/core_cm4_constants.o)
+F (..\..\Downloads\additionalCFiles\stm32l4xx.h)(0x68DEE224)()
+F (..\..\Downloads\additionalCFiles\system_stm32l4xx.c)(0x68DEE224)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I "C:/Users/A02390656/Downloads/additionalCFiles"-I./RTE/_Target_1-IC:/Keil/ARM/CMSIS/6.2.0/CMSIS/Core/Include-D__UVISION_VERSION="543" -DSTM32L476xx -D_RTE_-o ./objects/system_stm32l4xx.o -MMD)
+I (..\..\Downloads\additionalCFiles\stm32l4xx.h)(0x68DEE224)
+I (..\..\Downloads\additionalCFiles\stm32l476xx.h)(0x68DEE224)
+I (C:\Keil\ARM\CMSIS\6.2.0\CMSIS\Core\Include\core_cm4.h)(0x68BEFC05)
+I (..\..\Downloads\additionalCFiles\system_stm32l4xx.h)(0x68DEE224)
+F (..\..\Downloads\additionalCFiles\system_stm32l4xx.h)(0x68DEE224)()
+F (..\Lab04_LCD\handlers.h)(0x690BB88B)()
+F (..\Lab04_LCD\handlers.c)(0x690D08C7)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I "C:/Users/A02390656/Downloads/additionalCFiles"-I./RTE/_Target_1-IC:/Keil/ARM/CMSIS/6.2.0/CMSIS/Core/Include-D__UVISION_VERSION="543" -DSTM32L476xx -D_RTE_-o ./objects/handlers.o -MMD)
+I (..\Lab04_LCD\stm32l476xx.h)(0x68DED716)
+I (C:\Keil\ARM\CMSIS\6.2.0\CMSIS\Core\Include\core_cm4.h)(0x68BEFC05)
+I (C:\Users\A02390656\Downloads\additionalCFiles\system_stm32l4xx.h)(0x68DEE224)
+I (..\Lab04_LCD\LCD.h)(0x690BB05D)
