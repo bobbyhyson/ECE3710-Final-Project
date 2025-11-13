@@ -1,0 +1,764 @@
+/*// ---------------------------------------------------------------------------------
+//      
+//      ##########  ####            #### #####   #####                      
+//      ####   ####                      #####  #####                       
+//      ####   #### ####  ######### #### ##### #####   #########  ####  ####
+//      ####   #### #### ####  #### #### ##########   ####   ###  ####  ####
+//      ####   #### #### ####  #### #### ##########   ########### ####  ####
+//      ####   #### #### ####  #### #### ##### #####  ########### ####  ####
+//      ####   #### #### ####  #### #### #####  ##### ####        ####  ####
+//      #########   ####  ######### #### #####   #####  #######    #########
+//                             ####                                     ####
+//                          #######                                   ######
+//
+// -----------------------------------------------------------------------------------
+//      dktstr - DigiKey Variant Testing v0.15
+// ----------------------------------------------------------------------------------*/
+
+// Values for the tests are in /sitecore/media library/Files/dktst/variant_test in the production environment
+// Example format:
+// {
+//     name: 'Test name',
+//     description: 'Test description',
+//     id: "0001",
+//     allPages: 'true',
+//     url: '',
+//     path: '',
+//     query: '',
+//     hash: '',
+//     state: 'run',
+//     split: '100',
+//     users: '100',
+//     userAge: '',
+//     domains: '',
+//     languages: '',
+//     currency: '',
+//     devices: '',
+//     dimensions: '',
+//     geoIP: '',
+//     loggedIn: '',
+//     element: '',
+//     startDate: '01/01/25:1030',
+//     endDate: '12/31/25:2359',
+//     scheduled: '',
+//     maxViews: '',
+//     version: '1'
+// },
+
+// NOTES:
+// 'name' is the name of the test and will be used to indicate what test is running in the console output
+// 'id' is an unique 4 digit number counting up from 0001. This ID needs to be used for the name of the JS/CSS files and referenced inside the test JS file.
+// 'allPages' value will run test on all pages of the website overriding any other page url settings.
+// 'url' is for when a page is to run on single specific url not including any extra url parameters and must be comma separated. Note this will be overridden by a "true" value in "allPages" 
+// 'path' value will run test on all pages within a specific path and must be comma separated. i.e. mydigikey or search. 
+// 'query' value will run rests on pages with a matching url search parameter value (after the ?).
+// 'hash' value will run rests on pages with a matching url hash parameter value (after the #).
+// 'state' include: dev, test, run, archive, pause. 
+// 'split' is in value increments of 1 from 1 to 100 and is the percentage of users who will see the test variant.
+// 'users' is in value increments of 1 from 1 to 100 and is the percentage of users who will see the test in total both variant and control.
+// 'userAge' defaults to all users if empty. Options of 'new' or 'returning' to have the test only appear for users determined to be either type based upon a session/localstorage check.
+// 'domains' defaults to all tlds if empty. Standard DigiKey tlds are available to list and must be comma separated. 
+// 'languages' defaults to all. Standard DigiKey language values are available to list and must be comma separated.
+// 'currency' defaults to all. Standard DigiKey currency values are available to list and must be comma separated.
+// 'devices' defaults to all. Options of 'phone', 'tablet' or 'desktop' to have test only appear on that platform type per useragent check of standard values. Comma separated if more than one value.
+// 'dimensions' defaults to all. Values are set in pairs of min and max width and comma separated.
+// 'geoIP' defaults to all. Standard country codes are available to list and must be comma separated.
+// 'loggedIn' defaults to all users. Value of true is for logged in users only and false is for non-logged in users. 
+// 'element' defaults to all. Single standard selector can be passed. Will run test is element exists or will listen to the page for element to appear and then run test.
+// 'startDate' and 'endDate' are used to reference when a test is starting/stopping in the table listing as well as activate the test at 12:00 am and deactivate at 11:59 pm on the date values as a default. Dates are formatted as `mm/dd/yy`. To add a specific time for starting or ending a test adjust the format to `mm/dd/yy:hhmm` with the time utilizing standard 24 hour times. 
+// 'scheduled' defaults to no. If a 'true' value is listed the test will look for a startDate and endDate and schedule the test accordingly. 
+// 'maxViews' is the maximum amount of times a user should have a test activate per session.  
+// 'version' is used to aid in new versions being loaded when changes are made to existing tests. 
+
+let tests, testsOnPage = {name: 'tests', items: []};
+if (typeof variant_tests === 'undefined') {
+    tests = [];
+  } else {
+    tests = variant_tests;
+  }
+
+let userAge;
+if (typeof(Storage) !== "undefined") {
+    if (sessionStorage.getItem("immaNew") == "true") {
+        userAge = "new";
+    } else if (localStorage.getItem("immaReturning") == "true") {
+        userAge = "returning";
+    } else {
+        userAge = "new";
+        sessionStorage.setItem("immaNew","true");
+        localStorage.setItem("immaReturning","true");
+    }
+}
+
+let currentHost = location.host.toLowerCase();
+let currentPath = location.pathname == "/" ? "" : location.pathname.toLowerCase();
+let currentQuery = location.search.toLowerCase();
+let currentHash = location.hash.toLowerCase();
+let currentUrl = currentHost + currentPath;
+let currentDomain = location.host.split(".").pop().toLowerCase();
+let currentLang = typeof __headerData !== 'undefined' ? __headerData.lang.toLowerCase() : document.documentElement.lang.slice(0, 2).toLowerCase();
+let currentCurr = typeof __headerData !== 'undefined' ? __headerData.cur.toLowerCase() : "";
+let currentSite = typeof __headerData !== 'undefined' ? __headerData.site.toLowerCase() : "";
+
+let dkDateTime = new Date(new Date().toLocaleString("en-US", {timeZone: "America/Chicago"}));
+let formattedTime = dkDateTime.toLocaleTimeString('en-US', {hour12: false, hour: '2-digit', minute: '2-digit'}).replace(":","");
+let formattedDate = `${dkDateTime.getMonth()<9 ? '0'+(dkDateTime.getMonth()+ 1) : dkDateTime.getMonth()+1}${dkDateTime.getDate()<9 ? '0'+(dkDateTime.getDate()) : dkDateTime.getDate()}${dkDateTime.getFullYear().toString().slice(-2)}`
+
+let isDigiKeyTest = (["digikeytest","digikeydev"].includes(currentHost.split('.')[0]));
+let blockedHost = ["punchout","punchouttest","punchoutdev","local.digikey","localhost","sc-cd-preview"].some(item => currentHost.includes(item));
+
+let deviceType = "";
+const userAgent = navigator.userAgent.toLowerCase();
+const screenWidth = window.innerWidth;
+const isMobile = /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|[ai]pod)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|rim)|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(userAgent) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rim)|al(av|ca|co)|amoi|an(droid|ex|ny)|aq(ku|or)|arc(h|k)|av(mo|pm)|ba(cr|ad)|bd(eg|me|s )|bi(lo|st)|br(ex|me)|bs(ad|er)|bu(ek|in)|cw(od|ze)|cr(ad|ze)|da(ia|ul)|dc(ad|ik)|de(ad|tx)|di(g |go|mo)|do(c |po|tr)|ds(12|an)|el(ad|so)|er(ic|ok)|es(la|te)|ez(ho|ei)|fly(|_)|g1 u|g560|gf5|gi(mo|wa|yi)|gr(ad|un)|haie|hcit|hd(ad|gf)|hg(mo|zk)\|hp(ai|og)|hs(ar|ev)|ht(lg|si)|hu(ba|oo)|ig01|ikom|imei|ipaq|iris|jm(c |ip)|jk(mo|pr)|ke(bm|nf)|kg(ti|to)|klg |ko(sh|ri)|kpt |kwc |kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50t|54m|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(ad|ri|un)|me(rc|sa|ve)|mi(ne|od)|mm(ad|ut)|mu(ey|ki)|nc(01|by|lo)|n200|n20mr|n500|n700|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|to|wg)|phil|pire|pl(ay|uc)|pn2|po(ck|rt|se)|prox|psio|pt\-ch|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ad|ma|si)|sc(oo|we)|sm(b |ar|t)|sh(ll|ow)|si(em|vau)|sq(a|t)|t2ma|tc(ad|pf)|tk(ad|pf)|tm(ad|er)|to(ad|pr|sh)|tr(ad|me)|ts(ad|im)|ui(gi|lk)|v\-mo|va(lg|us)|vk(49|50|190|210)|vm(ad|er)|voda|vulc|vx(5d|64)|wa(dg|cr)|wkbe|we(nd|on)|x700|yas |your|zeto|zte\-/i.test(userAgent.substr(0, 4));
+const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows non-mobile)|kindle|playbook|silk)|ip(ad|od)/i.test(userAgent) && !isMobile;
+const isDesktop = !isMobile && !isTablet && (/(windows|macintosh|linux)/i.test(userAgent) || screenWidth >= 1024);
+const isDataDog = userAgent.includes("datadog");
+
+if (isMobile) {
+    deviceType = "phone";
+} else if (isTablet) {
+    deviceType = "tablet";
+} else if (isDesktop) {
+    deviceType = "desktop";
+} else {
+    deviceType = "unknown";
+}
+
+var requestedPhrases = [];
+
+let __dktst = {
+    listTests: function () { console.log("All Tests: ",tests) },
+    listActiveTests: function () {
+        const activeTests = tests.filter(tests => (tests.state === "run" || tests.state === "test"));
+        if (activeTests.length > 0)  {
+            for (const activeTest of activeTests) {
+                console.log(activeTest['id'] + " (" + activeTest['state'].toUpperCase() + ") " + activeTest['name'] + " - Split: "+__dktst.getCookie("dktst_" + activeTest['id']));
+                console.log("https://www.digikey.com/-/media/files/dktst/js/"+activeTest['id']+".js");
+            }
+        } else {
+            console.log("No active tests.")
+        }
+        console.log("Active Tests: ", activeTests)
+        if (__dktst.getCookie("dktst_forced")) {
+            console.log("Forced Test: " + __dktst.getCookie("dktst_forced"));
+        }
+    },
+    listArchiveTests: function () {
+        const archiveTests = tests.filter(tests => tests.state === "archive");
+        if (archiveTests.length > 0)  {
+            console.log("Archive Tests:", archiveTests);
+        } else {
+            console.log("No archived tests.")
+        }
+    },
+    listDevelopmentTests: function () {
+        const devTests = tests.filter(tests => tests.state === "dev");
+        if (devTests.length > 0)  {
+            console.log("Dev Tests: ", devTests);
+        } else {
+            console.log("No development tests.")
+        }
+    },
+    listRunningTests: function () {
+        const runningTests = tests.filter(tests => tests.state == "run" && (tests.allPages == "true" || (tests.url == "" || tests.url == currentUrl)));
+        if (runningTests.length > 0)  {
+            console.log("Running Tests: ", runningTests);
+        } else {
+            console.log("No running tests.")
+        }
+    },
+    getRandomInt: function (maxInt) {
+        return Math.floor(Math.random() * maxInt);
+    },
+    getQueryStringValue: function (key) {
+        let kvs = window.location.search.substring(1).split('&');
+        let i, parts;
+        for (i = 0; i < kvs.length; i++) {
+            parts = kvs[i].split('=');
+            if (parts[0] === key) {
+                return parts[1];
+            }
+        }
+        return undefined;
+    },
+    setCookie: function (cname, cvalue, exdays) {
+        const d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        let expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    },
+    getCookie: function (cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return null;
+    },
+    eatCookie: function (value) {
+        if (value.length === 4) {
+            const cookies = document.cookie.split(';'); // Split the cookie string
+            const regex = /dktst_\d{4}/; // Regular expression to match four digits
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim(); // Trim leading/trailing whitespace
+                const cookieName = cookie.split('=')[0]; // Extract the cookie name
+                if (regex.test(cookieName) && cookieName === "dktst_"+value) { // Check if the cookie name contains four digits
+                    document.cookie = cookieName + '=; Max-Age=-99999999;path=/';
+                    console.log("Cookie " + cookieName + " eaten! ¯\_(ツ)_/¯")
+                }
+            }
+        } else {
+            document.cookie = value + '=; Max-Age=-99999999;path=/';
+            console.log("Cookie " + value + " eaten! ¯\_(ツ)_/¯")
+        }
+    },
+    listCookie: function() {
+        const cookies = document.cookie.split(';');
+        const matchingCookies = [];
+        for (let cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name.includes("dktst_")) {
+            matchingCookies.push({ name, value });
+            }
+        }
+        matchingCookies.forEach(obj => console.log(obj.name + ': ' + obj.value)); 
+    },
+    splitUsers: function (testId) {
+        if (!__dktst.getCookie("dktst_" + testId)) {
+            let userInt = __dktst.getRandomInt(100);
+            let userSplit = variant_tests.filter(tests => (tests.id === testId)).map(tests => tests.split);
+            let userTotal = variant_tests.filter(tests => (tests.id === testId)).map(tests => tests.users);
+            
+            if (userInt >= userTotal[0]) {
+                __dktst.setCookie("dktst_" + testId, "skipped", 90);
+            } else if (userInt < userTotal[0] * (userSplit[0] / 100)) {
+                __dktst.setCookie("dktst_" + testId, "variant", 90);
+            } else {
+                __dktst.setCookie("dktst_" + testId, "control", 90);
+            }
+        }
+    },
+    waitForEl: function (selector, callback) {
+        if (document.querySelector(selector)) {
+            callback();
+        } else {
+            setTimeout(function () {
+                __dktst.waitForEl(selector, callback);
+            }, 100);
+        }
+    },
+    findElementByTextContent: function (selector, searchText) {
+        const elements = document.querySelectorAll(selector);
+        for (const element of elements) {
+          if (element.textContent.includes(searchText)) {
+            return element; 
+          }
+        }
+        return null;
+    },
+    addCssFile: function(cssPath) {
+        if (document.querySelector("link[href*='"+cssPath+"']")) {
+            document.querySelector("link[href*='"+cssPath+"']").remove();
+        }
+        if (isDigiKeyTest) {
+            cssPath = "https://"+currentHost.replace(/^[^.]*/, 'www')+cssPath;
+        }
+        const link = document.createElement('link'); 
+        link.rel = 'stylesheet';
+        link.href = cssPath;
+        document.head.appendChild(link); 
+    },
+    addScriptFile: function(jsPath, testId) {
+        if (document.querySelector("script[src*='"+jsPath+"']")) {
+            document.querySelector("script[src*='"+jsPath+"']").remove();
+        }
+        if (isDigiKeyTest) {
+            jsPath = "https://"+currentHost.replace(/^[^.]*/, 'www')+jsPath;
+        }
+        const script = document.createElement('script');
+        script.src = jsPath;
+        script.async = true; 
+        document.head.appendChild(script);
+        if (__dktst.getCookie("dktst_admin")) {
+            console.log("https://www.digikey.com/-/media/files/dktst/js/" + testId + ".js script added to page.")
+        }
+        testsOnPage.items.push({id: testId, description: variant_tests.filter(tests => (tests.id === testId)).map(tests => tests.name).toString()});
+    },
+    bossLevel: function() {
+        __dktst.setCookie("dktst_admin", "true", 365);
+    },
+    setTrackDynamicVariable: function(id, name, split) {
+        let testIdName = "AB_dktst_"+id+"__"+name.replace(/\s/g , "_");
+        // set tracking for ContentSquare
+        window._uxa = window._uxa || [];
+        window._uxa.push(["trackDynamicVariable", {key: testIdName, value: split}]);
+        // set tracking for DataDog
+        if (!isDigiKeyTest && typeof window.DD_RUM !== 'undefined' && window.DD_RUM !== null) {
+            window.DD_RUM.addFeatureFlagEvaluation(testIdName, split); 
+        }
+    },
+    checkElement: function(testElement) {
+        if (document.querySelector(testElement)) {
+            return true
+        }
+        const observer = new MutationObserver(mutations => {
+            if (document.querySelector(testElement)) {
+                observer.disconnect();
+                return true
+            }
+        });
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    },
+    stringArrayMatch: function(str, arr) {
+        return arr.some(item => str.includes(item));
+    },
+    dkUserInfo: {},
+    getUserInfo: function() {
+        //Available results: CustomerId, DisplayName, Email, IsLoggedIn, Name, CompanyName, CompanyType, ClassCode, AssignedAccountRep
+        if (typeof __headerLayout !== "undefined") {         
+            if (typeof __headerLayout.addRegistrationStatusListener === 'function') {
+                __headerLayout.addRegistrationStatusListener(function doWithReturned(status) {
+                    __dktst.dkUserInfo = status;
+                })
+            } else if (typeof __headerLayout.registrationStatus !== "undefined") {
+                __dktst.dkUserInfo = __headerLayout.registrationStatus;
+            }
+        }
+    },
+    dkRecentPages: JSON.parse(localStorage.getItem('dkRecentPages') || '[]'),
+    //dkRecentSearchTerms: JSON.parse(localStorage.getItem('dkRecentSearchTerms') || '[]'),
+    dkSessionPageVisits: sessionStorage.getItem("dkSessionPageVisits"),
+    dkSessionUniquePageVisits: JSON.parse(sessionStorage.getItem("dkSessionUniquePageVisits") || "[]"),
+    dkTestViews: JSON.parse(localStorage.getItem("dkTestViews") || "[]"),
+    dkPageVisits: 0,
+    dkSupplierIds: JSON.parse(localStorage.getItem('dkSupplierIds') || '[]'),
+    dkPartClasses: JSON.parse(localStorage.getItem('dkPartClasses') || '[]'),
+    dkMfgPartNumbers: JSON.parse(localStorage.getItem('dkMfgPartNumbers') || '[]'),
+    dkPartNumbers: JSON.parse(localStorage.getItem('dkPartNumbers') || '[]'),
+    dkProductIds: JSON.parse(localStorage.getItem('dkProductIds') || '[]'),
+    logUserData: function() {
+
+        if (typeof(Storage) !== "undefined") {
+            //log the last 10 unique pages visited starting with the current page
+            let pageUrl = window.location.href;
+            __dktst.dkRecentPages = __dktst.dkRecentPages.filter(h => h !== pageUrl);
+            __dktst.dkRecentPages.unshift(pageUrl);
+            __dktst.dkRecentPages = __dktst.dkRecentPages.slice(0, 10);
+            localStorage.setItem('dkRecentPages', JSON.stringify(__dktst.dkRecentPages));
+
+            //log the last 10 unique search terms entered starting with the current page
+            // let searchTerm = document.querySelector('header .header__searchinput').value;
+            // if (searchTerm.length > 0) {
+            //     __dktst.dkRecentSearchTerms = __dktst.dkRecentSearchTerms.filter(h => h !== searchTerm);
+            //     __dktst.dkRecentSearchTerms.unshift(searchTerm);
+            //     __dktst.dkRecentSearchTerms = __dktst.dkRecentSearchTerms.slice(0, 10);
+            //     localStorage.setItem('dkRecentSearchTerms', JSON.stringify(__dktst.dkRecentSearchTerms));
+            // }
+            
+            //log unique page visits and count
+            let currentPageUrl = window.location.href;
+            let currentPageVisits = 1;
+            let hereBefore = __dktst.dkSessionUniquePageVisits.filter(h => h.pageUrl == currentPageUrl);
+            if (hereBefore.length > 0) {
+                currentPageVisits = hereBefore[0].visits + 1; 
+                __dktst.dkPageVisits = currentPageVisits;
+            };
+            __dktst.dkSessionUniquePageVisits = __dktst.dkSessionUniquePageVisits.filter(h => h.pageUrl !== currentPageUrl);
+            __dktst.dkSessionUniquePageVisits.unshift({pageUrl: currentPageUrl, visits: currentPageVisits});
+            sessionStorage.setItem('dkSessionUniquePageVisits', JSON.stringify(__dktst.dkSessionUniquePageVisits));
+
+            //log total session page visits
+            if (__dktst.dkSessionPageVisits) {
+                __dktst.dkSessionPageVisits = parseInt(__dktst.dkSessionPageVisits) + 1;
+            } else {
+                __dktst.dkSessionPageVisits = 1;
+            }
+            sessionStorage.setItem("dkSessionPageVisits", __dktst.dkSessionPageVisits.toString());
+
+            //log part detail specific information - check for part class and supplier id to block running on 404 pages
+            if (currentPath.includes("/products/detail") && document.querySelector('meta[name="data-supplierid"]') && document.querySelector('meta[name="data-partclass"]')) {
+                //if pdp log up to 10 unique supplier ids
+                let supplierId = document.querySelector('meta[name="data-supplierid"]').content;
+                __dktst.dkSupplierIds = __dktst.dkSupplierIds.filter(h => h !== supplierId);
+                __dktst.dkSupplierIds.unshift(supplierId);
+                __dktst.dkSupplierIds = __dktst.dkSupplierIds.slice(0, 10);
+                localStorage.setItem('dkSupplierIds', JSON.stringify(__dktst.dkSupplierIds));
+                
+                //if pdp log up to 10 unique part classes
+                let partClass = document.querySelector('meta[name="data-partclass"]').content;
+                __dktst.dkPartClasses = __dktst.dkPartClasses.filter(h => h !== partClass);
+                __dktst.dkPartClasses.unshift(partClass);
+                __dktst.dkPartClasses = __dktst.dkPartClasses.slice(0, 10);
+                localStorage.setItem('dkPartClasses', JSON.stringify(__dktst.dkPartClasses));
+
+                //if pdp log up to 10 unique mfg part numbers
+                if (document.querySelector("h1[class*='manuProductNumber']")) {
+                    let mfgPartNumber = document.querySelector("h1[class*='manuProductNumber']").textContent;
+                    __dktst.dkMfgPartNumbers = __dktst.dkMfgPartNumbers.filter(h => h !== mfgPartNumber);
+                    __dktst.dkMfgPartNumbers.unshift(mfgPartNumber);
+                    __dktst.dkMfgPartNumbers = __dktst.dkMfgPartNumbers.slice(0, 10);
+                    localStorage.setItem('dkMfgPartNumbers', JSON.stringify(__dktst.dkMfgPartNumbers));
+                }
+                //if pdp log up to 10 unique dk part numbers 
+                if (document.querySelector("div[data-testid='product-info'] table tbody tr td ~ td div")) {
+                    let partNumber = document.querySelector("div[data-testid='product-info'] table tbody tr td ~ td div").textContent;
+                    __dktst.dkPartNumbers = __dktst.dkPartNumbers.filter(h => h !== partNumber);
+                    __dktst.dkPartNumbers.unshift(partNumber);
+                    __dktst.dkPartNumbers = __dktst.dkPartNumbers.slice(0, 10);
+                    localStorage.setItem('dkPartNumbers', JSON.stringify(__dktst.dkPartNumbers));
+                }
+
+                //if pdp log up to 10 unique product Ids
+                let productId = currentUrl.split("/").reverse()[0];
+                __dktst.dkProductIds = __dktst.dkProductIds.filter(h => h !== productId);
+                __dktst.dkProductIds.unshift(productId);
+                __dktst.dkProductIds = __dktst.dkProductIds.slice(0, 10);
+                localStorage.setItem('dkProductIds', JSON.stringify(__dktst.dkProductIds));
+            }
+        }
+    },
+    logTestView: function(testId) {
+        let currentTestViews = 1;
+        let seenBefore = __dktst.dkTestViews.filter(h => h.testId == testId);
+        if (seenBefore.length > 0) {
+            currentTestViews = seenBefore[0].views + 1; 
+        };
+        __dktst.dkTestViews = __dktst.dkTestViews.filter(h => h.testId !== testId);
+        __dktst.dkTestViews.unshift({testId: testId, split: __dktst.getCookie("dktst_"+testId), views: currentTestViews});
+        localStorage.setItem('dkTestViews', JSON.stringify(__dktst.dkTestViews));
+    },
+    csTrackEvent: function(eventName) {
+        window._uxa = window._uxa || [];
+        window._uxa.push(["trackPageEvent", eventName]);
+    },
+    dktstrClear: function() {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i].trim();
+            if (cookie.startsWith("dktst_") && cookie != "dktst_optout") {
+            const cookieName = cookie.split('=')[0];
+            document.cookie = cookieName + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            }
+        }
+        localStorage.removeItem('dkRecentPages');
+        sessionStorage.removeItem("dkSessionPageVisits");
+        sessionStorage.removeItem("dkSessionUniquePageVisits");
+        localStorage.removeItem('dkSupplierIds');
+        localStorage.removeItem('dkPartClasses');
+        localStorage.removeItem('dkMfgPartNumbers');
+        localStorage.removeItem('dkPartNumbers');
+        localStorage.removeItem('dkProductIds');
+        localStorage.removeItem('dkTestViews');
+    },
+    clearForcedTest: function() {
+        if (__dktst.getCookie("dktst_forced")) {
+            __dktst.eatCookie(__dktst.getCookie("dktst_forced"));
+            __dktst.eatCookie("dktst_forced")
+            let forcedUrl = new URL(window.location.href);
+            let params = forcedUrl.searchParams;
+            params.delete("dktst");
+            params.delete("dktst_split");
+            params.delete("dktst_id");
+            window.location.href = forcedUrl;
+        }
+    },
+    setSplit: function(id, split) {
+        let newSplit;
+        if (split.toLowerCase() == "control") {
+            newSplit = "variant";
+        } else if (split.toLowerCase() == "variant") {
+            newSplit = "control";
+        }
+        const userConfirmed = confirm("Are you sure you want to change to the "+newSplit+" split for test " + id + "?");
+        if (userConfirmed) {
+            __dktst.setCookie("dktst_" + id, newSplit, 90);
+            window.location.reload();
+        }
+    },
+    getPhrase: async function(phrase) {
+        // directly get specific phrases for variables: let variableName = await __dktst.getPhrase("phrase-name");
+        if (currentSite == "") {currentSite = "us"}
+        try {
+            const response = await fetch("https://www.digikey.com/Services/Global/phrases.svc/rest/phrasev2/" + phrase + "?lang=" + currentLang + "&country="+ currentSite, {method: 'get'});
+            if (!response.ok) {
+                throw new Error(`Failed to fetch phrase: ${phrase}`);
+            }
+            const phraseData = await response.json();
+            return phraseData;
+        } catch (error) {
+            console.error("Error in phraseData:", error);
+            return null; 
+        }
+    },
+    replacePhraseTagHtml: async function(dataPhrase) {
+        let returnedPhrase = await __dktst.getPhrase(dataPhrase);
+        let phraseElement = document.querySelector("[data-phrase='"+dataPhrase+"']");
+        phraseElement.innerHTML = returnedPhrase;
+        phraseElement.removeAttribute("data-phrase");
+        return
+    },
+    replaceAllPhraseTagHtml: async function() {
+        let phraseTags = document.querySelectorAll("[data-phrase]");
+        for (var p = 0, length = phraseTags.length; p < length; p++) {
+            let thisPhrase = phraseTags[p].dataset.phrase;
+            await __dktst.replacePhraseTagHtml(thisPhrase)
+        }
+        return
+    }
+}
+
+//check for consent cookies and only run if all have been accepted
+const OTCookieName = 'OptanonConsent';
+const OTCookieMatch = document.cookie.match(new RegExp('(^| )' + OTCookieName + '=([^;]+)'));
+if (OTCookieMatch && !blockedHost && (!isDataDog || (isDataDog && __dktst.getCookie("showDatadogTests") != null)) && !__dktst.getCookie("noAbTests")) {
+    const OTCookieValue = OTCookieMatch[2];
+    //let cookieConsent = OTCookieMatch[2].split("&").filter(cc => cc.includes("groups")).toString().split("=")[1].replaceAll("%3A1%2C",'').replaceAll("%3A1",'').split("C").slice(1).length == 4;
+    if (OTCookieValue && (OTCookieValue.includes('C0001') && OTCookieValue.includes('C0002') && OTCookieValue.includes('C0003') && OTCookieValue.includes('C0004'))) {
+        //run whatever test exists on the current page or forced test if not currently set to run
+        function rundktstr() {
+            //check for optout cookie value or query string and ignore all tests if exists, if no cookie then create one and set it for 90 days
+            if (__dktst.getQueryStringValue("dktst") == "optout" || __dktst.getCookie("dktst_optout") == "true") {
+                if (!__dktst.getCookie("dktst_optout")) {
+                    __dktst.setCookie("dktst_optout", "true", 90);
+                    __dktst.dktstrClear();
+                }
+            } else { 
+                //check for blocked url parameter and set cookie to block a specific test per id in url
+                if (__dktst.getQueryStringValue("dktst") == "block" &&  __dktst.getQueryStringValue("dktst_id") !== 'undefined') {
+                    __dktst.setCookie("dktst_" + __dktst.getQueryStringValue("dktst_id"), "blocked", 90);
+                }
+                
+                //check for set url parameter and set the cookie for a specific test to have a predetermined split value
+                if (__dktst.getQueryStringValue("dktst") == "set" &&  __dktst.getQueryStringValue("dktst_id") !== 'undefined' && __dktst.getQueryStringValue("dktst_split") !== 'undefined') {
+                    __dktst.setCookie("dktst_" + __dktst.getQueryStringValue("dktst_id"), __dktst.getQueryStringValue("dktst_split"), 90);
+                }
+
+                __dktst.logUserData();
+                __dktst.getUserInfo();
+
+                let forcedTest, forcedTestID, forcedTestSplit;
+                if (__dktst.getQueryStringValue("dktst") == "forced" &&  __dktst.getQueryStringValue("dktst_id") !== 'undefined' && __dktst.getQueryStringValue("dktst_split") !== 'undefined') {
+                    forcedTestID =  __dktst.getQueryStringValue("dktst_id");
+                    forcedTestSplit = __dktst.getQueryStringValue("dktst_split")
+                    __dktst.setCookie("dktst_forced", forcedTestID, "1")
+                    __dktst.setCookie("dktst_"+forcedTestID, forcedTestSplit, "1")
+                    forcedTest = true;
+                } else if (__dktst.getCookie("dktst_forced")) {
+                    forcedTestID = __dktst.getCookie("dktst_forced");
+                    forcedTestSplit = __dktst.getCookie("dktst_"+forcedTestID);
+                    if (!forcedTestSplit) {
+                        __dktst.setCookie("dktst_"+forcedTestID, "variant", "1")
+                    }
+                    forcedTest = true;
+                } else {
+                    forcedTest = false
+                }
+                const runTests = tests.filter(
+                    tests => 
+                    (tests.state == "run" || 
+                        (tests.state == "test" && isDigiKeyTest) || 
+                        (tests.state == "test" && tests.id == forcedTestID)) && 
+                    (tests.userAge == "" || 
+                        tests.userAge.toLowerCase() == userAge) && 
+                    (tests.domains == "" || 
+                        (tests.domains.toLowerCase().split(",").includes(currentDomain))) && 
+                    (tests.allPages == "true" || 
+                        (tests.url != "" && currentUrl == tests.url.toLowerCase()) || 
+                        (tests.path == "homepage" && currentPath == "") || 
+                        (tests.path != "" && currentPath != "" && __dktst.stringArrayMatch(currentPath, tests.path.toLowerCase().split(",")))) && 
+                    (tests.query == "" || 
+                        currentQuery.includes(tests.query.toLowerCase())) &&
+                    (tests.hash == "" || 
+                        currentHash.includes(tests.hash.toLowerCase())) &&
+                    (tests.languages == "" || 
+                        (tests.languages.toLowerCase().split(",").includes(currentLang))) && 
+                    (tests.currency == "" || 
+                        (tests.currency.toLowerCase().split(",").includes(currentCurr))) && 
+                    (tests.scheduled == "" || 
+                        (tests.state == "test" && tests.id == forcedTestID) || 
+                        (tests.scheduled.toLowerCase() == "true" && 
+                            (tests.startDate == "" || 
+                                (tests.startDate.split(":")[0].replace(/\D/g, '') < formattedDate) ||
+                                ((tests.startDate.split(":")[0].replace(/\D/g, '') == formattedDate) && (tests.startDate.split(":")[1] == undefined || (tests.startDate.split(":")[1] <= formattedTime)))) &&
+                            (tests.endDate == "" || 
+                                (tests.endDate.split(":")[0].replace(/\D/g, '') > formattedDate) ||
+                                ((tests.endDate.split(":")[0].replace(/\D/g, '') == formattedDate) && (tests.endDate.split(":")[1] == undefined || (tests.endDate.split(":")[1] >= formattedTime)))))) && 
+                    (tests.devices == "" || 
+                        __dktst.stringArrayMatch(deviceType, tests.devices.toLowerCase().split(","))) && 
+                    (tests.dimensions == "" || 
+                        (window.matchMedia(`(min-width:${tests.dimensions.split(",")[0]}px)`).matches && window.matchMedia(`(max-width:${tests.dimensions.split(",")[1]}px)`).matches)) &&
+                    (tests.maxViews == "" 
+                        || tests.maxViews >= __dktst.dkTestViews.find(o => o.testId === tests.Id).views()) &&
+                    (__dktst.getCookie("dktst_"+tests.id+"_complete") != "true") &&
+                    (__dktst.getCookie("dktst_"+tests.id) != "blocked") && 
+                    (__dktst.getCookie("dktst_"+tests.id) != "skipped")
+                );
+
+                for (const tests of runTests) {
+                    const readyGeoIP = new Promise((resolve) => {
+                        if (tests["geoIP"] == "") {
+                            resolve(true);
+                        } else {
+                            __headerLayout.addGeoCountryListener(function doWithReturned(countryCode) {
+                                if(tests["geoIP"].includes(countryCode.toLowerCase())) {
+                                    resolve(true);
+                                }
+                            });
+                        }
+                    })
+
+                    const readyElement = new Promise((resolve) => {
+                        if (tests["element"] == "" || document.querySelector(tests["element"])) {
+                            resolve(true);
+                        } else {
+                            const observer = new MutationObserver(mutations => {
+                                if (document.querySelector(tests["element"])) {
+                                    observer.disconnect();
+                                    resolve(true);
+                                }
+                            });
+                            observer.observe(document.body, {
+                                childList: true,
+                                subtree: true
+                            });
+                        }
+                    })
+
+                    const readyIsLoggedIn = new Promise((resolve) => {
+                        if (tests["loggedIn"] == "") {
+                            resolve(true);
+                        } else {
+                            __headerLayout.addRegistrationStatusListener(function doWithReturned(status) {
+                                if (status.IsLoggedIn === true && tests["loggedIn"] == "true") {
+                                    resolve(true);
+                                } else if (status.IsLoggedIn === false && tests["loggedIn"] == "false") {
+                                    resolve(true);
+                                } else {
+                                    resolve(false);
+                                }
+                            })
+                        }
+                    });
+
+                    const readySplitCookie = new Promise((resolve) => {
+                        if (__dktst.getCookie("dktst_" + tests["id"])) {
+                            resolve(true);
+                        } else {
+                            __dktst.splitUsers(tests["id"]);
+                            setInterval(() => {
+                                if (__dktst.getCookie("dktst_" + tests["id"])) {
+                                    resolve(true)
+                                }
+                            }, 250);
+                        }
+                    })
+
+                    Promise.all([readyGeoIP, readyElement, readyIsLoggedIn, readySplitCookie]).then((values) => {
+                    __dktst.addScriptFile('/-/media/files/dktst/js/'+tests["id"]+'.js?v='+tests["version"], tests["id"]);
+                    __dktst.logTestView(tests["id"]);
+                    });
+                }
+            }
+
+            //run extra functions if an admin cookie is set
+            if (__dktst.getCookie("dktst_admin")) {
+                setTimeout(function() {
+                    __dktst.listActiveTests();
+                    const script = document.createElement('script');
+                    script.src = "https://www.digikey.com/-/media/files/dktst/js/9000.js";
+                    script.async = true; 
+                    document.head.appendChild(script);
+                }, 2500);
+            }
+        }
+        rundktstr();
+        
+        //watch single page applications and rerun when new pages load
+        if (currentPath.includes("/products") || currentPath.includes("/mylists")) {
+            let target = document.querySelector('title');
+            let observer = new MutationObserver(function(mutations) {
+                let newPath = location.pathname == "/" ? "" : location.pathname.toLowerCase();
+                if (currentPath !== newPath) {
+                    currentPath = newPath;
+                    currentUrl = currentHost + currentPath;
+                    if(document.getElementById("testListDiv")) {
+                        document.getElementById("testListDiv").remove();
+                        testsOnPage = {name: 'tests', items: []};
+                    }
+                    rundktstr();
+                }
+            });
+            let config = { subtree: true, characterData: true, childList: true };
+            observer.observe(target, config);
+        }
+    }
+}
+
+
+/*
+DOCUMENTATION
+How to force a test to be visible:
+To see a specific test and split add "dktst=forced", "dktst_id=####", (the test id) and "dktst_split=control" or "dktst_split=variant" to the url. This will set the forced cookie and split cookie to keep showing the test for 1 day. 
+Example: www.digikey.com?dktst=forced&dktst_id=0018&dktst_split=variant
+NOTE: Only one test can be forced active at a time. Forced cookies are set to expire in 1 day.
+
+How to remove a forced test cookie: 
+Forced test cookies are set to expire after 1 day. To remove the cookie before then run the __dktst.clearForcedTest() function in the console to remove the forced test cookies. 
+
+How to set/override a split on a test via url parameters: 
+To see a specific test split add "dktst=set", "dktst_id=####" (the test id), and "dktst_split=control" or "dktst_split=variant" to the url. This will set a new split cookie or override an existing one. 
+Example: www.digikey.com?dktst=set&dktst_id=0018&dktst_split=variant
+
+How to set/override a split on a test via javascript function:
+To set a specific test split run the __dktst.setSplit(id, split) function passing the 4 digit test id and either "control" or "variant" to set the cookie. 
+
+How to block a test:
+To block a specific test via url add "dktst=block" and "dktst_id=####" to the url. This will set the test cookie to "blocked" for 90 days. The cookie can also be set to blocked in the console with __dktst.setCookie("dktst_####", "blocked", 90).
+
+
+CONSOLE FUNCTIONS
+__dktst.dktstrClear()
+Function clears and removes all cookies that start with dktst_ except the dktst_optout cookie. Also clears all local and session storage that dktstr has set.
+
+__dktst.bossLevel()
+Function sets an "admin" cookie that triggers the __dktst.listActiveTests() function to display all active tests in the console including variant/control cookie values. Also console logs which scripts are added to the current page.
+
+__dktst.clearForcedTest()
+Function will check for and eat the forced cookie and whichever test cookie it references. Then if the dktst or split parameters are in the url they will be removed and the page refreshed. 
+
+__dktst.setSplit(id, split)
+Passing the 4 digit ID of the test and the requested split ("control" or "variant") will set/override the cookie for the test.
+
+__dktst.listCookie()
+Function console logs a simple list of the currently set test cookies for your browser.
+
+__dktst.eatCookie(id)
+Function if passed a four digit number that matches a current test cookie in the browser will remove that cookie. Also can be passed a full cookie name for eating.
+Example: __dktst.eatCookie("0018") or __dktst.eatCookie("dktst_forced")
+
+__dktst.listTests()
+Function console logs an array of all tests.
+
+__dktst.listActiveTests()
+Function console logs each active test (test in the "run" or "test" state).
+
+__dktst.listArchiveTests()
+Function console logs each archived test ("archive" state).
+
+__dktst.listDevelopmentTests()
+Function console logs each development test ("dev" state).
+
+__dktst_listRunningTests()
+Function console logs each running test ("run" state).
+*/
