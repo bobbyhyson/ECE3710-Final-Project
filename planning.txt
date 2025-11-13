@@ -1,0 +1,38 @@
+------------------------------------------------------------
+Components
+------------------------------------------------------------
+* DAC's for speakers 
+* 4 Ohm 3W speakers
+* SD card
+* SD card connector
+* STM32L476RG microcontroller
+* 3 push buttons
+* LCD screen
+* Potentiometer
+
+------------------------------------------------------------
+System Requirements
+------------------------------------------------------------
+# There will be one push button for pause/play. Pressing the button toggles what mode the system is in. 
+
+# There will be a button for going back in the playlist and a button for going forward in the playlist (skipping).
+
+# LCD displays the name of the current song. 
+
+# Turning the potentiometer changes the volume on the speakers.
+
+# Plays music!
+
+# Use SPI for communicating with the SD card.
+
+# Use I2S for DAC.
+
+# The system starts up in paused mode. 
+
+# Skipping in paused mode goes to the next song. 
+
+
+
+
+
+
