@@ -1,0 +1,12 @@
+16:34:21 **** Incremental Build of configuration Default for project mp3player ****
+make all 
+make: *** No rule to make target `all'.  Stop.
+"make all" terminated with exit code 2. Build might be incomplete.
+16:35:06 **** Incremental Build of configuration Default for project mp3player ****
+make all 
+make: *** No rule to make target `all'.  Stop.
+"make all" terminated with exit code 2. Build might be incomplete.
+16:40:08 **** Incremental Build of configuration Default for project mp3player ****
+make all 
+make: *** No rule to make target `all'.  Stop.
+"make all" terminated with exit code 2. Build might be incomplete.
