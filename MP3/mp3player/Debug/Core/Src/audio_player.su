@@ -1,0 +1,5 @@
+../Core/Src/audio_player.c:25:6:audio_init	8	static
+../Core/Src/audio_player.c:33:6:audio_start	16	static
+../Core/Src/audio_player.c:45:6:audio_feed	48	static
+../Core/Src/audio_player.c:98:6:HAL_SAI_TxHalfCpltCallback	16	static
+../Core/Src/audio_player.c:105:6:HAL_SAI_TxCpltCallback	16	static

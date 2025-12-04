@@ -1,0 +1,13 @@
+../Src/helix_mp3.c:10:12:helix_mp3_skip_id3v2_tag	5
+../Src/helix_mp3.c:47:15:helix_mp3_fill_mp3_buffer	2
+../Src/helix_mp3.c:64:13:helix_mp3_convert_pcm_mono_to_stereo	2
+../Src/helix_mp3.c:73:15:helix_mp3_decode_next_frame	6
+../Src/helix_mp3.c:119:12:helix_mp3_seek	1
+../Src/helix_mp3.c:124:15:helix_mp3_read	1
+../Src/helix_mp3.c:135:5:helix_mp3_init	9
+../Src/helix_mp3.c:189:5:helix_mp3_init_file	3
+../Src/helix_mp3.c:208:5:helix_mp3_deinit	3
+../Src/helix_mp3.c:224:10:helix_mp3_get_sample_rate	2
+../Src/helix_mp3.c:232:10:helix_mp3_get_bitrate	2
+../Src/helix_mp3.c:240:8:helix_mp3_get_pcm_frames_decoded	2
+../Src/helix_mp3.c:248:8:helix_mp3_read_pcm_frames_s16	7

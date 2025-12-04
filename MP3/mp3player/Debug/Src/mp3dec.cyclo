@@ -1,0 +1,8 @@
+../Src/mp3dec.c:66:13:MP3InitDecoder	1
+../Src/mp3dec.c:87:6:MP3FreeDecoder	2
+../Src/mp3dec.c:110:5:MP3FindSyncWord	4
+../Src/mp3dec.c:147:12:MP3FindFreeSync	6
+../Src/mp3dec.c:190:6:MP3GetLastFrameInfo	3
+../Src/mp3dec.c:227:5:MP3GetNextFrameInfo	4
+../Src/mp3dec.c:254:13:MP3ClearBadFrame	3
+../Src/mp3dec.c:286:5:MP3Decode	22

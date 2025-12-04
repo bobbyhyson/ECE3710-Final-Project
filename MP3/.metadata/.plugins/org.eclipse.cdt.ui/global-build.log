@@ -1,0 +1,2558 @@
+11:09:32 **** Build of configuration Debug for project mp3player ****
+make -j7 all 
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Startup/startup_stm32l476rgtx.d" -MT"Startup/startup_stm32l476rgtx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Startup/startup_stm32l476rgtx.o" "../Startup/startup_stm32l476rgtx.s"
+arm-none-eabi-gcc "../Src/audio_player.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/audio_player.d" -MT"Src/audio_player.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/audio_player.o"
+arm-none-eabi-gcc "../Src/bitstream.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/bitstream.d" -MT"Src/bitstream.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/bitstream.o"
+arm-none-eabi-gcc "../Src/dct32.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/dct32.d" -MT"Src/dct32.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/dct32.o"
+arm-none-eabi-gcc "../Src/dequant.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/dequant.d" -MT"Src/dequant.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/dequant.o"
+arm-none-eabi-gcc "../Src/helix_mp3.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/helix_mp3.d" -MT"Src/helix_mp3.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/helix_mp3.o"
+arm-none-eabi-gcc "../Src/huffman.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/huffman.d" -MT"Src/huffman.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/huffman.o"
+In file included from ../Src/audio_player.c:1:
+../Inc/audio_player.h:4:10: fatal error: stm32l4xx_hal.h: No such file or directory
+    4 | #include "stm32l4xx_hal.h"
+      |          ^~~~~~~~~~~~~~~~~
+compilation terminated.
+make: *** [Src/subdir.mk:64: Src/audio_player.o] Error 1
+make: *** Waiting for unfinished jobs....
+In file included from ../Src/dequant.c:46:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+In file included from ../Src/dct32.c:46:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+In file included from ../Src/bitstream.c:45:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+../Src/huffman.c: In function 'xmp3_DecodeHuffman':
+../Src/huffman.c:389:26: warning: variable 'sfi' set but not used [-Wunused-but-set-variable]
+  389 |         ScaleFactorInfo *sfi;
+      |                          ^~~
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+11:12:21 **** Incremental Build of configuration Debug for project mp3player ****
+make -j7 all 
+arm-none-eabi-gcc "../Src/audio_player.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/audio_player.d" -MT"Src/audio_player.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/audio_player.o"
+arm-none-eabi-gcc "../Src/hufftabs.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/hufftabs.d" -MT"Src/hufftabs.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/hufftabs.o"
+arm-none-eabi-gcc "../Src/imdct.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/imdct.d" -MT"Src/imdct.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/imdct.o"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/mp3dec.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/mp3dec.d" -MT"Src/mp3dec.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/mp3dec.o"
+arm-none-eabi-gcc "../Src/stm32l4xx_hal_msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/stm32l4xx_hal_msp.d" -MT"Src/stm32l4xx_hal_msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/stm32l4xx_hal_msp.o"
+arm-none-eabi-gcc "../Src/stm32l4xx_it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/stm32l4xx_it.d" -MT"Src/stm32l4xx_it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/stm32l4xx_it.o"
+In file included from ../Src/stm32l4xx_it.c:21:
+../Inc/main.h:30:10: fatal error: stm32l4xx_hal.h: No such file or directory
+   30 | #include "stm32l4xx_hal.h"
+      |          ^~~~~~~~~~~~~~~~~
+In file included from ../Src/stm32l4xx_hal_msp.c:22:
+../Inc/main.h:30:10: fatal error: stm32l4xx_hal.h: No such file or directory
+   30 | #include "stm32l4xx_hal.h"
+      |          ^~~~~~~~~~~~~~~~~
+compilation terminated.
+compilation terminated.
+In file included from ../Src/main.c:20:
+../Inc/main.h:30:10: fatal error: stm32l4xx_hal.h: No such file or directory
+   30 | #include "stm32l4xx_hal.h"
+      |          ^~~~~~~~~~~~~~~~~
+compilation terminated.
+make: *** [Src/subdir.mk:64: Src/stm32l4xx_it.o] Error 1
+make: *** Waiting for unfinished jobs....
+make: *** [Src/subdir.mk:64: Src/main.o] Error 1
+make: *** [Src/subdir.mk:64: Src/stm32l4xx_hal_msp.o] Error 1
+In file included from ../Src/imdct.c:46:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+../Src/audio_player.c:11:8: error: unknown type name 'FIL'
+   11 | static FIL *current_file;
+      |        ^~~
+../Src/audio_player.c:13:24: error: 'AUDIO_BUFFER_SIZE' undeclared here (not in a function)
+   13 | static uint8_t mp3_buf[AUDIO_BUFFER_SIZE];
+      |                        ^~~~~~~~~~~~~~~~~
+../Src/audio_player.c:23:8: error: unknown type name 'SAI_HandleTypeDef'
+   23 | extern SAI_HandleTypeDef hsai_BlockA1;
+      |        ^~~~~~~~~~~~~~~~~
+../Src/audio_player.c: In function 'audio_init':
+../Src/audio_player.c:28:5: warning: implicit declaration of function 'HAL_SAI_MspInit' [-Wimplicit-function-declaration]
+   28 |     HAL_SAI_MspInit(&hsai_BlockA1);  // Generated by CubeMX
+      |     ^~~~~~~~~~~~~~~
+../Src/audio_player.c:29:5: warning: implicit declaration of function 'HAL_SAI_Init' [-Wimplicit-function-declaration]
+   29 |     HAL_SAI_Init(&hsai_BlockA1);
+      |     ^~~~~~~~~~~~
+../Src/audio_player.c: At top level:
+../Src/audio_player.c:33:18: error: unknown type name 'FIL'
+   33 | void audio_start(FIL *mp3_file)
+      |                  ^~~
+../Src/audio_player.c: In function 'audio_feed':
+../Src/audio_player.c:54:13: error: unknown type name 'UINT'
+   54 |             UINT br;
+      |             ^~~~
+../Src/audio_player.c:55:13: warning: implicit declaration of function 'f_read' [-Wimplicit-function-declaration]
+   55 |             f_read(current_file, mp3_buf, AUDIO_BUFFER_SIZE, &br);
+      |             ^~~~~~
+../Src/audio_player.c: At top level:
+../Src/audio_player.c:98:33: error: unknown type name 'SAI_HandleTypeDef'
+   98 | void HAL_SAI_TxHalfCpltCallback(SAI_HandleTypeDef *hsai)
+      |                                 ^~~~~~~~~~~~~~~~~
+../Src/audio_player.c:105:29: error: unknown type name 'SAI_HandleTypeDef'
+  105 | void HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hsai)
+      |                             ^~~~~~~~~~~~~~~~~
+../Src/audio_player.c:13:16: warning: 'mp3_buf' defined but not used [-Wunused-variable]
+   13 | static uint8_t mp3_buf[AUDIO_BUFFER_SIZE];
+      |                ^~~~~~~
+make: *** [Src/subdir.mk:64: Src/audio_player.o] Error 1
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+11:17:21 **** Incremental Build of configuration Debug for project mp3player ****
+make -j7 all 
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Startup/startup_stm32l476rgtx.d" -MT"Startup/startup_stm32l476rgtx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Startup/startup_stm32l476rgtx.o" "../Startup/startup_stm32l476rgtx.s"
+arm-none-eabi-gcc "../Src/audio_player.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/audio_player.d" -MT"Src/audio_player.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/audio_player.o"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/stm32l4xx_hal_msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/stm32l4xx_hal_msp.d" -MT"Src/stm32l4xx_hal_msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/stm32l4xx_hal_msp.o"
+arm-none-eabi-gcc "../Src/stm32l4xx_it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/stm32l4xx_it.d" -MT"Src/stm32l4xx_it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/stm32l4xx_it.o"
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/sysmem.o"
+../Src/main.c:21:10: fatal error: fatfs.h: No such file or directory
+   21 | #include "fatfs.h"
+      |          ^~~~~~~~~
+../Src/stm32l4xx_it.c:58:8: error: unknown type name 'DMA_HandleTypeDef'
+   58 | extern DMA_HandleTypeDef hdma_sai1_a;
+      |        ^~~~~~~~~~~~~~~~~
+compilation terminated.
+../Src/stm32l4xx_it.c: In function 'SysTick_Handler':
+../Src/stm32l4xx_it.c:188:3: warning: implicit declaration of function 'HAL_IncTick' [-Wimplicit-function-declaration]
+  188 |   HAL_IncTick();
+      |   ^~~~~~~~~~~
+make: *** [Src/subdir.mk:64: Src/main.o] Error 1
+make: *** Waiting for unfinished jobs....
+../Src/stm32l4xx_it.c: In function 'DMA2_Channel1_IRQHandler':
+../Src/stm32l4xx_it.c:209:3: warning: implicit declaration of function 'HAL_DMA_IRQHandler' [-Wimplicit-function-declaration]
+  209 |   HAL_DMA_IRQHandler(&hdma_sai1_a);
+      |   ^~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c: In function 'HAL_MspInit':
+../Src/stm32l4xx_hal_msp.c:70:3: warning: implicit declaration of function '__HAL_RCC_SYSCFG_CLK_ENABLE' [-Wimplicit-function-declaration]
+   70 |   __HAL_RCC_SYSCFG_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:71:3: warning: implicit declaration of function '__HAL_RCC_PWR_CLK_ENABLE' [-Wimplicit-function-declaration]
+   71 |   __HAL_RCC_PWR_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c: At top level:
+../Src/stm32l4xx_hal_msp.c:86:22: error: unknown type name 'SPI_HandleTypeDef'
+   86 | void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
+      |                      ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:124:24: error: unknown type name 'SPI_HandleTypeDef'
+  124 | void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
+      |                        ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:154:23: error: unknown type name 'UART_HandleTypeDef'
+  154 | void HAL_UART_MspInit(UART_HandleTypeDef* huart)
+      |                       ^~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:202:25: error: unknown type name 'UART_HandleTypeDef'
+  202 | void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
+      |                         ^~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:225:8: error: unknown type name 'DMA_HandleTypeDef'
+  225 | extern DMA_HandleTypeDef hdma_sai1_a;
+      |        ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:227:8: error: unknown type name 'uint32_t'
+  227 | static uint32_t SAI1_client =0;
+      |        ^~~~~~~~
+../Src/stm32l4xx_hal_msp.c:229:22: error: unknown type name 'SAI_HandleTypeDef'
+  229 | void HAL_SAI_MspInit(SAI_HandleTypeDef* hsai)
+      |                      ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:305:24: error: unknown type name 'SAI_HandleTypeDef'
+  305 | void HAL_SAI_MspDeInit(SAI_HandleTypeDef* hsai)
+      |                        ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:227:17: warning: 'SAI1_client' defined but not used [-Wunused-variable]
+  227 | static uint32_t SAI1_client =0;
+      |                 ^~~~~~~~~~~
+make: *** [Src/subdir.mk:64: Src/stm32l4xx_it.o] Error 1
+make: *** [Src/subdir.mk:64: Src/stm32l4xx_hal_msp.o] Error 1
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+11:20:20 **** Incremental Build of configuration Debug for project mp3player ****
+make -j7 all 
+arm-none-eabi-gcc "../Src/audio_player.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/audio_player.d" -MT"Src/audio_player.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/audio_player.o"
+arm-none-eabi-gcc "../Src/bitstream.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/bitstream.d" -MT"Src/bitstream.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/bitstream.o"
+arm-none-eabi-gcc "../Src/dct32.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/dct32.d" -MT"Src/dct32.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/dct32.o"
+arm-none-eabi-gcc "../Src/dequant.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/dequant.d" -MT"Src/dequant.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/dequant.o"
+arm-none-eabi-gcc "../Src/fatfs.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/fatfs.d" -MT"Src/fatfs.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/fatfs.o"
+arm-none-eabi-gcc "../Src/helix_mp3.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/helix_mp3.d" -MT"Src/helix_mp3.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/helix_mp3.o"
+arm-none-eabi-gcc "../Src/huffman.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/huffman.d" -MT"Src/huffman.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/huffman.o"
+In file included from ../Src/fatfs.c:19:
+../Inc/fatfs.h:26:10: fatal error: ff.h: No such file or directory
+   26 | #include "ff.h"
+      |          ^~~~~~
+compilation terminated.
+make: *** [Src/subdir.mk:70: Src/fatfs.o] Error 1
+make: *** Waiting for unfinished jobs....
+In file included from ../Src/bitstream.c:45:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+In file included from ../Src/dequant.c:46:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+In file included from ../Src/dct32.c:46:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+../Src/huffman.c: In function 'xmp3_DecodeHuffman':
+../Src/huffman.c:389:26: warning: variable 'sfi' set but not used [-Wunused-but-set-variable]
+  389 |         ScaleFactorInfo *sfi;
+      |                          ^~~
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+11:23:22 **** Incremental Build of configuration Debug for project mp3player ****
+make -j7 all 
+arm-none-eabi-gcc "../Src/audio_player.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/audio_player.d" -MT"Src/audio_player.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/audio_player.o"
+arm-none-eabi-gcc "../Src/bitstream.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/bitstream.d" -MT"Src/bitstream.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/bitstream.o"
+arm-none-eabi-gcc "../Src/dct32.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/dct32.d" -MT"Src/dct32.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/dct32.o"
+arm-none-eabi-gcc "../Src/dequant.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/dequant.d" -MT"Src/dequant.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/dequant.o"
+arm-none-eabi-gcc "../Src/fatfs.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/fatfs.d" -MT"Src/fatfs.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/fatfs.o"
+arm-none-eabi-gcc "../Src/ff.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/ff.d" -MT"Src/ff.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/ff.o"
+arm-none-eabi-gcc "../Src/helix_mp3.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/helix_mp3.d" -MT"Src/helix_mp3.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/helix_mp3.o"
+In file included from ../Src/ff.c:21:
+../Inc/ff.h:28:10: fatal error: integer.h: No such file or directory
+   28 | #include "integer.h"    /* Basic integer types */
+      |          ^~~~~~~~~~~
+In file included from ../Inc/fatfs.h:26,
+                 from ../Src/fatfs.c:19:
+../Inc/ff.h:28:10: fatal error: integer.h: No such file or directory
+   28 | #include "integer.h"    /* Basic integer types */
+      |          ^~~~~~~~~~~
+compilation terminated.
+compilation terminated.
+make: *** [Src/subdir.mk:73: Src/ff.o] Error 1
+make: *** Waiting for unfinished jobs....
+make: *** [Src/subdir.mk:73: Src/fatfs.o] Error 1
+In file included from ../Src/dequant.c:46:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+In file included from ../Src/dct32.c:46:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+In file included from ../Src/bitstream.c:45:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+11:24:30 **** Incremental Build of configuration Debug for project mp3player ****
+make -j7 all 
+arm-none-eabi-gcc "../Src/audio_player.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/audio_player.d" -MT"Src/audio_player.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/audio_player.o"
+arm-none-eabi-gcc "../Src/bitstream.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/bitstream.d" -MT"Src/bitstream.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/bitstream.o"
+arm-none-eabi-gcc "../Src/dct32.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/dct32.d" -MT"Src/dct32.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/dct32.o"
+arm-none-eabi-gcc "../Src/dequant.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/dequant.d" -MT"Src/dequant.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/dequant.o"
+arm-none-eabi-gcc "../Src/fatfs.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/fatfs.d" -MT"Src/fatfs.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/fatfs.o"
+arm-none-eabi-gcc "../Src/helix_mp3.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/helix_mp3.d" -MT"Src/helix_mp3.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/helix_mp3.o"
+arm-none-eabi-gcc "../Src/huffman.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/huffman.d" -MT"Src/huffman.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/huffman.o"
+In file included from ../Src/fatfs.c:19:
+../Inc/fatfs.h:26:10: fatal error: ff.h: No such file or directory
+   26 | #include "ff.h"
+      |          ^~~~~~
+compilation terminated.
+make: *** [Src/subdir.mk:70: Src/fatfs.o] Error 1
+make: *** Waiting for unfinished jobs....
+In file included from ../Src/dct32.c:46:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+In file included from ../Src/dequant.c:46:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+In file included from ../Src/bitstream.c:45:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+../Src/huffman.c: In function 'xmp3_DecodeHuffman':
+../Src/huffman.c:389:26: warning: variable 'sfi' set but not used [-Wunused-but-set-variable]
+  389 |         ScaleFactorInfo *sfi;
+      |                          ^~~
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+11:28:03 **** Incremental Build of configuration Debug for project mp3player ****
+make -j7 all 
+arm-none-eabi-gcc "../Src/audio_player.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/audio_player.d" -MT"Src/audio_player.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/audio_player.o"
+arm-none-eabi-gcc "../Src/bitstream.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/bitstream.d" -MT"Src/bitstream.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/bitstream.o"
+arm-none-eabi-gcc "../Src/dct32.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/dct32.d" -MT"Src/dct32.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/dct32.o"
+arm-none-eabi-gcc "../Src/dequant.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/dequant.d" -MT"Src/dequant.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/dequant.o"
+arm-none-eabi-gcc "../Src/diskio.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/diskio.d" -MT"Src/diskio.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/diskio.o"
+arm-none-eabi-gcc "../Src/fatfs.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/fatfs.d" -MT"Src/fatfs.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/fatfs.o"
+arm-none-eabi-gcc "../Src/ff.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/ff.d" -MT"Src/ff.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/ff.o"
+In file included from ../Inc/ff.h:29,
+                 from ../Src/ff.c:21:
+../Inc/ffconf.h:26:10: fatal error: stm32l4xx_hal.h: No such file or directory
+   26 | #include "stm32l4xx_hal.h"
+      |          ^~~~~~~~~~~~~~~~~
+In file included from ../Inc/ff.h:29,
+                 from ../Inc/ff_gen_drv.h:29,
+                 from ../Src/diskio.c:15:
+../Inc/ffconf.h:26:10: fatal error: stm32l4xx_hal.h: No such file or directory
+   26 | #include "stm32l4xx_hal.h"
+      |          ^~~~~~~~~~~~~~~~~
+In file included from ../Inc/ff.h:29,
+                 from ../Inc/fatfs.h:26,
+                 from ../Src/fatfs.c:19:
+../Inc/ffconf.h:26:10: fatal error: stm32l4xx_hal.h: No such file or directory
+   26 | #include "stm32l4xx_hal.h"
+      |          ^~~~~~~~~~~~~~~~~
+compilation terminated.
+compilation terminated.
+compilation terminated.
+In file included from ../Src/dct32.c:46:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+In file included from ../Src/bitstream.c:45:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+In file included from ../Src/dequant.c:46:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+make: *** [Src/subdir.mk:82: Src/diskio.o] Error 1
+make: *** Waiting for unfinished jobs....
+make: *** [Src/subdir.mk:82: Src/fatfs.o] Error 1
+make: *** [Src/subdir.mk:82: Src/ff.o] Error 1
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+11:28:52 **** Incremental Build of configuration Debug for project mp3player ****
+make -j7 all 
+arm-none-eabi-gcc "../Src/diskio.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/diskio.d" -MT"Src/diskio.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/diskio.o"
+arm-none-eabi-gcc "../Src/fatfs.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/fatfs.d" -MT"Src/fatfs.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/fatfs.o"
+arm-none-eabi-gcc "../Src/ff.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/ff.d" -MT"Src/ff.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/ff.o"
+arm-none-eabi-gcc "../Src/ff_gen_drv.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/ff_gen_drv.d" -MT"Src/ff_gen_drv.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/ff_gen_drv.o"
+arm-none-eabi-gcc "../Src/helix_mp3.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/helix_mp3.d" -MT"Src/helix_mp3.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/helix_mp3.o"
+arm-none-eabi-gcc "../Src/huffman.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/huffman.d" -MT"Src/huffman.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/huffman.o"
+arm-none-eabi-gcc "../Src/hufftabs.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/hufftabs.d" -MT"Src/hufftabs.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/hufftabs.o"
+../Src/huffman.c: In function 'xmp3_DecodeHuffman':
+../Src/huffman.c:389:26: warning: variable 'sfi' set but not used [-Wunused-but-set-variable]
+  389 |         ScaleFactorInfo *sfi;
+      |                          ^~~
+arm-none-eabi-gcc "../Src/imdct.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/imdct.d" -MT"Src/imdct.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/imdct.o"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/mp3dec.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/mp3dec.d" -MT"Src/mp3dec.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/mp3dec.o"
+arm-none-eabi-gcc "../Src/stm32l4xx_hal_msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/stm32l4xx_hal_msp.d" -MT"Src/stm32l4xx_hal_msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/stm32l4xx_hal_msp.o"
+arm-none-eabi-gcc "../Src/stm32l4xx_it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/stm32l4xx_it.d" -MT"Src/stm32l4xx_it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/stm32l4xx_it.o"
+arm-none-eabi-gcc "../Src/syscall.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscall.d" -MT"Src/syscall.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscall.o"
+../Src/main.c:47:1: error: unknown type name 'SAI_HandleTypeDef'
+   47 | SAI_HandleTypeDef hsai_BlockA1;
+      | ^~~~~~~~~~~~~~~~~
+../Src/main.c:48:1: error: unknown type name 'DMA_HandleTypeDef'
+   48 | DMA_HandleTypeDef hdma_sai1_a;
+      | ^~~~~~~~~~~~~~~~~
+../Src/main.c:50:1: error: unknown type name 'SPI_HandleTypeDef'
+   50 | SPI_HandleTypeDef hspi1;
+      | ^~~~~~~~~~~~~~~~~
+../Src/main.c:52:1: error: unknown type name 'UART_HandleTypeDef'
+   52 | UART_HandleTypeDef huart2;
+      | ^~~~~~~~~~~~~~~~~~
+In file included from ../Src/imdct.c:46:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+../Src/main.c: In function 'myprintf':
+../Src/main.c:79:3: warning: implicit declaration of function 'HAL_UART_Transmit' [-Wimplicit-function-declaration]
+   79 |   HAL_UART_Transmit(&huart2, (uint8_t*)buffer, len, -1);
+      |   ^~~~~~~~~~~~~~~~~
+../Src/main.c: In function 'main':
+../Src/main.c:100:3: warning: implicit declaration of function 'HAL_Init' [-Wimplicit-function-declaration]
+  100 |   HAL_Init();
+      |   ^~~~~~~~
+../Src/stm32l4xx_hal_msp.c: In function 'HAL_MspInit':
+../Src/stm32l4xx_hal_msp.c:70:3: warning: implicit declaration of function '__HAL_RCC_SYSCFG_CLK_ENABLE' [-Wimplicit-function-declaration]
+   70 |   __HAL_RCC_SYSCFG_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:121:3: warning: implicit declaration of function 'audio_init' [-Wimplicit-function-declaration]
+  121 |   audio_init();
+      |   ^~~~~~~~~~
+../Src/main.c:124:11: warning: implicit declaration of function 'audio_start' [-Wimplicit-function-declaration]
+  124 |           audio_start(&mp3_file);
+      |           ^~~~~~~~~~~
+../Src/main.c: In function 'SystemClock_Config':
+../Src/main.c:224:3: error: unknown type name 'RCC_OscInitTypeDef'
+  224 |   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+      |   ^~~~~~~~~~~~~~~~~~
+../Src/main.c:225:3: error: unknown type name 'RCC_ClkInitTypeDef'
+  225 |   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+      |   ^~~~~~~~~~~~~~~~~~
+../Src/main.c:229:7: warning: implicit declaration of function 'HAL_PWREx_ControlVoltageScaling' [-Wimplicit-function-declaration]
+  229 |   if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:229:39: error: 'PWR_REGULATOR_VOLTAGE_SCALE1' undeclared (first use in this function)
+  229 |   if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+      |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:229:39: note: each undeclared identifier is reported only once for each function it appears in
+../Src/main.c:229:72: error: 'HAL_OK' undeclared (first use in this function)
+  229 |   if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+      |                                                                        ^~~~~~
+../Src/main.c:237:20: error: request for member 'OscillatorType' in something not a structure or union
+  237 |   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+      |                    ^
+../Src/main.c:237:38: error: 'RCC_OSCILLATORTYPE_MSI' undeclared (first use in this function)
+  237 |   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:238:20: error: request for member 'MSIState' in something not a structure or union
+  238 |   RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+      |                    ^
+../Src/main.c:238:32: error: 'RCC_MSI_ON' undeclared (first use in this function)
+  238 |   RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+      |                                ^~~~~~~~~~
+../Src/main.c:239:20: error: request for member 'MSICalibrationValue' in something not a structure or union
+  239 |   RCC_OscInitStruct.MSICalibrationValue = 0;
+      |                    ^
+../Src/main.c:240:20: error: request for member 'MSIClockRange' in something not a structure or union
+  240 |   RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
+      |                    ^
+../Src/main.c:240:37: error: 'RCC_MSIRANGE_6' undeclared (first use in this function)
+  240 |   RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
+      |                                     ^~~~~~~~~~~~~~
+../Src/main.c:241:20: error: request for member 'PLL' in something not a structure or union
+  241 |   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+      |                    ^
+../Src/main.c:241:36: error: 'RCC_PLL_NONE' undeclared (first use in this function)
+  241 |   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+      |                                    ^~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:71:3: warning: implicit declaration of function '__HAL_RCC_PWR_CLK_ENABLE' [-Wimplicit-function-declaration]
+   71 |   __HAL_RCC_PWR_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:242:7: warning: implicit declaration of function 'HAL_RCC_OscConfig' [-Wimplicit-function-declaration]
+  242 |   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~
+../Src/main.c:249:20: error: request for member 'ClockType' in something not a structure or union
+  249 |   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+      |                    ^
+../Src/stm32l4xx_hal_msp.c: At top level:
+../Src/stm32l4xx_hal_msp.c:86:22: error: unknown type name 'SPI_HandleTypeDef'
+   86 | void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
+      |                      ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:124:24: error: unknown type name 'SPI_HandleTypeDef'
+  124 | void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
+      |                        ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:154:23: error: unknown type name 'UART_HandleTypeDef'
+  154 | void HAL_UART_MspInit(UART_HandleTypeDef* huart)
+      |                       ^~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:202:25: error: unknown type name 'UART_HandleTypeDef'
+  202 | void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
+      |                         ^~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:225:8: error: unknown type name 'DMA_HandleTypeDef'
+  225 | extern DMA_HandleTypeDef hdma_sai1_a;
+      |        ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:227:8: error: unknown type name 'uint32_t'
+  227 | static uint32_t SAI1_client =0;
+      |        ^~~~~~~~
+../Src/stm32l4xx_hal_msp.c:229:22: error: unknown type name 'SAI_HandleTypeDef'
+  229 | void HAL_SAI_MspInit(SAI_HandleTypeDef* hsai)
+      |                      ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:305:24: error: unknown type name 'SAI_HandleTypeDef'
+  305 | void HAL_SAI_MspDeInit(SAI_HandleTypeDef* hsai)
+      |                        ^~~~~~~~~~~~~~~~~
+../Src/main.c:249:33: error: 'RCC_CLOCKTYPE_HCLK' undeclared (first use in this function)
+  249 |   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+      |                                 ^~~~~~~~~~~~~~~~~~
+../Src/main.c:249:52: error: 'RCC_CLOCKTYPE_SYSCLK' undeclared (first use in this function)
+  249 |   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+      |                                                    ^~~~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:227:17: warning: 'SAI1_client' defined but not used [-Wunused-variable]
+  227 | static uint32_t SAI1_client =0;
+      |                 ^~~~~~~~~~~
+../Src/main.c:250:32: error: 'RCC_CLOCKTYPE_PCLK1' undeclared (first use in this function)
+  250 |                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+      |                                ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:250:52: error: 'RCC_CLOCKTYPE_PCLK2' undeclared (first use in this function)
+  250 |                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+      |                                                    ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:251:20: error: request for member 'SYSCLKSource' in something not a structure or union
+  251 |   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+      |                    ^
+../Src/main.c:251:36: error: 'RCC_SYSCLKSOURCE_MSI' undeclared (first use in this function)
+  251 |   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+      |                                    ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:252:20: error: request for member 'AHBCLKDivider' in something not a structure or union
+  252 |   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+      |                    ^
+../Src/main.c:252:37: error: 'RCC_SYSCLK_DIV1' undeclared (first use in this function)
+  252 |   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+      |                                     ^~~~~~~~~~~~~~~
+../Src/main.c:253:20: error: request for member 'APB1CLKDivider' in something not a structure or union
+  253 |   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+      |                    ^
+../Src/main.c:253:38: error: 'RCC_HCLK_DIV1' undeclared (first use in this function)
+  253 |   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+      |                                      ^~~~~~~~~~~~~
+../Src/main.c:254:20: error: request for member 'APB2CLKDivider' in something not a structure or union
+  254 |   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+      |                    ^
+../Src/main.c:256:7: warning: implicit declaration of function 'HAL_RCC_ClockConfig' [-Wimplicit-function-declaration]
+  256 |   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:256:47: error: 'FLASH_LATENCY_0' undeclared (first use in this function)
+  256 |   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+      |                                               ^~~~~~~~~~~~~~~
+../Src/main.c: In function 'MX_SAI1_Init':
+../Src/main.c:277:15: error: request for member 'Instance' in something not a structure or union
+  277 |   hsai_BlockA1.Instance = SAI1_Block_A;
+      |               ^
+../Src/main.c:277:27: error: 'SAI1_Block_A' undeclared (first use in this function)
+  277 |   hsai_BlockA1.Instance = SAI1_Block_A;
+      |                           ^~~~~~~~~~~~
+../Src/main.c:278:15: error: request for member 'Init' in something not a structure or union
+  278 |   hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
+      |               ^
+../Src/main.c:278:33: error: 'SAI_MODEMASTER_TX' undeclared (first use in this function)
+  278 |   hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
+      |                                 ^~~~~~~~~~~~~~~~~
+../Src/main.c:279:15: error: request for member 'Init' in something not a structure or union
+  279 |   hsai_BlockA1.Init.Synchro = SAI_ASYNCHRONOUS;
+      |               ^
+../Src/main.c:279:31: error: 'SAI_ASYNCHRONOUS' undeclared (first use in this function)
+  279 |   hsai_BlockA1.Init.Synchro = SAI_ASYNCHRONOUS;
+      |                               ^~~~~~~~~~~~~~~~
+../Src/main.c:280:15: error: request for member 'Init' in something not a structure or union
+  280 |   hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+      |               ^
+make: *** [Src/subdir.mk:82: Src/stm32l4xx_hal_msp.o] Error 1
+make: *** Waiting for unfinished jobs....
+../Src/main.c:280:35: error: 'SAI_OUTPUTDRIVE_DISABLE' undeclared (first use in this function)
+  280 |   hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:281:15: error: request for member 'Init' in something not a structure or union
+  281 |   hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
+      |               ^
+../Src/main.c:281:33: error: 'SAI_MASTERDIVIDER_ENABLE' undeclared (first use in this function)
+  281 |   hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:282:15: error: request for member 'Init' in something not a structure or union
+  282 |   hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+      |               ^
+../Src/main.c:282:37: error: 'SAI_FIFOTHRESHOLD_EMPTY' undeclared (first use in this function)
+  282 |   hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:283:15: error: request for member 'Init' in something not a structure or union
+  283 |   hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_44K;
+      |               ^
+../Src/main.c:283:38: error: 'SAI_AUDIO_FREQUENCY_44K' undeclared (first use in this function)
+  283 |   hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_44K;
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:284:15: error: request for member 'Init' in something not a structure or union
+  284 |   hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+      |               ^
+../Src/stm32l4xx_it.c:58:8: error: unknown type name 'DMA_HandleTypeDef'
+   58 | extern DMA_HandleTypeDef hdma_sai1_a;
+      |        ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_it.c: In function 'SysTick_Handler':
+../Src/stm32l4xx_it.c:188:3: warning: implicit declaration of function 'HAL_IncTick' [-Wimplicit-function-declaration]
+  188 |   HAL_IncTick();
+      |   ^~~~~~~~~~~
+../Src/main.c:284:34: error: 'SAI_SYNCEXT_DISABLE' undeclared (first use in this function)
+  284 |   hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+      |                                  ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:285:15: error: request for member 'Init' in something not a structure or union
+  285 |   hsai_BlockA1.Init.MonoStereoMode = SAI_MONOMODE;
+      |               ^
+../Src/stm32l4xx_it.c: In function 'DMA2_Channel1_IRQHandler':
+../Src/stm32l4xx_it.c:209:3: warning: implicit declaration of function 'HAL_DMA_IRQHandler' [-Wimplicit-function-declaration]
+  209 |   HAL_DMA_IRQHandler(&hdma_sai1_a);
+      |   ^~~~~~~~~~~~~~~~~~
+../Src/main.c:285:38: error: 'SAI_MONOMODE' undeclared (first use in this function)
+  285 |   hsai_BlockA1.Init.MonoStereoMode = SAI_MONOMODE;
+      |                                      ^~~~~~~~~~~~
+../Src/main.c:286:15: error: request for member 'Init' in something not a structure or union
+  286 |   hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
+      |               ^
+../Src/main.c:286:38: error: 'SAI_NOCOMPANDING' undeclared (first use in this function)
+  286 |   hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
+      |                                      ^~~~~~~~~~~~~~~~
+../Src/main.c:287:15: error: request for member 'Init' in something not a structure or union
+  287 |   hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+      |               ^
+../Src/main.c:287:32: error: 'SAI_OUTPUT_NOTRELEASED' undeclared (first use in this function)
+  287 |   hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+      |                                ^~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:288:7: warning: implicit declaration of function 'HAL_SAI_InitProtocol' [-Wimplicit-function-declaration]
+  288 |   if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:288:43: error: 'SAI_I2S_STANDARD' undeclared (first use in this function)
+  288 |   if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+      |                                           ^~~~~~~~~~~~~~~~
+../Src/main.c:288:61: error: 'SAI_PROTOCOL_DATASIZE_16BIT' undeclared (first use in this function)
+  288 |   if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+      |                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Src/subdir.mk:82: Src/stm32l4xx_it.o] Error 1
+../Src/main.c:288:96: error: 'HAL_OK' undeclared (first use in this function)
+  288 |   if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+      |                                                                                                ^~~~~~
+../Src/main.c: In function 'MX_SPI1_Init':
+../Src/main.c:314:8: error: request for member 'Instance' in something not a structure or union
+  314 |   hspi1.Instance = SPI1;
+      |        ^
+../Src/main.c:314:20: error: 'SPI1' undeclared (first use in this function)
+  314 |   hspi1.Instance = SPI1;
+      |                    ^~~~
+../Src/main.c:315:8: error: request for member 'Init' in something not a structure or union
+  315 |   hspi1.Init.Mode = SPI_MODE_MASTER;
+      |        ^
+../Src/main.c:315:21: error: 'SPI_MODE_MASTER' undeclared (first use in this function)
+  315 |   hspi1.Init.Mode = SPI_MODE_MASTER;
+      |                     ^~~~~~~~~~~~~~~
+../Src/main.c:316:8: error: request for member 'Init' in something not a structure or union
+  316 |   hspi1.Init.Direction = SPI_DIRECTION_2LINES;
+      |        ^
+../Src/main.c:316:26: error: 'SPI_DIRECTION_2LINES' undeclared (first use in this function)
+  316 |   hspi1.Init.Direction = SPI_DIRECTION_2LINES;
+      |                          ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:317:8: error: request for member 'Init' in something not a structure or union
+  317 |   hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+      |        ^
+../Src/main.c:317:25: error: 'SPI_DATASIZE_8BIT' undeclared (first use in this function)
+  317 |   hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+      |                         ^~~~~~~~~~~~~~~~~
+../Src/main.c:318:8: error: request for member 'Init' in something not a structure or union
+  318 |   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+      |        ^
+../Src/main.c:318:28: error: 'SPI_POLARITY_LOW' undeclared (first use in this function)
+  318 |   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+      |                            ^~~~~~~~~~~~~~~~
+../Src/main.c:319:8: error: request for member 'Init' in something not a structure or union
+  319 |   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+      |        ^
+../Src/main.c:319:25: error: 'SPI_PHASE_1EDGE' undeclared (first use in this function)
+  319 |   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+      |                         ^~~~~~~~~~~~~~~
+../Src/main.c:320:8: error: request for member 'Init' in something not a structure or union
+  320 |   hspi1.Init.NSS = SPI_NSS_SOFT;
+      |        ^
+../Src/main.c:320:20: error: 'SPI_NSS_SOFT' undeclared (first use in this function)
+  320 |   hspi1.Init.NSS = SPI_NSS_SOFT;
+      |                    ^~~~~~~~~~~~
+../Src/main.c:321:8: error: request for member 'Init' in something not a structure or union
+  321 |   hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
+      |        ^
+../Src/main.c:321:34: error: 'SPI_BAUDRATEPRESCALER_256' undeclared (first use in this function)
+  321 |   hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
+      |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:322:8: error: request for member 'Init' in something not a structure or union
+  322 |   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+      |        ^
+../Src/main.c:322:25: error: 'SPI_FIRSTBIT_MSB' undeclared (first use in this function)
+  322 |   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+      |                         ^~~~~~~~~~~~~~~~
+../Src/main.c:323:8: error: request for member 'Init' in something not a structure or union
+  323 |   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+      |        ^
+../Src/main.c:323:23: error: 'SPI_TIMODE_DISABLE' undeclared (first use in this function)
+  323 |   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+      |                       ^~~~~~~~~~~~~~~~~~
+../Src/main.c:324:8: error: request for member 'Init' in something not a structure or union
+  324 |   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+      |        ^
+../Src/main.c:324:31: error: 'SPI_CRCCALCULATION_DISABLE' undeclared (first use in this function)
+  324 |   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:325:8: error: request for member 'Init' in something not a structure or union
+  325 |   hspi1.Init.CRCPolynomial = 7;
+      |        ^
+../Src/main.c:326:8: error: request for member 'Init' in something not a structure or union
+  326 |   hspi1.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+      |        ^
+../Src/main.c:326:26: error: 'SPI_CRC_LENGTH_DATASIZE' undeclared (first use in this function)
+  326 |   hspi1.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:327:8: error: request for member 'Init' in something not a structure or union
+  327 |   hspi1.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+      |        ^
+../Src/main.c:327:25: error: 'SPI_NSS_PULSE_ENABLE' undeclared (first use in this function)
+  327 |   hspi1.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+      |                         ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:328:7: warning: implicit declaration of function 'HAL_SPI_Init'; did you mean 'MX_SPI1_Init'? [-Wimplicit-function-declaration]
+  328 |   if (HAL_SPI_Init(&hspi1) != HAL_OK)
+      |       ^~~~~~~~~~~~
+      |       MX_SPI1_Init
+../Src/main.c:328:31: error: 'HAL_OK' undeclared (first use in this function)
+  328 |   if (HAL_SPI_Init(&hspi1) != HAL_OK)
+      |                               ^~~~~~
+../Src/main.c: In function 'MX_USART2_UART_Init':
+../Src/main.c:353:9: error: request for member 'Instance' in something not a structure or union
+  353 |   huart2.Instance = USART2;
+      |         ^
+../Src/main.c:353:21: error: 'USART2' undeclared (first use in this function)
+  353 |   huart2.Instance = USART2;
+      |                     ^~~~~~
+../Src/main.c:354:9: error: request for member 'Init' in something not a structure or union
+  354 |   huart2.Init.BaudRate = 115200;
+      |         ^
+../Src/main.c:355:9: error: request for member 'Init' in something not a structure or union
+  355 |   huart2.Init.WordLength = UART_WORDLENGTH_8B;
+      |         ^
+../Src/main.c:355:28: error: 'UART_WORDLENGTH_8B' undeclared (first use in this function)
+  355 |   huart2.Init.WordLength = UART_WORDLENGTH_8B;
+      |                            ^~~~~~~~~~~~~~~~~~
+../Src/main.c:356:9: error: request for member 'Init' in something not a structure or union
+  356 |   huart2.Init.StopBits = UART_STOPBITS_1;
+      |         ^
+../Src/syscall.c:24:10: fatal error: ../ff.h: No such file or directory
+   24 | #include "../ff.h"
+      |          ^~~~~~~~~
+compilation terminated.
+../Src/main.c:356:26: error: 'UART_STOPBITS_1' undeclared (first use in this function)
+  356 |   huart2.Init.StopBits = UART_STOPBITS_1;
+      |                          ^~~~~~~~~~~~~~~
+../Src/main.c:357:9: error: request for member 'Init' in something not a structure or union
+  357 |   huart2.Init.Parity = UART_PARITY_NONE;
+      |         ^
+make: *** [Src/subdir.mk:82: Src/syscall.o] Error 1
+../Src/main.c:357:24: error: 'UART_PARITY_NONE' undeclared (first use in this function)
+  357 |   huart2.Init.Parity = UART_PARITY_NONE;
+      |                        ^~~~~~~~~~~~~~~~
+../Src/main.c:358:9: error: request for member 'Init' in something not a structure or union
+  358 |   huart2.Init.Mode = UART_MODE_TX_RX;
+      |         ^
+../Src/main.c:358:22: error: 'UART_MODE_TX_RX' undeclared (first use in this function)
+  358 |   huart2.Init.Mode = UART_MODE_TX_RX;
+      |                      ^~~~~~~~~~~~~~~
+../Src/main.c:359:9: error: request for member 'Init' in something not a structure or union
+  359 |   huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+      |         ^
+../Src/main.c:359:27: error: 'UART_HWCONTROL_NONE' undeclared (first use in this function)
+  359 |   huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+      |                           ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:360:9: error: request for member 'Init' in something not a structure or union
+  360 |   huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+      |         ^
+../Src/main.c:360:30: error: 'UART_OVERSAMPLING_16' undeclared (first use in this function)
+  360 |   huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+      |                              ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:361:9: error: request for member 'Init' in something not a structure or union
+  361 |   huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+      |         ^
+../Src/main.c:361:32: error: 'UART_ONE_BIT_SAMPLE_DISABLE' undeclared (first use in this function)
+  361 |   huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:362:9: error: request for member 'AdvancedInit' in something not a structure or union
+  362 |   huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+      |         ^
+../Src/main.c:362:40: error: 'UART_ADVFEATURE_NO_INIT' undeclared (first use in this function)
+  362 |   huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+      |                                        ^~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:363:7: warning: implicit declaration of function 'HAL_UART_Init' [-Wimplicit-function-declaration]
+  363 |   if (HAL_UART_Init(&huart2) != HAL_OK)
+      |       ^~~~~~~~~~~~~
+../Src/main.c:363:33: error: 'HAL_OK' undeclared (first use in this function)
+  363 |   if (HAL_UART_Init(&huart2) != HAL_OK)
+      |                                 ^~~~~~
+../Src/main.c: In function 'MX_DMA_Init':
+../Src/main.c:380:3: warning: implicit declaration of function '__HAL_RCC_DMA2_CLK_ENABLE' [-Wimplicit-function-declaration]
+  380 |   __HAL_RCC_DMA2_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:384:3: warning: implicit declaration of function 'HAL_NVIC_SetPriority' [-Wimplicit-function-declaration]
+  384 |   HAL_NVIC_SetPriority(DMA2_Channel1_IRQn, 0, 0);
+      |   ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:384:24: error: 'DMA2_Channel1_IRQn' undeclared (first use in this function)
+  384 |   HAL_NVIC_SetPriority(DMA2_Channel1_IRQn, 0, 0);
+      |                        ^~~~~~~~~~~~~~~~~~
+../Src/main.c:385:3: warning: implicit declaration of function 'HAL_NVIC_EnableIRQ' [-Wimplicit-function-declaration]
+  385 |   HAL_NVIC_EnableIRQ(DMA2_Channel1_IRQn);
+      |   ^~~~~~~~~~~~~~~~~~
+../Src/main.c: In function 'MX_GPIO_Init':
+../Src/main.c:396:3: error: unknown type name 'GPIO_InitTypeDef'
+  396 |   GPIO_InitTypeDef GPIO_InitStruct = {0};
+      |   ^~~~~~~~~~~~~~~~
+../Src/main.c:402:3: warning: implicit declaration of function '__HAL_RCC_GPIOC_CLK_ENABLE' [-Wimplicit-function-declaration]
+  402 |   __HAL_RCC_GPIOC_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:403:3: warning: implicit declaration of function '__HAL_RCC_GPIOA_CLK_ENABLE' [-Wimplicit-function-declaration]
+  403 |   __HAL_RCC_GPIOA_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:404:3: warning: implicit declaration of function '__HAL_RCC_GPIOB_CLK_ENABLE' [-Wimplicit-function-declaration]
+  404 |   __HAL_RCC_GPIOB_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:407:3: warning: implicit declaration of function 'HAL_GPIO_WritePin' [-Wimplicit-function-declaration]
+  407 |   HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_RESET);
+      |   ^~~~~~~~~~~~~~~~~
+In file included from ../Src/main.c:20:
+../Inc/main.h:61:25: error: 'GPIOA' undeclared (first use in this function)
+   61 | #define SD_CS_GPIO_Port GPIOA
+      |                         ^~~~~
+../Src/main.c:407:21: note: in expansion of macro 'SD_CS_GPIO_Port'
+  407 |   HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_RESET);
+      |                     ^~~~~~~~~~~~~~~
+../Inc/main.h:60:19: error: 'GPIO_PIN_4' undeclared (first use in this function)
+   60 | #define SD_CS_Pin GPIO_PIN_4
+      |                   ^~~~~~~~~~
+../Src/main.c:407:38: note: in expansion of macro 'SD_CS_Pin'
+  407 |   HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_RESET);
+      |                                      ^~~~~~~~~
+../Src/main.c:407:49: error: 'GPIO_PIN_RESET' undeclared (first use in this function)
+  407 |   HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_RESET);
+      |                                                 ^~~~~~~~~~~~~~
+../Src/main.c:410:18: error: request for member 'Pin' in something not a structure or union
+  410 |   GPIO_InitStruct.Pin = SD_CS_Pin;
+      |                  ^
+../Src/main.c:411:18: error: request for member 'Mode' in something not a structure or union
+  411 |   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+      |                  ^
+../Src/main.c:411:26: error: 'GPIO_MODE_OUTPUT_PP' undeclared (first use in this function)
+  411 |   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+      |                          ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:412:18: error: request for member 'Pull' in something not a structure or union
+  412 |   GPIO_InitStruct.Pull = GPIO_PULLUP;
+      |                  ^
+../Src/main.c:412:26: error: 'GPIO_PULLUP' undeclared (first use in this function)
+  412 |   GPIO_InitStruct.Pull = GPIO_PULLUP;
+      |                          ^~~~~~~~~~~
+../Src/main.c:413:18: error: request for member 'Speed' in something not a structure or union
+  413 |   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+      |                  ^
+../Src/main.c:413:27: error: 'GPIO_SPEED_FREQ_LOW' undeclared (first use in this function)
+  413 |   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+      |                           ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:414:3: warning: implicit declaration of function 'HAL_GPIO_Init'; did you mean 'MX_GPIO_Init'? [-Wimplicit-function-declaration]
+  414 |   HAL_GPIO_Init(SD_CS_GPIO_Port, &GPIO_InitStruct);
+      |   ^~~~~~~~~~~~~
+      |   MX_GPIO_Init
+../Src/main.c: In function 'Error_Handler':
+../Src/main.c:433:3: warning: implicit declaration of function '__disable_irq' [-Wimplicit-function-declaration]
+  433 |   __disable_irq();
+      |   ^~~~~~~~~~~~~
+make: *** [Src/subdir.mk:82: Src/main.o] Error 1
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+11:31:50 **** Incremental Build of configuration Debug for project mp3player ****
+make -j7 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/stm32l4xx_hal_msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/stm32l4xx_hal_msp.d" -MT"Src/stm32l4xx_hal_msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/stm32l4xx_hal_msp.o"
+arm-none-eabi-gcc "../Src/stm32l4xx_it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/stm32l4xx_it.d" -MT"Src/stm32l4xx_it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/stm32l4xx_it.o"
+arm-none-eabi-gcc "../Src/syscall.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscall.d" -MT"Src/syscall.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscall.o"
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/sysmem.o"
+arm-none-eabi-gcc "../Src/system_stm32l4xx.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/system_stm32l4xx.d" -MT"Src/system_stm32l4xx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/system_stm32l4xx.o"
+../Src/stm32l4xx_it.c:58:8: error: unknown type name 'DMA_HandleTypeDef'
+   58 | extern DMA_HandleTypeDef hdma_sai1_a;
+      |        ^~~~~~~~~~~~~~~~~
+../Src/syscall.c:24:10: fatal error: ../ff.h: No such file or directory
+   24 | #include "../ff.h"
+      |          ^~~~~~~~~
+../Src/system_stm32l4xx.c:91:10: fatal error: stm32l4xx.h: No such file or directory
+   91 | #include "stm32l4xx.h"
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+compilation terminated.
+../Src/stm32l4xx_it.c: In function 'SysTick_Handler':
+../Src/stm32l4xx_it.c:188:3: warning: implicit declaration of function 'HAL_IncTick' [-Wimplicit-function-declaration]
+  188 |   HAL_IncTick();
+      |   ^~~~~~~~~~~
+make: *** [Src/subdir.mk:82: Src/syscall.o] Error 1
+make: *** Waiting for unfinished jobs....
+make: *** [Src/subdir.mk:82: Src/system_stm32l4xx.o] Error 1
+../Src/stm32l4xx_it.c: In function 'DMA2_Channel1_IRQHandler':
+../Src/stm32l4xx_it.c:209:3: warning: implicit declaration of function 'HAL_DMA_IRQHandler' [-Wimplicit-function-declaration]
+  209 |   HAL_DMA_IRQHandler(&hdma_sai1_a);
+      |   ^~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c: In function 'HAL_MspInit':
+../Src/stm32l4xx_hal_msp.c:70:3: warning: implicit declaration of function '__HAL_RCC_SYSCFG_CLK_ENABLE' [-Wimplicit-function-declaration]
+   70 |   __HAL_RCC_SYSCFG_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:71:3: warning: implicit declaration of function '__HAL_RCC_PWR_CLK_ENABLE' [-Wimplicit-function-declaration]
+   71 |   __HAL_RCC_PWR_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c: At top level:
+../Src/stm32l4xx_hal_msp.c:86:22: error: unknown type name 'SPI_HandleTypeDef'
+   86 | void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
+      |                      ^~~~~~~~~~~~~~~~~
+make: *** [Src/subdir.mk:82: Src/stm32l4xx_it.o] Error 1
+../Src/stm32l4xx_hal_msp.c:124:24: error: unknown type name 'SPI_HandleTypeDef'
+  124 | void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
+      |                        ^~~~~~~~~~~~~~~~~
+In file included from ../Src/main.c:22:
+../Inc/stm32l4xx_hal_conf.h:258:12: fatal error: stm32l4xx_hal_rcc.h: No such file or directory
+  258 |   #include "stm32l4xx_hal_rcc.h"
+      |            ^~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+../Src/stm32l4xx_hal_msp.c:154:23: error: unknown type name 'UART_HandleTypeDef'
+  154 | void HAL_UART_MspInit(UART_HandleTypeDef* huart)
+      |                       ^~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:202:25: error: unknown type name 'UART_HandleTypeDef'
+  202 | void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
+      |                         ^~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:225:8: error: unknown type name 'DMA_HandleTypeDef'
+  225 | extern DMA_HandleTypeDef hdma_sai1_a;
+      |        ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:227:8: error: unknown type name 'uint32_t'
+  227 | static uint32_t SAI1_client =0;
+      |        ^~~~~~~~
+../Src/stm32l4xx_hal_msp.c:229:22: error: unknown type name 'SAI_HandleTypeDef'
+  229 | void HAL_SAI_MspInit(SAI_HandleTypeDef* hsai)
+      |                      ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:305:24: error: unknown type name 'SAI_HandleTypeDef'
+  305 | void HAL_SAI_MspDeInit(SAI_HandleTypeDef* hsai)
+      |                        ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:227:17: warning: 'SAI1_client' defined but not used [-Wunused-variable]
+  227 | static uint32_t SAI1_client =0;
+      |                 ^~~~~~~~~~~
+make: *** [Src/subdir.mk:82: Src/main.o] Error 1
+make: *** [Src/subdir.mk:82: Src/stm32l4xx_hal_msp.o] Error 1
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+11:35:44 **** Incremental Build of configuration Debug for project mp3player ****
+make -j7 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/stm32l4xx_hal_msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/stm32l4xx_hal_msp.d" -MT"Src/stm32l4xx_hal_msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/stm32l4xx_hal_msp.o"
+arm-none-eabi-gcc "../Src/stm32l4xx_it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/stm32l4xx_it.d" -MT"Src/stm32l4xx_it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/stm32l4xx_it.o"
+arm-none-eabi-gcc "../Src/syscall.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscall.d" -MT"Src/syscall.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscall.o"
+arm-none-eabi-gcc "../Src/system_stm32l4xx.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/system_stm32l4xx.d" -MT"Src/system_stm32l4xx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/system_stm32l4xx.o"
+arm-none-eabi-gcc "../Src/trigtabs.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/trigtabs.d" -MT"Src/trigtabs.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/trigtabs.o"
+arm-none-eabi-gcc "../Src/user_diskio.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/user_diskio.d" -MT"Src/user_diskio.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/user_diskio.o"
+../Src/syscall.c:24:10: fatal error: ../ff.h: No such file or directory
+   24 | #include "../ff.h"
+      |          ^~~~~~~~~
+../Src/system_stm32l4xx.c:91:10: fatal error: stm32l4xx.h: No such file or directory
+   91 | #include "stm32l4xx.h"
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+compilation terminated.
+../Src/stm32l4xx_it.c:58:8: error: unknown type name 'DMA_HandleTypeDef'
+   58 | extern DMA_HandleTypeDef hdma_sai1_a;
+      |        ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_it.c: In function 'SysTick_Handler':
+../Src/stm32l4xx_it.c:188:3: warning: implicit declaration of function 'HAL_IncTick' [-Wimplicit-function-declaration]
+  188 |   HAL_IncTick();
+      |   ^~~~~~~~~~~
+make: *** [Src/subdir.mk:82: Src/system_stm32l4xx.o] Error 1
+make: *** Waiting for unfinished jobs....
+make: *** [Src/subdir.mk:82: Src/syscall.o] Error 1
+../Src/stm32l4xx_it.c: In function 'DMA2_Channel1_IRQHandler':
+../Src/stm32l4xx_it.c:209:3: warning: implicit declaration of function 'HAL_DMA_IRQHandler' [-Wimplicit-function-declaration]
+  209 |   HAL_DMA_IRQHandler(&hdma_sai1_a);
+      |   ^~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c: In function 'HAL_MspInit':
+../Src/stm32l4xx_hal_msp.c:70:3: warning: implicit declaration of function '__HAL_RCC_SYSCFG_CLK_ENABLE' [-Wimplicit-function-declaration]
+   70 |   __HAL_RCC_SYSCFG_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:71:3: warning: implicit declaration of function '__HAL_RCC_PWR_CLK_ENABLE' [-Wimplicit-function-declaration]
+   71 |   __HAL_RCC_PWR_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c: At top level:
+../Src/stm32l4xx_hal_msp.c:86:22: error: unknown type name 'SPI_HandleTypeDef'
+   86 | void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
+      |                      ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:124:24: error: unknown type name 'SPI_HandleTypeDef'
+  124 | void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
+      |                        ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:154:23: error: unknown type name 'UART_HandleTypeDef'
+  154 | void HAL_UART_MspInit(UART_HandleTypeDef* huart)
+      |                       ^~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:202:25: error: unknown type name 'UART_HandleTypeDef'
+  202 | void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
+      |                         ^~~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:225:8: error: unknown type name 'DMA_HandleTypeDef'
+  225 | extern DMA_HandleTypeDef hdma_sai1_a;
+      |        ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:227:8: error: unknown type name 'uint32_t'
+  227 | static uint32_t SAI1_client =0;
+      |        ^~~~~~~~
+../Src/stm32l4xx_hal_msp.c:229:22: error: unknown type name 'SAI_HandleTypeDef'
+  229 | void HAL_SAI_MspInit(SAI_HandleTypeDef* hsai)
+      |                      ^~~~~~~~~~~~~~~~~
+../Src/stm32l4xx_hal_msp.c:305:24: error: unknown type name 'SAI_HandleTypeDef'
+  305 | void HAL_SAI_MspDeInit(SAI_HandleTypeDef* hsai)
+      |                        ^~~~~~~~~~~~~~~~~
+In file included from ../Src/main.c:22:
+../Inc/stm32l4xx_hal_conf.h:258:12: fatal error: stm32l4xx_hal_rcc.h: No such file or directory
+  258 |   #include "stm32l4xx_hal_rcc.h"
+      |            ^~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+../Src/stm32l4xx_hal_msp.c:227:17: warning: 'SAI1_client' defined but not used [-Wunused-variable]
+  227 | static uint32_t SAI1_client =0;
+      |                 ^~~~~~~~~~~
+make: *** [Src/subdir.mk:82: Src/main.o] Error 1
+make: *** [Src/subdir.mk:82: Src/stm32l4xx_it.o] Error 1
+make: *** [Src/subdir.mk:82: Src/stm32l4xx_hal_msp.o] Error 1
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+11:38:52 **** Incremental Build of configuration Debug for project mp3player ****
+make -j7 all 
+arm-none-eabi-gcc "../Src/audio_player.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/audio_player.d" -MT"Src/audio_player.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/audio_player.o"
+arm-none-eabi-gcc "../Src/bitstream.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/bitstream.d" -MT"Src/bitstream.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/bitstream.o"
+arm-none-eabi-gcc "../Src/dct32.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/dct32.d" -MT"Src/dct32.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/dct32.o"
+arm-none-eabi-gcc "../Src/dequant.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/dequant.d" -MT"Src/dequant.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/dequant.o"
+arm-none-eabi-gcc "../Src/diskio.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/diskio.d" -MT"Src/diskio.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/diskio.o"
+arm-none-eabi-gcc "../Src/fatfs.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/fatfs.d" -MT"Src/fatfs.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/fatfs.o"
+arm-none-eabi-gcc "../Src/ff.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/ff.d" -MT"Src/ff.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/ff.o"
+In file included from ../Src/bitstream.c:45:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+In file included from ../Src/dequant.c:46:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+In file included from ../Src/dct32.c:46:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+arm-none-eabi-gcc "../Src/ff_gen_drv.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/ff_gen_drv.d" -MT"Src/ff_gen_drv.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/ff_gen_drv.o"
+arm-none-eabi-gcc "../Src/helix_mp3.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/helix_mp3.d" -MT"Src/helix_mp3.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/helix_mp3.o"
+arm-none-eabi-gcc "../Src/huffman.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/huffman.d" -MT"Src/huffman.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/huffman.o"
+arm-none-eabi-gcc "../Src/hufftabs.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/hufftabs.d" -MT"Src/hufftabs.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/hufftabs.o"
+arm-none-eabi-gcc "../Src/imdct.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/imdct.d" -MT"Src/imdct.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/imdct.o"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+In file included from ../Src/imdct.c:46:
+../Inc/assembly.h:58:9: note: '#pragma message: Using optimizations for ARM'
+   58 | #pragma message("Using optimizations for ARM")
+      |         ^~~~~~~
+../Src/huffman.c: In function 'xmp3_DecodeHuffman':
+../Src/huffman.c:389:26: warning: variable 'sfi' set but not used [-Wunused-but-set-variable]
+  389 |         ScaleFactorInfo *sfi;
+      |                          ^~~
+../Src/main.c:22:10: fatal error: stm32l4xx_hal_conf.h: No such file or directory
+   22 | #include "stm32l4xx_hal_conf.h"
+      |          ^~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make: *** [Src/subdir.mk:76: Src/main.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+11:44:51 **** Incremental Build of configuration Debug for project mp3player ****
+make -j7 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/mp3dec.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/mp3dec.d" -MT"Src/mp3dec.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/mp3dec.o"
+arm-none-eabi-gcc "../Src/syscall.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscall.d" -MT"Src/syscall.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscall.o"
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/sysmem.o"
+arm-none-eabi-gcc "../Src/system_stm32l4xx.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/system_stm32l4xx.d" -MT"Src/system_stm32l4xx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/system_stm32l4xx.o"
+arm-none-eabi-gcc "../Src/trigtabs.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/trigtabs.d" -MT"Src/trigtabs.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/trigtabs.o"
+../Src/system_stm32l4xx.c:91:10: fatal error: stm32l4xx.h: No such file or directory
+   91 | #include "stm32l4xx.h"
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make: *** [Src/subdir.mk:76: Src/system_stm32l4xx.o] Error 1
+make: *** Waiting for unfinished jobs....
+../Src/main.c:47:1: error: unknown type name 'SAI_HandleTypeDef'
+   47 | SAI_HandleTypeDef hsai_BlockA1;
+      | ^~~~~~~~~~~~~~~~~
+../Src/main.c:48:1: error: unknown type name 'DMA_HandleTypeDef'
+   48 | DMA_HandleTypeDef hdma_sai1_a;
+      | ^~~~~~~~~~~~~~~~~
+../Src/main.c:50:1: error: unknown type name 'SPI_HandleTypeDef'
+   50 | SPI_HandleTypeDef hspi1;
+      | ^~~~~~~~~~~~~~~~~
+../Src/main.c:52:1: error: unknown type name 'UART_HandleTypeDef'
+   52 | UART_HandleTypeDef huart2;
+      | ^~~~~~~~~~~~~~~~~~
+../Src/main.c: In function 'myprintf':
+../Src/main.c:79:3: warning: implicit declaration of function 'HAL_UART_Transmit' [-Wimplicit-function-declaration]
+   79 |   HAL_UART_Transmit(&huart2, (uint8_t*)buffer, len, -1);
+      |   ^~~~~~~~~~~~~~~~~
+../Src/main.c: In function 'main':
+../Src/main.c:100:3: warning: implicit declaration of function 'HAL_Init' [-Wimplicit-function-declaration]
+  100 |   HAL_Init();
+      |   ^~~~~~~~
+../Src/main.c:121:3: warning: implicit declaration of function 'audio_init' [-Wimplicit-function-declaration]
+  121 |   audio_init();
+      |   ^~~~~~~~~~
+../Src/main.c:124:11: warning: implicit declaration of function 'audio_start' [-Wimplicit-function-declaration]
+  124 |           audio_start(&mp3_file);
+      |           ^~~~~~~~~~~
+../Src/main.c: In function 'SystemClock_Config':
+../Src/main.c:224:3: error: unknown type name 'RCC_OscInitTypeDef'
+  224 |   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+      |   ^~~~~~~~~~~~~~~~~~
+../Src/main.c:225:3: error: unknown type name 'RCC_ClkInitTypeDef'
+  225 |   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+      |   ^~~~~~~~~~~~~~~~~~
+../Src/main.c:229:7: warning: implicit declaration of function 'HAL_PWREx_ControlVoltageScaling' [-Wimplicit-function-declaration]
+  229 |   if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:229:39: error: 'PWR_REGULATOR_VOLTAGE_SCALE1' undeclared (first use in this function)
+  229 |   if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+      |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:229:39: note: each undeclared identifier is reported only once for each function it appears in
+../Src/main.c:229:72: error: 'HAL_OK' undeclared (first use in this function)
+  229 |   if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+      |                                                                        ^~~~~~
+../Src/main.c:237:20: error: request for member 'OscillatorType' in something not a structure or union
+  237 |   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+      |                    ^
+../Src/main.c:237:38: error: 'RCC_OSCILLATORTYPE_MSI' undeclared (first use in this function)
+  237 |   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:238:20: error: request for member 'MSIState' in something not a structure or union
+  238 |   RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+      |                    ^
+../Src/main.c:238:32: error: 'RCC_MSI_ON' undeclared (first use in this function)
+  238 |   RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+      |                                ^~~~~~~~~~
+../Src/main.c:239:20: error: request for member 'MSICalibrationValue' in something not a structure or union
+  239 |   RCC_OscInitStruct.MSICalibrationValue = 0;
+      |                    ^
+../Src/main.c:240:20: error: request for member 'MSIClockRange' in something not a structure or union
+  240 |   RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
+      |                    ^
+../Src/main.c:240:37: error: 'RCC_MSIRANGE_6' undeclared (first use in this function)
+  240 |   RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
+      |                                     ^~~~~~~~~~~~~~
+../Src/main.c:241:20: error: request for member 'PLL' in something not a structure or union
+  241 |   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+      |                    ^
+../Src/main.c:241:36: error: 'RCC_PLL_NONE' undeclared (first use in this function)
+  241 |   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+      |                                    ^~~~~~~~~~~~
+../Src/main.c:242:7: warning: implicit declaration of function 'HAL_RCC_OscConfig' [-Wimplicit-function-declaration]
+  242 |   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~
+../Src/main.c:249:20: error: request for member 'ClockType' in something not a structure or union
+  249 |   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+      |                    ^
+../Src/main.c:249:33: error: 'RCC_CLOCKTYPE_HCLK' undeclared (first use in this function)
+  249 |   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+      |                                 ^~~~~~~~~~~~~~~~~~
+../Src/main.c:249:52: error: 'RCC_CLOCKTYPE_SYSCLK' undeclared (first use in this function)
+  249 |   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+      |                                                    ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:250:32: error: 'RCC_CLOCKTYPE_PCLK1' undeclared (first use in this function)
+  250 |                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+      |                                ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:250:52: error: 'RCC_CLOCKTYPE_PCLK2' undeclared (first use in this function)
+  250 |                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+      |                                                    ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:251:20: error: request for member 'SYSCLKSource' in something not a structure or union
+  251 |   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+      |                    ^
+../Src/main.c:251:36: error: 'RCC_SYSCLKSOURCE_MSI' undeclared (first use in this function)
+  251 |   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+      |                                    ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:252:20: error: request for member 'AHBCLKDivider' in something not a structure or union
+  252 |   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+      |                    ^
+../Src/main.c:252:37: error: 'RCC_SYSCLK_DIV1' undeclared (first use in this function)
+  252 |   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+      |                                     ^~~~~~~~~~~~~~~
+../Src/main.c:253:20: error: request for member 'APB1CLKDivider' in something not a structure or union
+  253 |   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+      |                    ^
+../Src/main.c:253:38: error: 'RCC_HCLK_DIV1' undeclared (first use in this function)
+  253 |   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+      |                                      ^~~~~~~~~~~~~
+../Src/main.c:254:20: error: request for member 'APB2CLKDivider' in something not a structure or union
+  254 |   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+      |                    ^
+../Src/main.c:256:7: warning: implicit declaration of function 'HAL_RCC_ClockConfig' [-Wimplicit-function-declaration]
+  256 |   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:256:47: error: 'FLASH_LATENCY_0' undeclared (first use in this function)
+  256 |   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+      |                                               ^~~~~~~~~~~~~~~
+../Src/main.c: In function 'MX_SAI1_Init':
+../Src/main.c:277:15: error: request for member 'Instance' in something not a structure or union
+  277 |   hsai_BlockA1.Instance = SAI1_Block_A;
+      |               ^
+../Src/main.c:277:27: error: 'SAI1_Block_A' undeclared (first use in this function)
+  277 |   hsai_BlockA1.Instance = SAI1_Block_A;
+      |                           ^~~~~~~~~~~~
+../Src/main.c:278:15: error: request for member 'Init' in something not a structure or union
+  278 |   hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
+      |               ^
+../Src/main.c:278:33: error: 'SAI_MODEMASTER_TX' undeclared (first use in this function)
+  278 |   hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
+      |                                 ^~~~~~~~~~~~~~~~~
+../Src/main.c:279:15: error: request for member 'Init' in something not a structure or union
+  279 |   hsai_BlockA1.Init.Synchro = SAI_ASYNCHRONOUS;
+      |               ^
+../Src/main.c:279:31: error: 'SAI_ASYNCHRONOUS' undeclared (first use in this function)
+  279 |   hsai_BlockA1.Init.Synchro = SAI_ASYNCHRONOUS;
+      |                               ^~~~~~~~~~~~~~~~
+../Src/main.c:280:15: error: request for member 'Init' in something not a structure or union
+  280 |   hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+      |               ^
+../Src/main.c:280:35: error: 'SAI_OUTPUTDRIVE_DISABLE' undeclared (first use in this function)
+  280 |   hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:281:15: error: request for member 'Init' in something not a structure or union
+  281 |   hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
+      |               ^
+../Src/main.c:281:33: error: 'SAI_MASTERDIVIDER_ENABLE' undeclared (first use in this function)
+  281 |   hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:282:15: error: request for member 'Init' in something not a structure or union
+  282 |   hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+      |               ^
+../Src/main.c:282:37: error: 'SAI_FIFOTHRESHOLD_EMPTY' undeclared (first use in this function)
+  282 |   hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:283:15: error: request for member 'Init' in something not a structure or union
+  283 |   hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_44K;
+      |               ^
+../Src/main.c:283:38: error: 'SAI_AUDIO_FREQUENCY_44K' undeclared (first use in this function)
+  283 |   hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_44K;
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:284:15: error: request for member 'Init' in something not a structure or union
+  284 |   hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+      |               ^
+../Src/main.c:284:34: error: 'SAI_SYNCEXT_DISABLE' undeclared (first use in this function)
+  284 |   hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+      |                                  ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:285:15: error: request for member 'Init' in something not a structure or union
+  285 |   hsai_BlockA1.Init.MonoStereoMode = SAI_MONOMODE;
+      |               ^
+../Src/main.c:285:38: error: 'SAI_MONOMODE' undeclared (first use in this function)
+  285 |   hsai_BlockA1.Init.MonoStereoMode = SAI_MONOMODE;
+      |                                      ^~~~~~~~~~~~
+../Src/main.c:286:15: error: request for member 'Init' in something not a structure or union
+  286 |   hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
+      |               ^
+../Src/main.c:286:38: error: 'SAI_NOCOMPANDING' undeclared (first use in this function)
+  286 |   hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
+      |                                      ^~~~~~~~~~~~~~~~
+../Src/main.c:287:15: error: request for member 'Init' in something not a structure or union
+  287 |   hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+      |               ^
+../Src/main.c:287:32: error: 'SAI_OUTPUT_NOTRELEASED' undeclared (first use in this function)
+  287 |   hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+      |                                ^~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:288:7: warning: implicit declaration of function 'HAL_SAI_InitProtocol' [-Wimplicit-function-declaration]
+  288 |   if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:288:43: error: 'SAI_I2S_STANDARD' undeclared (first use in this function)
+  288 |   if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+      |                                           ^~~~~~~~~~~~~~~~
+../Src/main.c:288:61: error: 'SAI_PROTOCOL_DATASIZE_16BIT' undeclared (first use in this function)
+  288 |   if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+      |                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:288:96: error: 'HAL_OK' undeclared (first use in this function)
+  288 |   if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+      |                                                                                                ^~~~~~
+../Src/main.c: In function 'MX_SPI1_Init':
+../Src/main.c:314:8: error: request for member 'Instance' in something not a structure or union
+  314 |   hspi1.Instance = SPI1;
+      |        ^
+../Src/main.c:314:20: error: 'SPI1' undeclared (first use in this function)
+  314 |   hspi1.Instance = SPI1;
+      |                    ^~~~
+../Src/main.c:315:8: error: request for member 'Init' in something not a structure or union
+  315 |   hspi1.Init.Mode = SPI_MODE_MASTER;
+      |        ^
+../Src/main.c:315:21: error: 'SPI_MODE_MASTER' undeclared (first use in this function)
+  315 |   hspi1.Init.Mode = SPI_MODE_MASTER;
+      |                     ^~~~~~~~~~~~~~~
+../Src/main.c:316:8: error: request for member 'Init' in something not a structure or union
+  316 |   hspi1.Init.Direction = SPI_DIRECTION_2LINES;
+      |        ^
+../Src/main.c:316:26: error: 'SPI_DIRECTION_2LINES' undeclared (first use in this function)
+  316 |   hspi1.Init.Direction = SPI_DIRECTION_2LINES;
+      |                          ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:317:8: error: request for member 'Init' in something not a structure or union
+  317 |   hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+      |        ^
+../Src/main.c:317:25: error: 'SPI_DATASIZE_8BIT' undeclared (first use in this function)
+  317 |   hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+      |                         ^~~~~~~~~~~~~~~~~
+../Src/main.c:318:8: error: request for member 'Init' in something not a structure or union
+  318 |   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+      |        ^
+../Src/main.c:318:28: error: 'SPI_POLARITY_LOW' undeclared (first use in this function)
+  318 |   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+      |                            ^~~~~~~~~~~~~~~~
+../Src/main.c:319:8: error: request for member 'Init' in something not a structure or union
+  319 |   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+      |        ^
+../Src/main.c:319:25: error: 'SPI_PHASE_1EDGE' undeclared (first use in this function)
+  319 |   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+      |                         ^~~~~~~~~~~~~~~
+../Src/main.c:320:8: error: request for member 'Init' in something not a structure or union
+  320 |   hspi1.Init.NSS = SPI_NSS_SOFT;
+      |        ^
+../Src/main.c:320:20: error: 'SPI_NSS_SOFT' undeclared (first use in this function)
+  320 |   hspi1.Init.NSS = SPI_NSS_SOFT;
+      |                    ^~~~~~~~~~~~
+../Src/main.c:321:8: error: request for member 'Init' in something not a structure or union
+  321 |   hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
+      |        ^
+../Src/main.c:321:34: error: 'SPI_BAUDRATEPRESCALER_256' undeclared (first use in this function)
+  321 |   hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
+      |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:322:8: error: request for member 'Init' in something not a structure or union
+  322 |   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+      |        ^
+../Src/main.c:322:25: error: 'SPI_FIRSTBIT_MSB' undeclared (first use in this function)
+  322 |   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+      |                         ^~~~~~~~~~~~~~~~
+../Src/main.c:323:8: error: request for member 'Init' in something not a structure or union
+  323 |   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+      |        ^
+../Src/main.c:323:23: error: 'SPI_TIMODE_DISABLE' undeclared (first use in this function)
+  323 |   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+      |                       ^~~~~~~~~~~~~~~~~~
+../Src/main.c:324:8: error: request for member 'Init' in something not a structure or union
+  324 |   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+      |        ^
+../Src/main.c:324:31: error: 'SPI_CRCCALCULATION_DISABLE' undeclared (first use in this function)
+  324 |   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:325:8: error: request for member 'Init' in something not a structure or union
+  325 |   hspi1.Init.CRCPolynomial = 7;
+      |        ^
+../Src/main.c:326:8: error: request for member 'Init' in something not a structure or union
+  326 |   hspi1.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+      |        ^
+../Src/main.c:326:26: error: 'SPI_CRC_LENGTH_DATASIZE' undeclared (first use in this function)
+  326 |   hspi1.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:327:8: error: request for member 'Init' in something not a structure or union
+  327 |   hspi1.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+      |        ^
+../Src/main.c:327:25: error: 'SPI_NSS_PULSE_ENABLE' undeclared (first use in this function)
+  327 |   hspi1.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+      |                         ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:328:7: warning: implicit declaration of function 'HAL_SPI_Init'; did you mean 'MX_SPI1_Init'? [-Wimplicit-function-declaration]
+  328 |   if (HAL_SPI_Init(&hspi1) != HAL_OK)
+      |       ^~~~~~~~~~~~
+      |       MX_SPI1_Init
+../Src/main.c:328:31: error: 'HAL_OK' undeclared (first use in this function)
+  328 |   if (HAL_SPI_Init(&hspi1) != HAL_OK)
+      |                               ^~~~~~
+../Src/main.c: In function 'MX_USART2_UART_Init':
+../Src/main.c:353:9: error: request for member 'Instance' in something not a structure or union
+  353 |   huart2.Instance = USART2;
+      |         ^
+../Src/main.c:353:21: error: 'USART2' undeclared (first use in this function)
+  353 |   huart2.Instance = USART2;
+      |                     ^~~~~~
+../Src/main.c:354:9: error: request for member 'Init' in something not a structure or union
+  354 |   huart2.Init.BaudRate = 115200;
+      |         ^
+../Src/main.c:355:9: error: request for member 'Init' in something not a structure or union
+  355 |   huart2.Init.WordLength = UART_WORDLENGTH_8B;
+      |         ^
+../Src/main.c:355:28: error: 'UART_WORDLENGTH_8B' undeclared (first use in this function)
+  355 |   huart2.Init.WordLength = UART_WORDLENGTH_8B;
+      |                            ^~~~~~~~~~~~~~~~~~
+../Src/main.c:356:9: error: request for member 'Init' in something not a structure or union
+  356 |   huart2.Init.StopBits = UART_STOPBITS_1;
+      |         ^
+../Src/main.c:356:26: error: 'UART_STOPBITS_1' undeclared (first use in this function)
+  356 |   huart2.Init.StopBits = UART_STOPBITS_1;
+      |                          ^~~~~~~~~~~~~~~
+../Src/main.c:357:9: error: request for member 'Init' in something not a structure or union
+  357 |   huart2.Init.Parity = UART_PARITY_NONE;
+      |         ^
+../Src/main.c:357:24: error: 'UART_PARITY_NONE' undeclared (first use in this function)
+  357 |   huart2.Init.Parity = UART_PARITY_NONE;
+      |                        ^~~~~~~~~~~~~~~~
+../Src/main.c:358:9: error: request for member 'Init' in something not a structure or union
+  358 |   huart2.Init.Mode = UART_MODE_TX_RX;
+      |         ^
+../Src/main.c:358:22: error: 'UART_MODE_TX_RX' undeclared (first use in this function)
+  358 |   huart2.Init.Mode = UART_MODE_TX_RX;
+      |                      ^~~~~~~~~~~~~~~
+../Src/main.c:359:9: error: request for member 'Init' in something not a structure or union
+  359 |   huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+      |         ^
+../Src/main.c:359:27: error: 'UART_HWCONTROL_NONE' undeclared (first use in this function)
+  359 |   huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+      |                           ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:360:9: error: request for member 'Init' in something not a structure or union
+  360 |   huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+      |         ^
+../Src/main.c:360:30: error: 'UART_OVERSAMPLING_16' undeclared (first use in this function)
+  360 |   huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+      |                              ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:361:9: error: request for member 'Init' in something not a structure or union
+  361 |   huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+      |         ^
+../Src/main.c:361:32: error: 'UART_ONE_BIT_SAMPLE_DISABLE' undeclared (first use in this function)
+  361 |   huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:362:9: error: request for member 'AdvancedInit' in something not a structure or union
+  362 |   huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+      |         ^
+../Src/main.c:362:40: error: 'UART_ADVFEATURE_NO_INIT' undeclared (first use in this function)
+  362 |   huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+      |                                        ^~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:363:7: warning: implicit declaration of function 'HAL_UART_Init' [-Wimplicit-function-declaration]
+  363 |   if (HAL_UART_Init(&huart2) != HAL_OK)
+      |       ^~~~~~~~~~~~~
+../Src/main.c:363:33: error: 'HAL_OK' undeclared (first use in this function)
+  363 |   if (HAL_UART_Init(&huart2) != HAL_OK)
+      |                                 ^~~~~~
+../Src/main.c: In function 'MX_DMA_Init':
+../Src/main.c:380:3: warning: implicit declaration of function '__HAL_RCC_DMA2_CLK_ENABLE' [-Wimplicit-function-declaration]
+  380 |   __HAL_RCC_DMA2_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:384:3: warning: implicit declaration of function 'HAL_NVIC_SetPriority' [-Wimplicit-function-declaration]
+  384 |   HAL_NVIC_SetPriority(DMA2_Channel1_IRQn, 0, 0);
+      |   ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:384:24: error: 'DMA2_Channel1_IRQn' undeclared (first use in this function)
+  384 |   HAL_NVIC_SetPriority(DMA2_Channel1_IRQn, 0, 0);
+      |                        ^~~~~~~~~~~~~~~~~~
+../Src/main.c:385:3: warning: implicit declaration of function 'HAL_NVIC_EnableIRQ' [-Wimplicit-function-declaration]
+  385 |   HAL_NVIC_EnableIRQ(DMA2_Channel1_IRQn);
+      |   ^~~~~~~~~~~~~~~~~~
+../Src/main.c: In function 'MX_GPIO_Init':
+../Src/main.c:396:3: error: unknown type name 'GPIO_InitTypeDef'
+  396 |   GPIO_InitTypeDef GPIO_InitStruct = {0};
+      |   ^~~~~~~~~~~~~~~~
+../Src/main.c:402:3: warning: implicit declaration of function '__HAL_RCC_GPIOC_CLK_ENABLE' [-Wimplicit-function-declaration]
+  402 |   __HAL_RCC_GPIOC_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:403:3: warning: implicit declaration of function '__HAL_RCC_GPIOA_CLK_ENABLE' [-Wimplicit-function-declaration]
+  403 |   __HAL_RCC_GPIOA_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:404:3: warning: implicit declaration of function '__HAL_RCC_GPIOB_CLK_ENABLE' [-Wimplicit-function-declaration]
+  404 |   __HAL_RCC_GPIOB_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:407:3: warning: implicit declaration of function 'HAL_GPIO_WritePin' [-Wimplicit-function-declaration]
+  407 |   HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_RESET);
+      |   ^~~~~~~~~~~~~~~~~
+In file included from ../Src/main.c:20:
+../Inc/main.h:61:25: error: 'GPIOA' undeclared (first use in this function)
+   61 | #define SD_CS_GPIO_Port GPIOA
+      |                         ^~~~~
+../Src/main.c:407:21: note: in expansion of macro 'SD_CS_GPIO_Port'
+  407 |   HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_RESET);
+      |                     ^~~~~~~~~~~~~~~
+../Inc/main.h:60:19: error: 'GPIO_PIN_4' undeclared (first use in this function)
+   60 | #define SD_CS_Pin GPIO_PIN_4
+      |                   ^~~~~~~~~~
+../Src/main.c:407:38: note: in expansion of macro 'SD_CS_Pin'
+  407 |   HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_RESET);
+      |                                      ^~~~~~~~~
+../Src/main.c:407:49: error: 'GPIO_PIN_RESET' undeclared (first use in this function)
+  407 |   HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_RESET);
+      |                                                 ^~~~~~~~~~~~~~
+../Src/main.c:410:18: error: request for member 'Pin' in something not a structure or union
+  410 |   GPIO_InitStruct.Pin = SD_CS_Pin;
+      |                  ^
+../Src/main.c:411:18: error: request for member 'Mode' in something not a structure or union
+  411 |   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+      |                  ^
+../Src/main.c:411:26: error: 'GPIO_MODE_OUTPUT_PP' undeclared (first use in this function)
+  411 |   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+      |                          ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:412:18: error: request for member 'Pull' in something not a structure or union
+  412 |   GPIO_InitStruct.Pull = GPIO_PULLUP;
+      |                  ^
+../Src/main.c:412:26: error: 'GPIO_PULLUP' undeclared (first use in this function)
+  412 |   GPIO_InitStruct.Pull = GPIO_PULLUP;
+      |                          ^~~~~~~~~~~
+../Src/main.c:413:18: error: request for member 'Speed' in something not a structure or union
+  413 |   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+      |                  ^
+../Src/main.c:413:27: error: 'GPIO_SPEED_FREQ_LOW' undeclared (first use in this function)
+  413 |   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+      |                           ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:414:3: warning: implicit declaration of function 'HAL_GPIO_Init'; did you mean 'MX_GPIO_Init'? [-Wimplicit-function-declaration]
+  414 |   HAL_GPIO_Init(SD_CS_GPIO_Port, &GPIO_InitStruct);
+      |   ^~~~~~~~~~~~~
+      |   MX_GPIO_Init
+../Src/main.c: In function 'Error_Handler':
+../Src/main.c:433:3: warning: implicit declaration of function '__disable_irq' [-Wimplicit-function-declaration]
+  433 |   __disable_irq();
+      |   ^~~~~~~~~~~~~
+make: *** [Src/subdir.mk:76: Src/main.o] Error 1
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+11:45:16 **** Incremental Build of configuration Debug for project mp3player ****
+make -j7 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/system_stm32l4xx.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/system_stm32l4xx.d" -MT"Src/system_stm32l4xx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/system_stm32l4xx.o"
+arm-none-eabi-gcc "../Src/user_diskio.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/user_diskio.d" -MT"Src/user_diskio.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/user_diskio.o"
+../Src/system_stm32l4xx.c:91:10: fatal error: stm32l4xx.h: No such file or directory
+   91 | #include "stm32l4xx.h"
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make: *** [Src/subdir.mk:76: Src/system_stm32l4xx.o] Error 1
+make: *** Waiting for unfinished jobs....
+../Src/main.c:22:10: fatal error: stm32l4xx.h: No such file or directory
+   22 | #include "stm32l4xx.h"
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make: *** [Src/subdir.mk:76: Src/main.o] Error 1
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+11:49:55 **** Incremental Build of configuration Debug for project mp3player ****
+make -j7 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/system_stm32l4xx.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/system_stm32l4xx.d" -MT"Src/system_stm32l4xx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/system_stm32l4xx.o"
+In file included from ../Src/system_stm32l4xx.c:91:
+../Inc/stm32l476xx.h:184:10: fatal error: core_cm4.h: No such file or directory
+  184 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make: *** [Src/subdir.mk:76: Src/system_stm32l4xx.o] Error 1
+make: *** Waiting for unfinished jobs....
+In file included from ../Src/main.c:22:
+../Inc/stm32l476xx.h:184:10: fatal error: core_cm4.h: No such file or directory
+  184 | #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make: *** [Src/subdir.mk:76: Src/main.o] Error 1
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+11:53:00 **** Incremental Build of configuration Debug for project mp3player ****
+make -j7 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/system_stm32l4xx.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/system_stm32l4xx.d" -MT"Src/system_stm32l4xx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/system_stm32l4xx.o"
+In file included from ../Src/system_stm32l4xx.c:91:
+../Inc/stm32l476xx.h:185:10: fatal error: system_stm32l4xx.h: No such file or directory
+  185 | #include "system_stm32l4xx.h"
+      |          ^~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make: *** [Src/subdir.mk:76: Src/system_stm32l4xx.o] Error 1
+make: *** Waiting for unfinished jobs....
+In file included from ../Src/main.c:22:
+../Inc/stm32l476xx.h:185:10: fatal error: system_stm32l4xx.h: No such file or directory
+  185 | #include "system_stm32l4xx.h"
+      |          ^~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make: *** [Src/subdir.mk:76: Src/main.o] Error 1
+"make -j7 all" terminated with exit code 2. Build might be incomplete.
+11:54:02 **** Incremental Build of configuration Debug for project mp3player ****
+make -j7 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/system_stm32l4xx.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32L4 -DSTM32 -DSTM32L476RGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/system_stm32l4xx.d" -MT"Src/system_stm32l4xx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/system_stm32l4xx.o"
+In file included from ../Src/system_stm32l4xx.c:91:
+../Inc/stm32l476xx.h:197:3: error: unknown type name '__IO'
+  197 |   __IO uint32_t ISR;          /*!< ADC interrupt and status register,             Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:197:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'ISR'
+  197 |   __IO uint32_t ISR;          /*!< ADC interrupt and status register,             Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:239:3: error: unknown type name '__IO'
+  239 |   __IO uint32_t CSR;          /*!< ADC common status register,                    Address offset: ADC1 base address + 0x300 */
+      |   ^~~~
+../Inc/stm32l476xx.h:239:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CSR'
+  239 |   __IO uint32_t CSR;          /*!< ADC common status register,                    Address offset: ADC1 base address + 0x300 */
+      |                 ^~~
+../Inc/stm32l476xx.h:252:3: error: unknown type name '__IO'
+  252 |   __IO uint32_t TIR;  /*!< CAN TX mailbox identifier register */
+      |   ^~~~
+../Inc/stm32l476xx.h:252:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'TIR'
+  252 |   __IO uint32_t TIR;  /*!< CAN TX mailbox identifier register */
+      |                 ^~~
+../Inc/stm32l476xx.h:264:3: error: unknown type name '__IO'
+  264 |   __IO uint32_t RIR;  /*!< CAN receive FIFO mailbox identifier register */
+      |   ^~~~
+../Inc/stm32l476xx.h:264:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'RIR'
+  264 |   __IO uint32_t RIR;  /*!< CAN receive FIFO mailbox identifier register */
+      |                 ^~~
+../Inc/stm32l476xx.h:276:3: error: unknown type name '__IO'
+  276 |   __IO uint32_t FR1; /*!< CAN Filter bank register 1 */
+      |   ^~~~
+../Inc/stm32l476xx.h:276:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'FR1'
+  276 |   __IO uint32_t FR1; /*!< CAN Filter bank register 1 */
+      |                 ^~~
+../Inc/stm32l476xx.h:286:3: error: unknown type name '__IO'
+  286 |   __IO uint32_t              MCR;                 /*!< CAN master control register,         Address offset: 0x00          */
+      |   ^~~~
+../Inc/stm32l476xx.h:286:30: error: expected ':', ',', ';', '}' or '__attribute__' before 'MCR'
+  286 |   __IO uint32_t              MCR;                 /*!< CAN master control register,         Address offset: 0x00          */
+      |                              ^~~
+../Inc/stm32l476xx.h:317:3: error: unknown type name '__IO'
+  317 |   __IO uint32_t CSR;         /*!< COMP control and status register, Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:317:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CSR'
+  317 |   __IO uint32_t CSR;         /*!< COMP control and status register, Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:322:3: error: unknown type name '__IO'
+  322 |   __IO uint32_t CSR;         /*!< COMP control and status register, used for bits common to several COMP instances, Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:322:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CSR'
+  322 |   __IO uint32_t CSR;         /*!< COMP control and status register, used for bits common to several COMP instances, Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:331:3: error: unknown type name '__IO'
+  331 |   __IO uint32_t DR;          /*!< CRC Data register,                           Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:331:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'DR'
+  331 |   __IO uint32_t DR;          /*!< CRC Data register,                           Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:347:3: error: unknown type name '__IO'
+  347 |   __IO uint32_t CR;          /*!< DAC control register,                                    Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:347:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR'
+  347 |   __IO uint32_t CR;          /*!< DAC control register,                                    Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:374:3: error: unknown type name '__IO'
+  374 |   __IO uint32_t CR1;         /*!< DFSDM control register1,                          Address offset: 0x100 */
+      |   ^~~~
+../Inc/stm32l476xx.h:374:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR1'
+  374 |   __IO uint32_t CR1;         /*!< DFSDM control register1,                          Address offset: 0x100 */
+      |                 ^~~
+../Inc/stm32l476xx.h:396:3: error: unknown type name '__IO'
+  396 |   __IO uint32_t CHCFGR1;     /*!< DFSDM channel configuration register1,            Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:396:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CHCFGR1'
+  396 |   __IO uint32_t CHCFGR1;     /*!< DFSDM channel configuration register1,            Address offset: 0x00 */
+      |                 ^~~~~~~
+../Inc/stm32l476xx.h:410:3: error: unknown type name '__IO'
+  410 |   __IO uint32_t IDCODE;      /*!< MCU device ID code,                 Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:410:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'IDCODE'
+  410 |   __IO uint32_t IDCODE;      /*!< MCU device ID code,                 Address offset: 0x00 */
+      |                 ^~~~~~
+../Inc/stm32l476xx.h:424:3: error: unknown type name '__IO'
+  424 |   __IO uint32_t CCR;         /*!< DMA channel x configuration register        */
+      |   ^~~~
+../Inc/stm32l476xx.h:424:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CCR'
+  424 |   __IO uint32_t CCR;         /*!< DMA channel x configuration register        */
+      |                 ^~~
+../Inc/stm32l476xx.h:432:3: error: unknown type name '__IO'
+  432 |   __IO uint32_t ISR;         /*!< DMA interrupt status register,                 Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:432:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'ISR'
+  432 |   __IO uint32_t ISR;         /*!< DMA interrupt status register,                 Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:438:3: error: unknown type name '__IO'
+  438 |   __IO uint32_t CSELR;       /*!< DMA channel selection register              */
+      |   ^~~~
+../Inc/stm32l476xx.h:438:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CSELR'
+  438 |   __IO uint32_t CSELR;       /*!< DMA channel selection register              */
+      |                 ^~~~~
+../Inc/stm32l476xx.h:450:3: error: unknown type name '__IO'
+  450 |   __IO uint32_t IMR1;        /*!< EXTI Interrupt mask register 1,             Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:450:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'IMR1'
+  450 |   __IO uint32_t IMR1;        /*!< EXTI Interrupt mask register 1,             Address offset: 0x00 */
+      |                 ^~~~
+../Inc/stm32l476xx.h:473:3: error: unknown type name '__IO'
+  473 |   __IO uint32_t CSSA;        /*!< Code Segment Start Address register,              Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:473:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CSSA'
+  473 |   __IO uint32_t CSSA;        /*!< Code Segment Start Address register,              Address offset: 0x00 */
+      |                 ^~~~
+../Inc/stm32l476xx.h:491:3: error: unknown type name '__IO'
+  491 |   __IO uint32_t ACR;              /*!< FLASH access control register,            Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:491:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'ACR'
+  491 |   __IO uint32_t ACR;              /*!< FLASH access control register,            Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:518:3: error: unknown type name '__IO'
+  518 |   __IO uint32_t BTCR[8];     /*!< NOR/PSRAM chip-select control register(BCR) and chip-select timing register(BTR), Address offset: 0x00-1C */
+      |   ^~~~
+../Inc/stm32l476xx.h:518:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'BTCR'
+  518 |   __IO uint32_t BTCR[8];     /*!< NOR/PSRAM chip-select control register(BCR) and chip-select timing register(BTR), Address offset: 0x00-1C */
+      |                 ^~~~
+../Inc/stm32l476xx.h:527:3: error: unknown type name '__IO'
+  527 |   __IO uint32_t BWTR[7];     /*!< NOR/PSRAM write timing registers, Address offset: 0x104-0x11C */
+      |   ^~~~
+../Inc/stm32l476xx.h:527:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'BWTR'
+  527 |   __IO uint32_t BWTR[7];     /*!< NOR/PSRAM write timing registers, Address offset: 0x104-0x11C */
+      |                 ^~~~
+../Inc/stm32l476xx.h:536:3: error: unknown type name '__IO'
+  536 |   __IO uint32_t PCR;        /*!< NAND Flash control register,                       Address offset: 0x80 */
+      |   ^~~~
+../Inc/stm32l476xx.h:536:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'PCR'
+  536 |   __IO uint32_t PCR;        /*!< NAND Flash control register,                       Address offset: 0x80 */
+      |                 ^~~
+../Inc/stm32l476xx.h:550:3: error: unknown type name '__IO'
+  550 |   __IO uint32_t MODER;       /*!< GPIO port mode register,               Address offset: 0x00      */
+      |   ^~~~
+../Inc/stm32l476xx.h:550:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'MODER'
+  550 |   __IO uint32_t MODER;       /*!< GPIO port mode register,               Address offset: 0x00      */
+      |                 ^~~~~
+../Inc/stm32l476xx.h:571:3: error: unknown type name '__IO'
+  571 |   __IO uint32_t CR1;         /*!< I2C Control register 1,            Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:571:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR1'
+  571 |   __IO uint32_t CR1;         /*!< I2C Control register 1,            Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:590:3: error: unknown type name '__IO'
+  590 |   __IO uint32_t KR;          /*!< IWDG Key register,       Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:590:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'KR'
+  590 |   __IO uint32_t KR;          /*!< IWDG Key register,       Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:603:3: error: unknown type name '__IO'
+  603 |   __IO uint32_t CR;          /*!< LCD control register,              Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:603:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR'
+  603 |   __IO uint32_t CR;          /*!< LCD control register,              Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:616:3: error: unknown type name '__IO'
+  616 |   __IO uint32_t ISR;         /*!< LPTIM Interrupt and Status register,                Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:616:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'ISR'
+  616 |   __IO uint32_t ISR;         /*!< LPTIM Interrupt and Status register,                Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:634:3: error: unknown type name '__IO'
+  634 |   __IO uint32_t CSR;         /*!< OPAMP control/status register,                     Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:634:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CSR'
+  634 |   __IO uint32_t CSR;         /*!< OPAMP control/status register,                     Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:641:3: error: unknown type name '__IO'
+  641 |   __IO uint32_t CSR;         /*!< OPAMP control/status register, used for bits common to several OPAMP instances, Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:641:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CSR'
+  641 |   __IO uint32_t CSR;         /*!< OPAMP control/status register, used for bits common to several OPAMP instances, Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:650:3: error: unknown type name '__IO'
+  650 |   __IO uint32_t CR1;   /*!< PWR power control register 1,        Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:650:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR1'
+  650 |   __IO uint32_t CR1;   /*!< PWR power control register 1,        Address offset: 0x00 */
+      |                 ^~~
+In file included from ../Src/main.c:22:
+../Inc/stm32l476xx.h:197:3: error: unknown type name '__IO'
+  197 |   __IO uint32_t ISR;          /*!< ADC interrupt and status register,             Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:197:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'ISR'
+  197 |   __IO uint32_t ISR;          /*!< ADC interrupt and status register,             Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:683:3: error: unknown type name '__IO'
+  683 |   __IO uint32_t CR;          /*!< QUADSPI Control register,                           Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:239:3: error: unknown type name '__IO'
+  239 |   __IO uint32_t CSR;          /*!< ADC common status register,                    Address offset: ADC1 base address + 0x300 */
+      |   ^~~~
+../Inc/stm32l476xx.h:239:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CSR'
+  239 |   __IO uint32_t CSR;          /*!< ADC common status register,                    Address offset: ADC1 base address + 0x300 */
+      |                 ^~~
+../Inc/stm32l476xx.h:252:3: error: unknown type name '__IO'
+  252 |   __IO uint32_t TIR;  /*!< CAN TX mailbox identifier register */
+      |   ^~~~
+../Inc/stm32l476xx.h:252:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'TIR'
+  252 |   __IO uint32_t TIR;  /*!< CAN TX mailbox identifier register */
+      |                 ^~~
+../Inc/stm32l476xx.h:264:3: error: unknown type name '__IO'
+  264 |   __IO uint32_t RIR;  /*!< CAN receive FIFO mailbox identifier register */
+      |   ^~~~
+../Inc/stm32l476xx.h:264:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'RIR'
+  264 |   __IO uint32_t RIR;  /*!< CAN receive FIFO mailbox identifier register */
+      |                 ^~~
+../Inc/stm32l476xx.h:683:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR'
+  683 |   __IO uint32_t CR;          /*!< QUADSPI Control register,                           Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:276:3: error: unknown type name '__IO'
+  276 |   __IO uint32_t FR1; /*!< CAN Filter bank register 1 */
+      |   ^~~~
+../Inc/stm32l476xx.h:276:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'FR1'
+  276 |   __IO uint32_t FR1; /*!< CAN Filter bank register 1 */
+      |                 ^~~
+../Inc/stm32l476xx.h:286:3: error: unknown type name '__IO'
+  286 |   __IO uint32_t              MCR;                 /*!< CAN master control register,         Address offset: 0x00          */
+      |   ^~~~
+../Inc/stm32l476xx.h:286:30: error: expected ':', ',', ';', '}' or '__attribute__' before 'MCR'
+  286 |   __IO uint32_t              MCR;                 /*!< CAN master control register,         Address offset: 0x00          */
+      |                              ^~~
+../Inc/stm32l476xx.h:705:3: error: unknown type name '__IO'
+  705 |   __IO uint32_t CR;          /*!< RCC clock control register,                                              Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:317:3: error: unknown type name '__IO'
+  317 |   __IO uint32_t CSR;         /*!< COMP control and status register, Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:317:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CSR'
+  317 |   __IO uint32_t CSR;         /*!< COMP control and status register, Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:322:3: error: unknown type name '__IO'
+  322 |   __IO uint32_t CSR;         /*!< COMP control and status register, used for bits common to several COMP instances, Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:705:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR'
+  705 |   __IO uint32_t CR;          /*!< RCC clock control register,                                              Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:322:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CSR'
+  322 |   __IO uint32_t CSR;         /*!< COMP control and status register, used for bits common to several COMP instances, Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:331:3: error: unknown type name '__IO'
+  331 |   __IO uint32_t DR;          /*!< CRC Data register,                           Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:331:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'DR'
+  331 |   __IO uint32_t DR;          /*!< CRC Data register,                           Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:347:3: error: unknown type name '__IO'
+  347 |   __IO uint32_t CR;          /*!< DAC control register,                                    Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:751:3: error: unknown type name '__IO'
+  751 |   __IO uint32_t TR;          /*!< RTC time register,                                         Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:347:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR'
+  347 |   __IO uint32_t CR;          /*!< DAC control register,                                    Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:374:3: error: unknown type name '__IO'
+  374 |   __IO uint32_t CR1;         /*!< DFSDM control register1,                          Address offset: 0x100 */
+      |   ^~~~
+../Inc/stm32l476xx.h:374:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR1'
+  374 |   __IO uint32_t CR1;         /*!< DFSDM control register1,                          Address offset: 0x100 */
+      |                 ^~~
+../Inc/stm32l476xx.h:751:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'TR'
+  751 |   __IO uint32_t TR;          /*!< RTC time register,                                         Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:396:3: error: unknown type name '__IO'
+  396 |   __IO uint32_t CHCFGR1;     /*!< DFSDM channel configuration register1,            Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:396:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CHCFGR1'
+  396 |   __IO uint32_t CHCFGR1;     /*!< DFSDM channel configuration register1,            Address offset: 0x00 */
+      |                 ^~~~~~~
+../Inc/stm32l476xx.h:410:3: error: unknown type name '__IO'
+  410 |   __IO uint32_t IDCODE;      /*!< MCU device ID code,                 Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:812:3: error: unknown type name '__IO'
+  812 |   __IO uint32_t GCR;         /*!< SAI global configuration register,        Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:410:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'IDCODE'
+  410 |   __IO uint32_t IDCODE;      /*!< MCU device ID code,                 Address offset: 0x00 */
+      |                 ^~~~~~
+../Inc/stm32l476xx.h:424:3: error: unknown type name '__IO'
+  424 |   __IO uint32_t CCR;         /*!< DMA channel x configuration register        */
+      |   ^~~~
+../Inc/stm32l476xx.h:424:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CCR'
+  424 |   __IO uint32_t CCR;         /*!< DMA channel x configuration register        */
+      |                 ^~~
+../Inc/stm32l476xx.h:812:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'GCR'
+  812 |   __IO uint32_t GCR;         /*!< SAI global configuration register,        Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:432:3: error: unknown type name '__IO'
+  432 |   __IO uint32_t ISR;         /*!< DMA interrupt status register,                 Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:432:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'ISR'
+  432 |   __IO uint32_t ISR;         /*!< DMA interrupt status register,                 Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:817:3: error: unknown type name '__IO'
+  817 |   __IO uint32_t CR1;         /*!< SAI block x configuration register 1,     Address offset: 0x04 */
+      |   ^~~~
+../Inc/stm32l476xx.h:438:3: error: unknown type name '__IO'
+  438 |   __IO uint32_t CSELR;       /*!< DMA channel selection register              */
+      |   ^~~~
+../Inc/stm32l476xx.h:438:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CSELR'
+  438 |   __IO uint32_t CSELR;       /*!< DMA channel selection register              */
+      |                 ^~~~~
+../Inc/stm32l476xx.h:450:3: error: unknown type name '__IO'
+  450 |   __IO uint32_t IMR1;        /*!< EXTI Interrupt mask register 1,             Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:817:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR1'
+  817 |   __IO uint32_t CR1;         /*!< SAI block x configuration register 1,     Address offset: 0x04 */
+      |                 ^~~
+../Inc/stm32l476xx.h:450:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'IMR1'
+  450 |   __IO uint32_t IMR1;        /*!< EXTI Interrupt mask register 1,             Address offset: 0x00 */
+      |                 ^~~~
+../Inc/stm32l476xx.h:473:3: error: unknown type name '__IO'
+  473 |   __IO uint32_t CSSA;        /*!< Code Segment Start Address register,              Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:834:3: error: unknown type name '__IO'
+  834 |   __IO uint32_t POWER;          /*!< SDMMC power control register,    Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:473:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CSSA'
+  473 |   __IO uint32_t CSSA;        /*!< Code Segment Start Address register,              Address offset: 0x00 */
+      |                 ^~~~
+../Inc/stm32l476xx.h:491:3: error: unknown type name '__IO'
+  491 |   __IO uint32_t ACR;              /*!< FLASH access control register,            Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:834:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'POWER'
+  834 |   __IO uint32_t POWER;          /*!< SDMMC power control register,    Address offset: 0x00 */
+      |                 ^~~~~
+../Inc/stm32l476xx.h:491:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'ACR'
+  491 |   __IO uint32_t ACR;              /*!< FLASH access control register,            Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:518:3: error: unknown type name '__IO'
+  518 |   __IO uint32_t BTCR[8];     /*!< NOR/PSRAM chip-select control register(BCR) and chip-select timing register(BTR), Address offset: 0x00-1C */
+      |   ^~~~
+../Inc/stm32l476xx.h:863:3: error: unknown type name '__IO'
+  863 |   __IO uint32_t CR1;         /*!< SPI Control register 1,                              Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:518:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'BTCR'
+  518 |   __IO uint32_t BTCR[8];     /*!< NOR/PSRAM chip-select control register(BCR) and chip-select timing register(BTR), Address offset: 0x00-1C */
+      |                 ^~~~
+../Inc/stm32l476xx.h:527:3: error: unknown type name '__IO'
+  527 |   __IO uint32_t BWTR[7];     /*!< NOR/PSRAM write timing registers, Address offset: 0x104-0x11C */
+      |   ^~~~
+../Inc/stm32l476xx.h:863:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR1'
+  863 |   __IO uint32_t CR1;         /*!< SPI Control register 1,                              Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:527:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'BWTR'
+  527 |   __IO uint32_t BWTR[7];     /*!< NOR/PSRAM write timing registers, Address offset: 0x104-0x11C */
+      |                 ^~~~
+../Inc/stm32l476xx.h:536:3: error: unknown type name '__IO'
+  536 |   __IO uint32_t PCR;        /*!< NAND Flash control register,                       Address offset: 0x80 */
+      |   ^~~~
+../Inc/stm32l476xx.h:881:3: error: unknown type name '__IO'
+  881 |   __IO uint32_t CR;          /*!< SWPMI Configuration/Control register,     Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:536:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'PCR'
+  536 |   __IO uint32_t PCR;        /*!< NAND Flash control register,                       Address offset: 0x80 */
+      |                 ^~~
+../Inc/stm32l476xx.h:550:3: error: unknown type name '__IO'
+  550 |   __IO uint32_t MODER;       /*!< GPIO port mode register,               Address offset: 0x00      */
+      |   ^~~~
+../Inc/stm32l476xx.h:550:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'MODER'
+  550 |   __IO uint32_t MODER;       /*!< GPIO port mode register,               Address offset: 0x00      */
+      |                 ^~~~~
+../Inc/stm32l476xx.h:881:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR'
+  881 |   __IO uint32_t CR;          /*!< SWPMI Configuration/Control register,     Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:571:3: error: unknown type name '__IO'
+  571 |   __IO uint32_t CR1;         /*!< I2C Control register 1,            Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:900:3: error: unknown type name '__IO'
+  900 |   __IO uint32_t MEMRMP;      /*!< SYSCFG memory remap register,                      Address offset: 0x00      */
+      |   ^~~~
+../Inc/stm32l476xx.h:571:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR1'
+  571 |   __IO uint32_t CR1;         /*!< I2C Control register 1,            Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:590:3: error: unknown type name '__IO'
+  590 |   __IO uint32_t KR;          /*!< IWDG Key register,       Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:900:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'MEMRMP'
+  900 |   __IO uint32_t MEMRMP;      /*!< SYSCFG memory remap register,                      Address offset: 0x00      */
+      |                 ^~~~~~
+../Inc/stm32l476xx.h:590:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'KR'
+  590 |   __IO uint32_t KR;          /*!< IWDG Key register,       Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:603:3: error: unknown type name '__IO'
+  603 |   __IO uint32_t CR;          /*!< LCD control register,              Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:916:3: error: unknown type name '__IO'
+  916 |   __IO uint32_t CR1;         /*!< TIM control register 1,                   Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:603:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR'
+  603 |   __IO uint32_t CR;          /*!< LCD control register,              Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:616:3: error: unknown type name '__IO'
+  616 |   __IO uint32_t ISR;         /*!< LPTIM Interrupt and Status register,                Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:916:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR1'
+  916 |   __IO uint32_t CR1;         /*!< TIM control register 1,                   Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:616:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'ISR'
+  616 |   __IO uint32_t ISR;         /*!< LPTIM Interrupt and Status register,                Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:634:3: error: unknown type name '__IO'
+  634 |   __IO uint32_t CSR;         /*!< OPAMP control/status register,                     Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:951:3: error: unknown type name '__IO'
+  951 |   __IO uint32_t CR;            /*!< TSC control register,                                     Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:634:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CSR'
+  634 |   __IO uint32_t CSR;         /*!< OPAMP control/status register,                     Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:641:3: error: unknown type name '__IO'
+  641 |   __IO uint32_t CSR;         /*!< OPAMP control/status register, used for bits common to several OPAMP instances, Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:951:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR'
+  951 |   __IO uint32_t CR;            /*!< TSC control register,                                     Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:641:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CSR'
+  641 |   __IO uint32_t CSR;         /*!< OPAMP control/status register, used for bits common to several OPAMP instances, Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:650:3: error: unknown type name '__IO'
+  650 |   __IO uint32_t CR1;   /*!< PWR power control register 1,        Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:973:3: error: unknown type name '__IO'
+  973 |   __IO uint32_t CR1;         /*!< USART Control register 1,                 Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:650:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR1'
+  650 |   __IO uint32_t CR1;   /*!< PWR power control register 1,        Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:683:3: error: unknown type name '__IO'
+  683 |   __IO uint32_t CR;          /*!< QUADSPI Control register,                           Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:973:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR1'
+  973 |   __IO uint32_t CR1;         /*!< USART Control register 1,                 Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:683:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR'
+  683 |   __IO uint32_t CR;          /*!< QUADSPI Control register,                           Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:996:3: error: unknown type name '__IO'
+  996 |   __IO uint32_t CSR;         /*!< VREFBUF control and status register,         Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:705:3: error: unknown type name '__IO'
+  705 |   __IO uint32_t CR;          /*!< RCC clock control register,                                              Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:705:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR'
+  705 |   __IO uint32_t CR;          /*!< RCC clock control register,                                              Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:996:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CSR'
+  996 |   __IO uint32_t CSR;         /*!< VREFBUF control and status register,         Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:751:3: error: unknown type name '__IO'
+  751 |   __IO uint32_t TR;          /*!< RTC time register,                                         Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:1006:3: error: unknown type name '__IO'
+ 1006 |   __IO uint32_t CR;          /*!< WWDG Control register,       Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:751:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'TR'
+  751 |   __IO uint32_t TR;          /*!< RTC time register,                                         Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:812:3: error: unknown type name '__IO'
+  812 |   __IO uint32_t GCR;         /*!< SAI global configuration register,        Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:1006:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR'
+ 1006 |   __IO uint32_t CR;          /*!< WWDG Control register,       Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:812:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'GCR'
+  812 |   __IO uint32_t GCR;         /*!< SAI global configuration register,        Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:1017:3: error: unknown type name '__IO'
+ 1017 |   __IO uint32_t CR;  /*!< RNG control register, Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:817:3: error: unknown type name '__IO'
+  817 |   __IO uint32_t CR1;         /*!< SAI block x configuration register 1,     Address offset: 0x04 */
+      |   ^~~~
+../Inc/stm32l476xx.h:1017:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR'
+ 1017 |   __IO uint32_t CR;  /*!< RNG control register, Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:817:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR1'
+  817 |   __IO uint32_t CR1;         /*!< SAI block x configuration register 1,     Address offset: 0x04 */
+      |                 ^~~
+../Inc/stm32l476xx.h:1027:3: error: unknown type name '__IO'
+ 1027 |   __IO uint32_t GOTGCTL;              /*!<  USB_OTG Control and Status Register          000h*/
+      |   ^~~~
+../Inc/stm32l476xx.h:834:3: error: unknown type name '__IO'
+  834 |   __IO uint32_t POWER;          /*!< SDMMC power control register,    Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:834:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'POWER'
+  834 |   __IO uint32_t POWER;          /*!< SDMMC power control register,    Address offset: 0x00 */
+      |                 ^~~~~
+../Inc/stm32l476xx.h:1027:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'GOTGCTL'
+ 1027 |   __IO uint32_t GOTGCTL;              /*!<  USB_OTG Control and Status Register          000h*/
+      |                 ^~~~~~~
+../Inc/stm32l476xx.h:863:3: error: unknown type name '__IO'
+  863 |   __IO uint32_t CR1;         /*!< SPI Control register 1,                              Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:1059:3: error: unknown type name '__IO'
+ 1059 |   __IO uint32_t DCFG;        /* dev Configuration Register   800h*/
+      |   ^~~~
+../Inc/stm32l476xx.h:863:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR1'
+  863 |   __IO uint32_t CR1;         /*!< SPI Control register 1,                              Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:1059:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'DCFG'
+ 1059 |   __IO uint32_t DCFG;        /* dev Configuration Register   800h*/
+      |                 ^~~~
+../Inc/stm32l476xx.h:881:3: error: unknown type name '__IO'
+  881 |   __IO uint32_t CR;          /*!< SWPMI Configuration/Control register,     Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:1086:3: error: unknown type name '__IO'
+ 1086 |   __IO uint32_t DIEPCTL;     /* dev IN Endpoint Control Reg 900h + (ep_num * 20h) + 00h*/
+      |   ^~~~
+../Inc/stm32l476xx.h:881:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR'
+  881 |   __IO uint32_t CR;          /*!< SWPMI Configuration/Control register,     Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:900:3: error: unknown type name '__IO'
+  900 |   __IO uint32_t MEMRMP;      /*!< SYSCFG memory remap register,                      Address offset: 0x00      */
+      |   ^~~~
+../Inc/stm32l476xx.h:1086:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'DIEPCTL'
+ 1086 |   __IO uint32_t DIEPCTL;     /* dev IN Endpoint Control Reg 900h + (ep_num * 20h) + 00h*/
+      |                 ^~~~~~~
+../Inc/stm32l476xx.h:900:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'MEMRMP'
+  900 |   __IO uint32_t MEMRMP;      /*!< SYSCFG memory remap register,                      Address offset: 0x00      */
+      |                 ^~~~~~
+../Inc/stm32l476xx.h:1101:3: error: unknown type name '__IO'
+ 1101 |   __IO uint32_t DOEPCTL;     /* dev OUT Endpoint Control Reg  B00h + (ep_num * 20h) + 00h*/
+      |   ^~~~
+../Inc/stm32l476xx.h:916:3: error: unknown type name '__IO'
+  916 |   __IO uint32_t CR1;         /*!< TIM control register 1,                   Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:1101:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'DOEPCTL'
+ 1101 |   __IO uint32_t DOEPCTL;     /* dev OUT Endpoint Control Reg  B00h + (ep_num * 20h) + 00h*/
+      |                 ^~~~~~~
+../Inc/stm32l476xx.h:916:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR1'
+  916 |   __IO uint32_t CR1;         /*!< TIM control register 1,                   Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:1115:3: error: unknown type name '__IO'
+ 1115 |   __IO uint32_t HCFG;        /* Host Configuration Register    400h*/
+      |   ^~~~
+../Inc/stm32l476xx.h:951:3: error: unknown type name '__IO'
+  951 |   __IO uint32_t CR;            /*!< TSC control register,                                     Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:951:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR'
+  951 |   __IO uint32_t CR;            /*!< TSC control register,                                     Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:1115:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'HCFG'
+ 1115 |   __IO uint32_t HCFG;        /* Host Configuration Register    400h*/
+      |                 ^~~~
+../Inc/stm32l476xx.h:973:3: error: unknown type name '__IO'
+  973 |   __IO uint32_t CR1;         /*!< USART Control register 1,                 Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:1129:3: error: unknown type name '__IO'
+ 1129 |   __IO uint32_t HCCHAR;
+      |   ^~~~
+../Inc/stm32l476xx.h:973:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR1'
+  973 |   __IO uint32_t CR1;         /*!< USART Control register 1,                 Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:1129:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'HCCHAR'
+ 1129 |   __IO uint32_t HCCHAR;
+      |                 ^~~~~~
+../Inc/stm32l476xx.h:996:3: error: unknown type name '__IO'
+  996 |   __IO uint32_t CSR;         /*!< VREFBUF control and status register,         Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:996:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CSR'
+  996 |   __IO uint32_t CSR;         /*!< VREFBUF control and status register,         Address offset: 0x00 */
+      |                 ^~~
+../Inc/stm32l476xx.h:1006:3: error: unknown type name '__IO'
+ 1006 |   __IO uint32_t CR;          /*!< WWDG Control register,       Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:1006:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR'
+ 1006 |   __IO uint32_t CR;          /*!< WWDG Control register,       Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:1017:3: error: unknown type name '__IO'
+ 1017 |   __IO uint32_t CR;  /*!< RNG control register, Address offset: 0x00 */
+      |   ^~~~
+../Inc/stm32l476xx.h:1017:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'CR'
+ 1017 |   __IO uint32_t CR;  /*!< RNG control register, Address offset: 0x00 */
+      |                 ^~
+../Inc/stm32l476xx.h:1027:3: error: unknown type name '__IO'
+ 1027 |   __IO uint32_t GOTGCTL;              /*!<  USB_OTG Control and Status Register          000h*/
+      |   ^~~~
+../Inc/stm32l476xx.h:1027:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'GOTGCTL'
+ 1027 |   __IO uint32_t GOTGCTL;              /*!<  USB_OTG Control and Status Register          000h*/
+      |                 ^~~~~~~
+../Inc/stm32l476xx.h:1059:3: error: unknown type name '__IO'
+ 1059 |   __IO uint32_t DCFG;        /* dev Configuration Register   800h*/
+      |   ^~~~
+../Inc/stm32l476xx.h:1059:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'DCFG'
+ 1059 |   __IO uint32_t DCFG;        /* dev Configuration Register   800h*/
+      |                 ^~~~
+../Inc/stm32l476xx.h:1086:3: error: unknown type name '__IO'
+ 1086 |   __IO uint32_t DIEPCTL;     /* dev IN Endpoint Control Reg 900h + (ep_num * 20h) + 00h*/
+      |   ^~~~
+../Inc/stm32l476xx.h:1086:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'DIEPCTL'
+ 1086 |   __IO uint32_t DIEPCTL;     /* dev IN Endpoint Control Reg 900h + (ep_num * 20h) + 00h*/
+      |                 ^~~~~~~
+../Inc/stm32l476xx.h:1101:3: error: unknown type name '__IO'
+ 1101 |   __IO uint32_t DOEPCTL;     /* dev OUT Endpoint Control Reg  B00h + (ep_num * 20h) + 00h*/
+      |   ^~~~
+../Inc/stm32l476xx.h:1101:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'DOEPCTL'
+ 1101 |   __IO uint32_t DOEPCTL;     /* dev OUT Endpoint Control Reg  B00h + (ep_num * 20h) + 00h*/
+      |                 ^~~~~~~
+../Inc/stm32l476xx.h:1115:3: error: unknown type name '__IO'
+ 1115 |   __IO uint32_t HCFG;        /* Host Configuration Register    400h*/
+      |   ^~~~
+../Inc/stm32l476xx.h:1115:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'HCFG'
+ 1115 |   __IO uint32_t HCFG;        /* Host Configuration Register    400h*/
+      |                 ^~~~
+../Inc/stm32l476xx.h:1129:3: error: unknown type name '__IO'
+ 1129 |   __IO uint32_t HCCHAR;
+      |   ^~~~
+../Src/system_stm32l4xx.c: In function 'SystemCoreClockUpdate':
+../Src/system_stm32l4xx.c:256:11: error: 'RCC_TypeDef' has no member named 'CR'
+  256 |   if ((RCC->CR & RCC_CR_MSIRGSEL) == 0U)
+      |           ^~
+../Src/system_stm32l4xx.c:258:20: error: 'RCC_TypeDef' has no member named 'CSR'
+  258 |     msirange = (RCC->CSR & RCC_CSR_MSISRANGE) >> 8U;
+      |                    ^~
+../Src/system_stm32l4xx.c:262:20: error: 'RCC_TypeDef' has no member named 'CR'
+  262 |     msirange = (RCC->CR & RCC_CR_MSIRANGE) >> 4U;
+      |                    ^~
+../Inc/stm32l476xx.h:1129:17: error: expected ':', ',', ';', '}' or '__attribute__' before 'HCCHAR'
+ 1129 |   __IO uint32_t HCCHAR;
+      |                 ^~~~~~
+../Src/system_stm32l4xx.c:268:14: error: 'RCC_TypeDef' has no member named 'CFGR'
+  268 |   switch (RCC->CFGR & RCC_CFGR_SWS)
+      |              ^~
+../Src/system_stm32l4xx.c:286:23: error: 'RCC_TypeDef' has no member named 'PLLCFGR'
+  286 |       pllsource = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC);
+      |                       ^~
+../Src/system_stm32l4xx.c:287:19: error: 'RCC_TypeDef' has no member named 'PLLCFGR'
+  287 |       pllm = ((RCC->PLLCFGR & RCC_PLLCFGR_PLLM) >> 4U) + 1U ;
+      |                   ^~
+../Src/system_stm32l4xx.c:303:30: error: 'RCC_TypeDef' has no member named 'PLLCFGR'
+  303 |       pllvco = pllvco * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 8U);
+      |                              ^~
+../Src/system_stm32l4xx.c:304:20: error: 'RCC_TypeDef' has no member named 'PLLCFGR'
+  304 |       pllr = (((RCC->PLLCFGR & RCC_PLLCFGR_PLLR) >> 25U) + 1U) * 2U;
+      |                    ^~
+../Src/system_stm32l4xx.c:314:28: error: 'RCC_TypeDef' has no member named 'CFGR'
+  314 |   tmp = AHBPrescTable[((RCC->CFGR & RCC_CFGR_HPRE) >> 4U)];
+      |                            ^~
+make: *** [Src/subdir.mk:76: Src/system_stm32l4xx.o] Error 1
+make: *** Waiting for unfinished jobs....
+../Src/main.c:48:1: error: unknown type name 'SAI_HandleTypeDef'
+   48 | SAI_HandleTypeDef hsai_BlockA1;
+      | ^~~~~~~~~~~~~~~~~
+../Src/main.c:49:1: error: unknown type name 'DMA_HandleTypeDef'; did you mean 'DMA_Channel_TypeDef'?
+   49 | DMA_HandleTypeDef hdma_sai1_a;
+      | ^~~~~~~~~~~~~~~~~
+      | DMA_Channel_TypeDef
+../Src/main.c:51:1: error: unknown type name 'SPI_HandleTypeDef'; did you mean 'SPI_TypeDef'?
+   51 | SPI_HandleTypeDef hspi1;
+      | ^~~~~~~~~~~~~~~~~
+      | SPI_TypeDef
+../Src/main.c:53:1: error: unknown type name 'UART_HandleTypeDef'
+   53 | UART_HandleTypeDef huart2;
+      | ^~~~~~~~~~~~~~~~~~
+../Src/main.c: In function 'myprintf':
+../Src/main.c:80:3: warning: implicit declaration of function 'HAL_UART_Transmit' [-Wimplicit-function-declaration]
+   80 |   HAL_UART_Transmit(&huart2, (uint8_t*)buffer, len, -1);
+      |   ^~~~~~~~~~~~~~~~~
+../Src/main.c: In function 'main':
+../Src/main.c:101:3: warning: implicit declaration of function 'HAL_Init' [-Wimplicit-function-declaration]
+  101 |   HAL_Init();
+      |   ^~~~~~~~
+../Src/main.c:122:3: warning: implicit declaration of function 'audio_init' [-Wimplicit-function-declaration]
+  122 |   audio_init();
+      |   ^~~~~~~~~~
+../Src/main.c:125:11: warning: implicit declaration of function 'audio_start' [-Wimplicit-function-declaration]
+  125 |           audio_start(&mp3_file);
+      |           ^~~~~~~~~~~
+../Src/main.c: In function 'SystemClock_Config':
+../Src/main.c:225:3: error: unknown type name 'RCC_OscInitTypeDef'
+  225 |   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+      |   ^~~~~~~~~~~~~~~~~~
+../Src/main.c:226:3: error: unknown type name 'RCC_ClkInitTypeDef'
+  226 |   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+      |   ^~~~~~~~~~~~~~~~~~
+../Src/main.c:230:7: warning: implicit declaration of function 'HAL_PWREx_ControlVoltageScaling' [-Wimplicit-function-declaration]
+  230 |   if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:230:39: error: 'PWR_REGULATOR_VOLTAGE_SCALE1' undeclared (first use in this function)
+  230 |   if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+      |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:230:39: note: each undeclared identifier is reported only once for each function it appears in
+../Src/main.c:230:72: error: 'HAL_OK' undeclared (first use in this function)
+  230 |   if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+      |                                                                        ^~~~~~
+../Src/main.c:238:20: error: request for member 'OscillatorType' in something not a structure or union
+  238 |   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+      |                    ^
+../Src/main.c:238:38: error: 'RCC_OSCILLATORTYPE_MSI' undeclared (first use in this function)
+  238 |   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:239:20: error: request for member 'MSIState' in something not a structure or union
+  239 |   RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+      |                    ^
+../Src/main.c:239:32: error: 'RCC_MSI_ON' undeclared (first use in this function); did you mean 'RCC_CR_MSION'?
+  239 |   RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+      |                                ^~~~~~~~~~
+      |                                RCC_CR_MSION
+../Src/main.c:240:20: error: request for member 'MSICalibrationValue' in something not a structure or union
+  240 |   RCC_OscInitStruct.MSICalibrationValue = 0;
+      |                    ^
+../Src/main.c:241:20: error: request for member 'MSIClockRange' in something not a structure or union
+  241 |   RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
+      |                    ^
+../Src/main.c:241:37: error: 'RCC_MSIRANGE_6' undeclared (first use in this function); did you mean 'RCC_CR_MSIRANGE_6'?
+  241 |   RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
+      |                                     ^~~~~~~~~~~~~~
+      |                                     RCC_CR_MSIRANGE_6
+../Src/main.c:242:20: error: request for member 'PLL' in something not a structure or union
+  242 |   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+      |                    ^
+../Src/main.c:242:36: error: 'RCC_PLL_NONE' undeclared (first use in this function)
+  242 |   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+      |                                    ^~~~~~~~~~~~
+../Src/main.c:243:7: warning: implicit declaration of function 'HAL_RCC_OscConfig' [-Wimplicit-function-declaration]
+  243 |   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~
+../Src/main.c:250:20: error: request for member 'ClockType' in something not a structure or union
+  250 |   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+      |                    ^
+../Src/main.c:250:33: error: 'RCC_CLOCKTYPE_HCLK' undeclared (first use in this function)
+  250 |   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+      |                                 ^~~~~~~~~~~~~~~~~~
+../Src/main.c:250:52: error: 'RCC_CLOCKTYPE_SYSCLK' undeclared (first use in this function)
+  250 |   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+      |                                                    ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:251:32: error: 'RCC_CLOCKTYPE_PCLK1' undeclared (first use in this function)
+  251 |                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+      |                                ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:251:52: error: 'RCC_CLOCKTYPE_PCLK2' undeclared (first use in this function)
+  251 |                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+      |                                                    ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:252:20: error: request for member 'SYSCLKSource' in something not a structure or union
+  252 |   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+      |                    ^
+../Src/main.c:252:36: error: 'RCC_SYSCLKSOURCE_MSI' undeclared (first use in this function)
+  252 |   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+      |                                    ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:253:20: error: request for member 'AHBCLKDivider' in something not a structure or union
+  253 |   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+      |                    ^
+../Src/main.c:253:37: error: 'RCC_SYSCLK_DIV1' undeclared (first use in this function)
+  253 |   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+      |                                     ^~~~~~~~~~~~~~~
+../Src/main.c:254:20: error: request for member 'APB1CLKDivider' in something not a structure or union
+  254 |   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+      |                    ^
+../Src/main.c:254:38: error: 'RCC_HCLK_DIV1' undeclared (first use in this function)
+  254 |   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+      |                                      ^~~~~~~~~~~~~
+../Src/main.c:255:20: error: request for member 'APB2CLKDivider' in something not a structure or union
+  255 |   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+      |                    ^
+../Src/main.c:257:7: warning: implicit declaration of function 'HAL_RCC_ClockConfig' [-Wimplicit-function-declaration]
+  257 |   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:257:47: error: 'FLASH_LATENCY_0' undeclared (first use in this function); did you mean 'FLASH_ACR_LATENCY_0WS'?
+  257 |   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+      |                                               ^~~~~~~~~~~~~~~
+      |                                               FLASH_ACR_LATENCY_0WS
+../Src/main.c: In function 'MX_SAI1_Init':
+../Src/main.c:278:15: error: request for member 'Instance' in something not a structure or union
+  278 |   hsai_BlockA1.Instance = SAI1_Block_A;
+      |               ^
+../Src/main.c:279:15: error: request for member 'Init' in something not a structure or union
+  279 |   hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
+      |               ^
+../Src/main.c:279:33: error: 'SAI_MODEMASTER_TX' undeclared (first use in this function)
+  279 |   hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
+      |                                 ^~~~~~~~~~~~~~~~~
+../Src/main.c:280:15: error: request for member 'Init' in something not a structure or union
+  280 |   hsai_BlockA1.Init.Synchro = SAI_ASYNCHRONOUS;
+      |               ^
+../Src/main.c:280:31: error: 'SAI_ASYNCHRONOUS' undeclared (first use in this function)
+  280 |   hsai_BlockA1.Init.Synchro = SAI_ASYNCHRONOUS;
+      |                               ^~~~~~~~~~~~~~~~
+../Src/main.c:281:15: error: request for member 'Init' in something not a structure or union
+  281 |   hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+      |               ^
+../Src/main.c:281:35: error: 'SAI_OUTPUTDRIVE_DISABLE' undeclared (first use in this function)
+  281 |   hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:282:15: error: request for member 'Init' in something not a structure or union
+  282 |   hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
+      |               ^
+../Src/main.c:282:33: error: 'SAI_MASTERDIVIDER_ENABLE' undeclared (first use in this function)
+  282 |   hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:283:15: error: request for member 'Init' in something not a structure or union
+  283 |   hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+      |               ^
+../Src/main.c:283:37: error: 'SAI_FIFOTHRESHOLD_EMPTY' undeclared (first use in this function)
+  283 |   hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:284:15: error: request for member 'Init' in something not a structure or union
+  284 |   hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_44K;
+      |               ^
+../Src/main.c:284:38: error: 'SAI_AUDIO_FREQUENCY_44K' undeclared (first use in this function)
+  284 |   hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_44K;
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:285:15: error: request for member 'Init' in something not a structure or union
+  285 |   hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+      |               ^
+../Src/main.c:285:34: error: 'SAI_SYNCEXT_DISABLE' undeclared (first use in this function)
+  285 |   hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+      |                                  ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:286:15: error: request for member 'Init' in something not a structure or union
+  286 |   hsai_BlockA1.Init.MonoStereoMode = SAI_MONOMODE;
+      |               ^
+../Src/main.c:286:38: error: 'SAI_MONOMODE' undeclared (first use in this function)
+  286 |   hsai_BlockA1.Init.MonoStereoMode = SAI_MONOMODE;
+      |                                      ^~~~~~~~~~~~
+../Src/main.c:287:15: error: request for member 'Init' in something not a structure or union
+  287 |   hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
+      |               ^
+../Src/main.c:287:38: error: 'SAI_NOCOMPANDING' undeclared (first use in this function)
+  287 |   hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
+      |                                      ^~~~~~~~~~~~~~~~
+../Src/main.c:288:15: error: request for member 'Init' in something not a structure or union
+  288 |   hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+      |               ^
+../Src/main.c:288:32: error: 'SAI_OUTPUT_NOTRELEASED' undeclared (first use in this function)
+  288 |   hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+      |                                ^~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:289:7: warning: implicit declaration of function 'HAL_SAI_InitProtocol' [-Wimplicit-function-declaration]
+  289 |   if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:289:43: error: 'SAI_I2S_STANDARD' undeclared (first use in this function)
+  289 |   if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+      |                                           ^~~~~~~~~~~~~~~~
+../Src/main.c:289:61: error: 'SAI_PROTOCOL_DATASIZE_16BIT' undeclared (first use in this function)
+  289 |   if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+      |                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:289:96: error: 'HAL_OK' undeclared (first use in this function)
+  289 |   if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+      |                                                                                                ^~~~~~
+../Src/main.c: In function 'MX_SPI1_Init':
+../Src/main.c:315:8: error: request for member 'Instance' in something not a structure or union
+  315 |   hspi1.Instance = SPI1;
+      |        ^
+../Src/main.c:316:8: error: request for member 'Init' in something not a structure or union
+  316 |   hspi1.Init.Mode = SPI_MODE_MASTER;
+      |        ^
+../Src/main.c:316:21: error: 'SPI_MODE_MASTER' undeclared (first use in this function)
+  316 |   hspi1.Init.Mode = SPI_MODE_MASTER;
+      |                     ^~~~~~~~~~~~~~~
+../Src/main.c:317:8: error: request for member 'Init' in something not a structure or union
+  317 |   hspi1.Init.Direction = SPI_DIRECTION_2LINES;
+      |        ^
+../Src/main.c:317:26: error: 'SPI_DIRECTION_2LINES' undeclared (first use in this function)
+  317 |   hspi1.Init.Direction = SPI_DIRECTION_2LINES;
+      |                          ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:318:8: error: request for member 'Init' in something not a structure or union
+  318 |   hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+      |        ^
+../Src/main.c:318:25: error: 'SPI_DATASIZE_8BIT' undeclared (first use in this function)
+  318 |   hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+      |                         ^~~~~~~~~~~~~~~~~
+../Src/main.c:319:8: error: request for member 'Init' in something not a structure or union
+  319 |   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+      |        ^
+../Src/main.c:319:28: error: 'SPI_POLARITY_LOW' undeclared (first use in this function)
+  319 |   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+      |                            ^~~~~~~~~~~~~~~~
+../Src/main.c:320:8: error: request for member 'Init' in something not a structure or union
+  320 |   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+      |        ^
+../Src/main.c:320:25: error: 'SPI_PHASE_1EDGE' undeclared (first use in this function)
+  320 |   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+      |                         ^~~~~~~~~~~~~~~
+../Src/main.c:321:8: error: request for member 'Init' in something not a structure or union
+  321 |   hspi1.Init.NSS = SPI_NSS_SOFT;
+      |        ^
+../Src/main.c:321:20: error: 'SPI_NSS_SOFT' undeclared (first use in this function)
+  321 |   hspi1.Init.NSS = SPI_NSS_SOFT;
+      |                    ^~~~~~~~~~~~
+../Src/main.c:322:8: error: request for member 'Init' in something not a structure or union
+  322 |   hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
+      |        ^
+../Src/main.c:322:34: error: 'SPI_BAUDRATEPRESCALER_256' undeclared (first use in this function)
+  322 |   hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
+      |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:323:8: error: request for member 'Init' in something not a structure or union
+  323 |   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+      |        ^
+../Src/main.c:323:25: error: 'SPI_FIRSTBIT_MSB' undeclared (first use in this function)
+  323 |   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+      |                         ^~~~~~~~~~~~~~~~
+../Src/main.c:324:8: error: request for member 'Init' in something not a structure or union
+  324 |   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+      |        ^
+../Src/main.c:324:23: error: 'SPI_TIMODE_DISABLE' undeclared (first use in this function)
+  324 |   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+      |                       ^~~~~~~~~~~~~~~~~~
+../Src/main.c:325:8: error: request for member 'Init' in something not a structure or union
+  325 |   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+      |        ^
+../Src/main.c:325:31: error: 'SPI_CRCCALCULATION_DISABLE' undeclared (first use in this function)
+  325 |   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:326:8: error: request for member 'Init' in something not a structure or union
+  326 |   hspi1.Init.CRCPolynomial = 7;
+      |        ^
+../Src/main.c:327:8: error: request for member 'Init' in something not a structure or union
+  327 |   hspi1.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+      |        ^
+../Src/main.c:327:26: error: 'SPI_CRC_LENGTH_DATASIZE' undeclared (first use in this function)
+  327 |   hspi1.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:328:8: error: request for member 'Init' in something not a structure or union
+  328 |   hspi1.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+      |        ^
+../Src/main.c:328:25: error: 'SPI_NSS_PULSE_ENABLE' undeclared (first use in this function)
+  328 |   hspi1.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+      |                         ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:329:7: warning: implicit declaration of function 'HAL_SPI_Init'; did you mean 'MX_SPI1_Init'? [-Wimplicit-function-declaration]
+  329 |   if (HAL_SPI_Init(&hspi1) != HAL_OK)
+      |       ^~~~~~~~~~~~
+      |       MX_SPI1_Init
+../Src/main.c:329:31: error: 'HAL_OK' undeclared (first use in this function)
+  329 |   if (HAL_SPI_Init(&hspi1) != HAL_OK)
+      |                               ^~~~~~
+../Src/main.c: In function 'MX_USART2_UART_Init':
+../Src/main.c:354:9: error: request for member 'Instance' in something not a structure or union
+  354 |   huart2.Instance = USART2;
+      |         ^
+../Src/main.c:355:9: error: request for member 'Init' in something not a structure or union
+  355 |   huart2.Init.BaudRate = 115200;
+      |         ^
+../Src/main.c:356:9: error: request for member 'Init' in something not a structure or union
+  356 |   huart2.Init.WordLength = UART_WORDLENGTH_8B;
+      |         ^
+../Src/main.c:356:28: error: 'UART_WORDLENGTH_8B' undeclared (first use in this function)
+  356 |   huart2.Init.WordLength = UART_WORDLENGTH_8B;
+      |                            ^~~~~~~~~~~~~~~~~~
+../Src/main.c:357:9: error: request for member 'Init' in something not a structure or union
+  357 |   huart2.Init.StopBits = UART_STOPBITS_1;
+      |         ^
+../Src/main.c:357:26: error: 'UART_STOPBITS_1' undeclared (first use in this function)
+  357 |   huart2.Init.StopBits = UART_STOPBITS_1;
+      |                          ^~~~~~~~~~~~~~~
+../Src/main.c:358:9: error: request for member 'Init' in something not a structure or union
+  358 |   huart2.Init.Parity = UART_PARITY_NONE;
+      |         ^
+../Src/main.c:358:24: error: 'UART_PARITY_NONE' undeclared (first use in this function)
+  358 |   huart2.Init.Parity = UART_PARITY_NONE;
+      |                        ^~~~~~~~~~~~~~~~
+../Src/main.c:359:9: error: request for member 'Init' in something not a structure or union
+  359 |   huart2.Init.Mode = UART_MODE_TX_RX;
+      |         ^
+../Src/main.c:359:22: error: 'UART_MODE_TX_RX' undeclared (first use in this function)
+  359 |   huart2.Init.Mode = UART_MODE_TX_RX;
+      |                      ^~~~~~~~~~~~~~~
+../Src/main.c:360:9: error: request for member 'Init' in something not a structure or union
+  360 |   huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+      |         ^
+../Src/main.c:360:27: error: 'UART_HWCONTROL_NONE' undeclared (first use in this function)
+  360 |   huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+      |                           ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:361:9: error: request for member 'Init' in something not a structure or union
+  361 |   huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+      |         ^
+../Src/main.c:361:30: error: 'UART_OVERSAMPLING_16' undeclared (first use in this function)
+  361 |   huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+      |                              ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:362:9: error: request for member 'Init' in something not a structure or union
+  362 |   huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+      |         ^
+../Src/main.c:362:32: error: 'UART_ONE_BIT_SAMPLE_DISABLE' undeclared (first use in this function)
+  362 |   huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:363:9: error: request for member 'AdvancedInit' in something not a structure or union
+  363 |   huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+      |         ^
+../Src/main.c:363:40: error: 'UART_ADVFEATURE_NO_INIT' undeclared (first use in this function)
+  363 |   huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+      |                                        ^~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:364:7: warning: implicit declaration of function 'HAL_UART_Init' [-Wimplicit-function-declaration]
+  364 |   if (HAL_UART_Init(&huart2) != HAL_OK)
+      |       ^~~~~~~~~~~~~
+../Src/main.c:364:33: error: 'HAL_OK' undeclared (first use in this function)
+  364 |   if (HAL_UART_Init(&huart2) != HAL_OK)
+      |                                 ^~~~~~
+../Src/main.c: In function 'MX_DMA_Init':
+../Src/main.c:381:3: warning: implicit declaration of function '__HAL_RCC_DMA2_CLK_ENABLE' [-Wimplicit-function-declaration]
+  381 |   __HAL_RCC_DMA2_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:385:3: warning: implicit declaration of function 'HAL_NVIC_SetPriority' [-Wimplicit-function-declaration]
+  385 |   HAL_NVIC_SetPriority(DMA2_Channel1_IRQn, 0, 0);
+      |   ^~~~~~~~~~~~~~~~~~~~
+../Src/main.c:386:3: warning: implicit declaration of function 'HAL_NVIC_EnableIRQ' [-Wimplicit-function-declaration]
+  386 |   HAL_NVIC_EnableIRQ(DMA2_Channel1_IRQn);
+      |   ^~~~~~~~~~~~~~~~~~
+../Src/main.c: In function 'MX_GPIO_Init':
+../Src/main.c:397:3: error: unknown type name 'GPIO_InitTypeDef'; did you mean 'GPIO_TypeDef'?
+  397 |   GPIO_InitTypeDef GPIO_InitStruct = {0};
+      |   ^~~~~~~~~~~~~~~~
+      |   GPIO_TypeDef
+../Src/main.c:403:3: warning: implicit declaration of function '__HAL_RCC_GPIOC_CLK_ENABLE' [-Wimplicit-function-declaration]
+  403 |   __HAL_RCC_GPIOC_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:404:3: warning: implicit declaration of function '__HAL_RCC_GPIOA_CLK_ENABLE' [-Wimplicit-function-declaration]
+  404 |   __HAL_RCC_GPIOA_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:405:3: warning: implicit declaration of function '__HAL_RCC_GPIOB_CLK_ENABLE' [-Wimplicit-function-declaration]
+  405 |   __HAL_RCC_GPIOB_CLK_ENABLE();
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../Src/main.c:408:3: warning: implicit declaration of function 'HAL_GPIO_WritePin' [-Wimplicit-function-declaration]
+  408 |   HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_RESET);
+      |   ^~~~~~~~~~~~~~~~~
+In file included from ../Src/main.c:20:
+../Inc/main.h:60:19: error: 'GPIO_PIN_4' undeclared (first use in this function)
+   60 | #define SD_CS_Pin GPIO_PIN_4
+      |                   ^~~~~~~~~~
+../Src/main.c:408:38: note: in expansion of macro 'SD_CS_Pin'
+  408 |   HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_RESET);
+      |                                      ^~~~~~~~~
+../Src/main.c:408:49: error: 'GPIO_PIN_RESET' undeclared (first use in this function)
+  408 |   HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_RESET);
+      |                                                 ^~~~~~~~~~~~~~
+../Src/main.c:411:18: error: request for member 'Pin' in something not a structure or union
+  411 |   GPIO_InitStruct.Pin = SD_CS_Pin;
+      |                  ^
+../Src/main.c:412:18: error: request for member 'Mode' in something not a structure or union
+  412 |   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+      |                  ^
+../Src/main.c:412:26: error: 'GPIO_MODE_OUTPUT_PP' undeclared (first use in this function)
+  412 |   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+      |                          ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:413:18: error: request for member 'Pull' in something not a structure or union
+  413 |   GPIO_InitStruct.Pull = GPIO_PULLUP;
+      |                  ^
+../Src/main.c:413:26: error: 'GPIO_PULLUP' undeclared (first use in this function)
+  413 |   GPIO_InitStruct.Pull = GPIO_PULLUP;
+      |                          ^~~~~~~~~~~
+../Src/main.c:414:18: error: request for member 'Speed' in something not a structure or union
+  414 |   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+      |                  ^
+../Src/main.c:414:27: error: 'GPIO_SPEED_FREQ_LOW' undeclared (first use in this function)
+  414 |   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+      |                           ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:415:3: warning: implicit declaration of function 'HAL_GPIO_Init'; did you mean 'MX_GPIO_Init'? [-Wimplicit-function-declaration]
+  415 |   HAL_GPIO_Init(SD_CS_GPIO_Port, &GPIO_InitStruct);
+      |   ^~~~~~~~~~~~~
+      |   MX_GPIO_Init
+../Src/main.c: In function 'Error_Handler':
+../Src/main.c:434:3: warning: implicit declaration of function '__disable_irq' [-Wimplicit-function-declaration]
+  434 |   __disable_irq();
+      |   ^~~~~~~~~~~~~
+make: *** [Src/subdir.mk:76: Src/main.o] Error 1
+"make -j7 all" terminated with exit code 2. Build might be incomplete.

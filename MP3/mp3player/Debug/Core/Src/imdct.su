@@ -1,0 +1,9 @@
+../Core/Src/imdct.c:73:13:AntiAlias	424	static,ignoring_inline_asm
+../Core/Src/imdct.c:133:13:WinPrevious	304	static,ignoring_inline_asm
+../Core/Src/imdct.c:186:12:FreqInvertRescale	128	static,ignoring_inline_asm
+../Core/Src/imdct.c:262:22:idct9	320	static,ignoring_inline_asm
+../Core/Src/imdct.c:371:12:IMDCT36	344	static,ignoring_inline_asm
+../Core/Src/imdct.c:474:22:imdct12	112	static,ignoring_inline_asm
+../Core/Src/imdct.c:540:12:IMDCT12x3	320	static,ignoring_inline_asm
+../Core/Src/imdct.c:622:12:HybridTransform	176	static,ignoring_inline_asm
+../Core/Src/imdct.c:722:5:xmp3_IMDCT	96	static

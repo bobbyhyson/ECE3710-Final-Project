@@ -1,0 +1,3 @@
+../Src/huffman.c:83:12:DecodeHuffmanPairs	40
+../Src/huffman.c:287:12:DecodeHuffmanQuads	15
+../Src/huffman.c:380:5:xmp3_DecodeHuffman	15

@@ -1,0 +1,7 @@
+../Core/Src/bitstream.c:60:6:xmp3_SetBitstreamPointer	24	static
+../Core/Src/bitstream.c:87:22:RefillBitstreamCache	24	static
+../Core/Src/bitstream.c:129:14:xmp3_GetBits	24	static
+../Core/Src/bitstream.c:165:5:xmp3_CalcBitsUsed	32	static
+../Core/Src/bitstream.c:188:5:xmp3_CheckPadBit	24	static
+../Core/Src/bitstream.c:218:5:xmp3_UnpackFrameHeader	24	static
+../Core/Src/bitstream.c:299:5:xmp3_UnpackSideInfo	64	static

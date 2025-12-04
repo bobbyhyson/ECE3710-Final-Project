@@ -1,0 +1,9 @@
+../Core/Src/imdct.c:73:13:AntiAlias	2
+../Core/Src/imdct.c:133:13:WinPrevious	3
+../Core/Src/imdct.c:186:12:FreqInvertRescale	12
+../Core/Src/imdct.c:262:22:idct9	1
+../Core/Src/imdct.c:371:12:IMDCT36	8
+../Core/Src/imdct.c:474:22:imdct12	1
+../Core/Src/imdct.c:540:12:IMDCT12x3	6
+../Core/Src/imdct.c:622:12:HybridTransform	13
+../Core/Src/imdct.c:722:5:xmp3_IMDCT	12
