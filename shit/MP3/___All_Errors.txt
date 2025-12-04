@@ -1,0 +1,14 @@
+CorrelationId: c3ac7a82-c8ad-42d5-a0bf-7fc9fe2b1e3b
+UTC DateTime: 12/04/2025 19:29:05
+
+The following files/folders have not been downloaded
+0. MP3/Debug/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.cyclo
+1. MP3/Debug/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.su
+2. MP3/Debug/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.cyclo
+3. MP3/Debug/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.su
+4. MP3/Debug/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.cyclo
+5. MP3/Debug/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.su
+6. MP3/Debug/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_sai_ex.cyclo
+7. MP3/Debug/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_sai_ex.su
+8. MP3/Debug/Middlewares/Third_Party/FatFs/src/option/syscall.cyclo
+9. MP3/Debug/Middlewares/Third_Party/FatFs/src/option/syscall.su

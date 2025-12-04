@@ -1,0 +1,3 @@
+../Core/Src/wav.c:6:17:le32	1
+../Core/Src/wav.c:9:17:le16	1
+../Core/Src/wav.c:14:5:wav_parse_header	24
