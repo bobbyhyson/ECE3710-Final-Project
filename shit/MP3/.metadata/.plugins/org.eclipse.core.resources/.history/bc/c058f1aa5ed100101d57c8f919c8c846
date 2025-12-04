@@ -342,7 +342,7 @@ int main(void)
   // LCD: show a test message
   LCD_Init();
   LCD_Clear();
-  LCD_DisplayString(0, (unsigned char *)"Hello, world");
+  LCD_DisplayString(1, (unsigned char *)"Hello, world");
 
   // Mount SD card
   if (f_mount(&USERFatFS, USERPath, 1) != FR_OK)

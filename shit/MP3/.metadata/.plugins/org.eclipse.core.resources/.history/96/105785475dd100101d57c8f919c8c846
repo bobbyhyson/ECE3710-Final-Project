@@ -15,6 +15,10 @@
   *
   ******************************************************************************
 */
+
+
+
+
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -25,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+//#include "audio_player.h"
 #include "wav.h"
 /* USER CODE END Includes */
 
@@ -52,7 +57,7 @@ SPI_HandleTypeDef hspi1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-FIL file;                  // generic FIL (not used for WAV streaming)
+FIL file;                  // FIL object for FatFS
 uint32_t file_read_pos = 0;
 uint32_t bytes_remaining = 0;
 
@@ -80,14 +85,11 @@ void myprintf(const char *fmt, ...);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
 UINT sd_read_bytes(uint8_t *buf, UINT len)
 {
     UINT br;
-    // IMPORTANT: read from wav_file, the one we opened in start_wav_playback
-    FRESULT res = f_read(&wav_file, buf, len, &br);
-    (void)res;  // could check for errors if you want
-    return br;  // number of bytes actually read
+    FRESULT res = f_read(&file, buf, len, &br);
+    return br;   // return number of bytes actually read
 }
 
 void myprintf(const char *fmt, ...) {
@@ -98,14 +100,14 @@ void myprintf(const char *fmt, ...) {
   va_end(args);
 
   int len = strlen(buffer);
-  HAL_UART_Transmit(&huart2, (uint8_t*)buffer, len, HAL_MAX_DELAY);
-}
+  HAL_UART_Transmit(&huart2, (uint8_t*)buffer, len, -1);
 
+}
 ///////////////////////////////LCD BEGIN///////////////////////
 #include "stm32l476xx.h"
-
+ 
 #define LCD_Port GPIOB
-#define LCD_RS (1 << 0) // RS: 0 = command, 1 = data
+#define LCD_RS (1 << 0)//RS: 0 = command, 1 = data
 #define LCD_EN (1 << 1)
 
 #define LCD_D4 (1 << 2)
@@ -113,116 +115,125 @@ void myprintf(const char *fmt, ...) {
 #define LCD_D6 (1 << 4)
 #define LCD_D7 (1 << 5)
 
+
 void LCD_putNibble(uint8_t c) {
-    if(c & 0x8)
-        LCD_Port->ODR |= LCD_D7;
-    else
-        LCD_Port->ODR &= ~LCD_D7;
+	if(c & 0x8)
+		LCD_Port->ODR |= LCD_D7;
+	else
+		LCD_Port->ODR &= ~LCD_D7;
 
-    if(c & 0x4)
-        LCD_Port->ODR |= LCD_D6;
-    else
-        LCD_Port->ODR &= ~LCD_D6;
+	if(c & 0x4)
+		LCD_Port->ODR |= LCD_D6;
+	else
+		LCD_Port->ODR &= ~LCD_D6;
 
-    if(c & 0x2)
-        LCD_Port->ODR |= LCD_D5;
-    else
-        LCD_Port->ODR &= ~LCD_D5;
+	if(c & 0x2)
+		LCD_Port->ODR |= LCD_D5;
+	else
+		LCD_Port->ODR &= ~LCD_D5;
 
-    if(c & 0x1)
-        LCD_Port->ODR |= LCD_D4;
-    else
-        LCD_Port->ODR &= ~LCD_D4;
+	if(c & 0x1)
+		LCD_Port->ODR |= LCD_D4;
+	else
+		LCD_Port->ODR &= ~LCD_D4;
 }
 
-// reuse HAL_Delay for ms delays
-#define delay_ms HAL_Delay
+void delay_ms(unsigned int ms) {
+	volatile unsigned int i,j;
+	for(i=0;i < ms;i++){
+		for(j=0;j<800;j++);
+	}
+}
 
 void LCD_Pulse(void){
-    LCD_Port->ODR |= LCD_EN;
-    delay_ms(4);
-    LCD_Port->ODR &= ~(LCD_EN);
-    delay_ms(4);
+	LCD_Port->ODR |= LCD_EN;
+	delay_ms(4);
+	LCD_Port->ODR &= ~(LCD_EN);
+	delay_ms(4);
 }
 
+
 void LCD_WriteCom(unsigned char com) {
-    unsigned char com1, com2;
-    com1 = com & 0x0F;
-    com2 = (com >> 4) & 0x0F;
+	unsigned char com1, com2;
+	com1=com&0x0F;
+	com2=(com >> 4) & 0x0F;
+	
+	GPIOB->ODR &= ~LCD_RS;
+	delay_ms(1);
 
-    GPIOB->ODR &= ~LCD_RS;
-    delay_ms(1);
+	LCD_putNibble(com2);
+	LCD_Pulse();
 
-    LCD_putNibble(com2);
-    LCD_Pulse();
+	LCD_putNibble(com1);
+	LCD_Pulse();
 
-    LCD_putNibble(com1);
-    LCD_Pulse();
+	
 }
 
 void LCD_WriteData(unsigned char dat) {
-    unsigned char dat1, dat2;
-    dat1 = dat & 0x0F;
-    dat2 = (dat >> 4) & 0x0F;
+	unsigned char dat1, dat2;
+	dat1=dat&0x0F;
+	dat2=(dat >> 4) & 0x0F;
+	
+	GPIOB->ODR |= LCD_RS;
+	delay_ms(1);
+	LCD_putNibble(dat2);
+	LCD_Pulse();
 
-    GPIOB->ODR |= LCD_RS;
-    delay_ms(1);
+	LCD_putNibble(dat1);
+	LCD_Pulse();
 
-    LCD_putNibble(dat2);
-    LCD_Pulse();
 
-    LCD_putNibble(dat1);
-    LCD_Pulse();
 }
 
 void LCD_Init(void){
-    // GPIOB clock (also enabled in MX_GPIO_Init, but double-enable is harmless)
-    RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN;
+RCC->CR |= RCC_CR_HSION;
+while ( (RCC->CR & RCC_CR_HSIRDY) == 0);
 
-    // PB0–PB5 as outputs
-    GPIOB->MODER &= 0xFFFFF000;
-    GPIOB->MODER |= 0x00000555;
+RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN;
 
-    delay_ms(30);
-    LCD_WriteCom(0x03);
-    delay_ms(5);
+GPIOB->MODER &= 0xFFFFF000;
+GPIOB->MODER |= 0x00000555;
 
-    LCD_WriteCom(0x03);
-    delay_ms(5);
-    LCD_WriteCom(0x03);
-    delay_ms(5);
-    LCD_WriteCom(0x02);
-    delay_ms(5);
+delay_ms(30);
+LCD_WriteCom(0x03);
+delay_ms(5);
 
-    LCD_WriteCom(0x28); // 4-bit, 2 lines, 5x8 font
-    delay_ms(5);
-    LCD_WriteCom(0x0C); // display on, cursor off
-    delay_ms(5);
-    LCD_WriteCom(0x06); // entry mode: increment, no shift
-    delay_ms(5);
-    LCD_WriteCom(0x01); // clear
-    delay_ms(5);
+LCD_WriteCom(0x03);
+delay_ms(5);
+LCD_WriteCom(0x03);
+delay_ms(5);
+LCD_WriteCom(0x02);
+delay_ms(5);
+
+LCD_WriteCom(0x28);
+delay_ms(5);
+LCD_WriteCom(0x0C);
+delay_ms(5);
+LCD_WriteCom(0x06);
+delay_ms(5);
+LCD_WriteCom(0x01);
+delay_ms(5);
 }
 
 void LCD_Clear(void){
-    LCD_WriteCom(0x01);
-    delay_ms(5);
+LCD_WriteCom(0x01);
+	delay_ms(5);
 }
 
 void LCD_DisplayString(unsigned int line, unsigned char *ptr) {
-    int i;
-    if (line == 0){
-        LCD_WriteCom(0x80);
-    }
-    else{
-        LCD_WriteCom(0xC0);
-    }
-    for (i = 0; i < 16 && ptr[i] != '\0'; i++){
-        LCD_WriteData(ptr[i]);
-    }
+int i;
+	if (line == 0){
+		LCD_WriteCom(0x80);
+	}
+	else{
+		LCD_WriteCom(0xC0);
+	}
+	for ( i = 0; i < 16 && ptr[i] != '\0'; i++){
+		LCD_WriteData(ptr[i]);
+	}
 }
 ///////////////////////////////LCD END///////////////////////
-
 void HAL_SAI_TxHalfCpltCallback(SAI_HandleTypeDef *hsai) {
     (void)hsai;
     half_transfer_flag = 1;
@@ -232,7 +243,6 @@ void HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hsai) {
     (void)hsai;
     full_transfer_flag = 1;
 }
-
 /* refill_half_buffer:
  *  half == 0 -> fill first half (audio_buffer[0 .. half-1])
  *  half == 1 -> fill second half (audio_buffer[half .. end-1])
@@ -249,14 +259,17 @@ static void refill_half_buffer(uint8_t half) {
         sd_read_bytes(ptr, bytes_to_fill);
     } else if (wavinfo.num_channels == 1) {
         // mono: read 16-bit samples and duplicate them L/R
+        // read bytes_to_fill/2 bytes of mono PCM -> after duplication become bytes_to_fill
         uint32_t samples_needed = (bytes_to_fill / 2); // number of 16-bit output samples (stereo)
-        uint32_t mono_bytes = samples_needed * 2 / 2;  // how many bytes of mono to read
-
+        // we'll read samples_needed/2 mono samples, then expand
+        // safer approach: read a chunk into a temp buffer and expand
+        uint32_t mono_bytes = samples_needed * 2 / 2; // because each mono sample will become two 16-bit words
+        // simpler: read samples_needed mono samples and then duplicate in-place into ptr
         uint8_t tmp[AUDIO_DMA_HALF/2];
         UINT got = sd_read_bytes(tmp, mono_bytes);
-
         // duplicate
         for (uint32_t i = 0, out = 0; i < got; i += 2) {
+            // copy 2 bytes twice (left and right)
             ptr[out++] = tmp[i];
             ptr[out++] = tmp[i+1];
             ptr[out++] = tmp[i];
@@ -281,10 +294,9 @@ static void refill_half_buffer(uint8_t half) {
  */
 static int start_wav_playback(const char *filename) {
     FRESULT fr;
-
+    UINT br;
     fr = f_open(&wav_file, filename, FA_READ);
     if (fr != FR_OK) return -1;
-
     if (wav_parse_header(&wav_file, &wavinfo) != 0) {
         f_close(&wav_file);
         return -2;
@@ -292,6 +304,7 @@ static int start_wav_playback(const char *filename) {
 
     // we only support 16-bit in this example (easily extendable)
     if (wavinfo.bits_per_sample != 16) {
+        // not supported in this sample
         f_close(&wav_file);
         return -3;
     }
@@ -300,6 +313,11 @@ static int start_wav_playback(const char *filename) {
     f_lseek(&wav_file, wavinfo.data_start);
     file_read_pos = wavinfo.data_start;
     bytes_remaining = wavinfo.data_bytes;
+
+    // Configure SAI/I2S audio format if needed - simple example:
+    // If you configured SAI sample rate in CubeMX to match the file, you're OK.
+    // Advanced: reconfigure SAI audio frequency and clocks at runtime to match wavinfo.sample_rate.
+    // For now we assume the SAI clock matches the WAV sample_rate.
 
     return 0;
 }
@@ -313,7 +331,20 @@ FIL mp3_file;
   */
 int main(void)
 {
+/* LCD configuration code end ---------------------------------------------------- */
+unsigned char com, dat;
+
+LCD_Init();
+LCD_Clear();
+LCD_DisplayString(0, (unsigned char *)"Hello, world");
+
+start_wav_playback("0:/test.wav");
+
+/* LCD configuration code end ---------------------------------------------------- */
+
+
   /* USER CODE BEGIN 1 */
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -322,12 +353,14 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
+
   /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
+
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -338,19 +371,11 @@ int main(void)
   MX_USART2_UART_Init();
   MX_SAI1_Init();
   /* USER CODE BEGIN 2 */
-
-  // LCD: show a test message
-  LCD_Init();
-  LCD_Clear();
-  LCD_DisplayString(0, (unsigned char *)"Hello, world");
-
-  // Mount SD card
   if (f_mount(&USERFatFS, USERPath, 1) != FR_OK)
   {
       Error_Handler();
   }
 
-  // Start WAV playback from SD
   if (start_wav_playback("0:/test.wav") != 0) {
       Error_Handler();
   }
@@ -359,23 +384,101 @@ int main(void)
   refill_half_buffer(0);
   refill_half_buffer(1);
 
-  // Start SAI DMA playback (length is in 16-bit words)
   HAL_SAI_Transmit_DMA(&hsai_BlockA1, (uint8_t*)audio_buffer, AUDIO_BUFFER_BYTES/2);
 
+//  myprintf("\r\n~ SD card demo by dylan ~\r\n\r\n");
+//
+//    HAL_Delay(1000); //a short delay is important to let the SD card settle
+//
+//    //some variables for FatFs
+//    FATFS FatFs; 	//Fatfs handle
+//    FIL fil; 		//File handle
+//    FRESULT fres; //Result after operations
+//
+//    //Open the file system
+//    fres = f_mount(&FatFs, "", 1); //1=mount now
+//    if (fres != FR_OK) {
+//  	myprintf("f_mount error (%i)\r\n", fres);
+//  	while(1);
+//    }
+//
+//    //Let's get some statistics from the SD card
+//    DWORD free_clusters, free_sectors, total_sectors;
+//
+//    FATFS* getFreeFs;
+//
+//    fres = f_getfree("", &free_clusters, &getFreeFs);
+//    if (fres != FR_OK) {
+//  	myprintf("f_getfree error (%i)\r\n", fres);
+//  	while(1);
+//    }
+//
+//    //Formula comes from ChaN's documentation
+//    total_sectors = (getFreeFs->n_fatent - 2) * getFreeFs->csize;
+//    free_sectors = free_clusters * getFreeFs->csize;
+//
+//    myprintf("SD card stats:\r\n%10lu KiB total drive space.\r\n%10lu KiB available.\r\n", total_sectors / 2, free_sectors / 2);
+//
+//    //Now let's try to open file "test.txt"
+//    fres = f_open(&fil, "test.txt", FA_READ);
+//    if (fres != FR_OK) {
+//  	myprintf("f_open error (%i)\r\n");
+//  	while(1);
+//    }
+//    myprintf("I was able to open 'test.txt' for reading!\r\n");
+//
+//    //Read 30 bytes from "test.txt" on the SD card
+//    BYTE readBuf[30];
+//
+//    //We can either use f_read OR f_gets to get data out of files
+//    //f_gets is a wrapper on f_read that does some string formatting for us
+//    TCHAR* rres = f_gets((TCHAR*)readBuf, 30, &fil);
+//    if(rres != 0) {
+//  	myprintf("Read string from 'test.txt' contents: %s\r\n", readBuf);
+//    } else {
+//  	myprintf("f_gets error (%i)\r\n", fres);
+//    }
+//
+//    //Be a tidy kiwi - don't forget to close your file!
+//    f_close(&fil);
+//
+//    //Now let's try and write a file "write.txt"
+//    fres = f_open(&fil, "write.txt", FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
+//    if(fres == FR_OK) {
+//  	myprintf("I was able to open 'write.txt' for writing\r\n");
+//    } else {
+//  	myprintf("f_open error (%i)\r\n", fres);
+//    }
+//
+//    //Copy in a string
+//    strncpy((char*)readBuf, "a new file is made!", 19);
+//    UINT bytesWrote;
+//    fres = f_write(&fil, readBuf, 19, &bytesWrote);
+//    if(fres == FR_OK) {
+//  	myprintf("Wrote %i bytes to 'write.txt'!\r\n", bytesWrote);
+//    } else {
+//  	myprintf("f_write error (%i)\r\n");
+//    }
+//
+//    //don't forget to close your file!
+//    f_close(&fil);
+//
+//    //We're done, so de-mount the drive
+//    f_mount(NULL, "", 0);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      if (half_transfer_flag) {
-          half_transfer_flag = 0;
-          refill_half_buffer(0);
-      }
-      if (full_transfer_flag) {
-          full_transfer_flag = 0;
-          refill_half_buffer(1);
-      }
+	  if (half_transfer_flag) {
+	      half_transfer_flag = 0;
+	      refill_half_buffer(0);
+	  }
+	  if (full_transfer_flag) {
+	      full_transfer_flag = 0;
+	      refill_half_buffer(1);
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -434,10 +537,13 @@ void SystemClock_Config(void)
   */
 static void MX_SAI1_Init(void)
 {
+
   /* USER CODE BEGIN SAI1_Init 0 */
+
   /* USER CODE END SAI1_Init 0 */
 
   /* USER CODE BEGIN SAI1_Init 1 */
+
   /* USER CODE END SAI1_Init 1 */
   hsai_BlockA1.Instance = SAI1_Block_A;
   hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
@@ -447,16 +553,17 @@ static void MX_SAI1_Init(void)
   hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
   hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_44K;
   hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-  hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE; // <-- changed to stereo
+  hsai_BlockA1.Init.MonoStereoMode = SAI_MONOMODE;
   hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
   hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
-  if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD,
-                           SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+  if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
   {
     Error_Handler();
   }
   /* USER CODE BEGIN SAI1_Init 2 */
+
   /* USER CODE END SAI1_Init 2 */
+
 }
 
 /**
@@ -466,10 +573,13 @@ static void MX_SAI1_Init(void)
   */
 static void MX_SPI1_Init(void)
 {
+
   /* USER CODE BEGIN SPI1_Init 0 */
+
   /* USER CODE END SPI1_Init 0 */
 
   /* USER CODE BEGIN SPI1_Init 1 */
+
   /* USER CODE END SPI1_Init 1 */
   /* SPI1 parameter configuration*/
   hspi1.Instance = SPI1;
@@ -491,7 +601,9 @@ static void MX_SPI1_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN SPI1_Init 2 */
+
   /* USER CODE END SPI1_Init 2 */
+
 }
 
 /**
@@ -501,10 +613,13 @@ static void MX_SPI1_Init(void)
   */
 static void MX_USART2_UART_Init(void)
 {
+
   /* USER CODE BEGIN USART2_Init 0 */
+
   /* USER CODE END USART2_Init 0 */
 
   /* USER CODE BEGIN USART2_Init 1 */
+
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
   huart2.Init.BaudRate = 115200;
@@ -521,7 +636,9 @@ static void MX_USART2_UART_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN USART2_Init 2 */
+
   /* USER CODE END USART2_Init 2 */
+
 }
 
 /**
@@ -529,6 +646,7 @@ static void MX_USART2_UART_Init(void)
   */
 static void MX_DMA_Init(void)
 {
+
   /* DMA controller clock enable */
   __HAL_RCC_DMA2_CLK_ENABLE();
 
@@ -536,6 +654,7 @@ static void MX_DMA_Init(void)
   /* DMA2_Channel1_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA2_Channel1_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA2_Channel1_IRQn);
+
 }
 
 /**
@@ -547,6 +666,7 @@ static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   /* USER CODE BEGIN MX_GPIO_Init_1 */
+
   /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
@@ -565,8 +685,13 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(SD_CS_GPIO_Port, &GPIO_InitStruct);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
+
   /* USER CODE END MX_GPIO_Init_2 */
 }
+
+/* USER CODE BEGIN 4 */
+
+/* USER CODE END 4 */
 
 /**
   * @brief  This function is executed in case of error occurrence.
@@ -575,13 +700,13 @@ static void MX_GPIO_Init(void)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
   while (1)
   {
   }
   /* USER CODE END Error_Handler_Debug */
 }
-
 #ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
@@ -593,6 +718,8 @@ void Error_Handler(void)
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
