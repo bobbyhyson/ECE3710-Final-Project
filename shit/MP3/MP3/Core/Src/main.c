@@ -4,18 +4,9 @@
   * @file           : main.c
   * @brief          : Main program body
   ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2025 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
 */
 /* USER CODE END Header */
+
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "fatfs.h"
@@ -28,32 +19,13 @@
 #include "wav.h"
 /* USER CODE END Includes */
 
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-
-/* USER CODE END PTD */
-
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-/* USER CODE END PM */
-
 /* Private variables ---------------------------------------------------------*/
 SAI_HandleTypeDef hsai_BlockA1;
 DMA_HandleTypeDef hdma_sai1_a;
-
 SPI_HandleTypeDef hspi1;
-
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-uint32_t file_read_pos = 0;
-uint32_t bytes_remaining = 0;
 
 #define AUDIO_BUFFER_BYTES 4096
 #define AUDIO_DMA_HALF (AUDIO_BUFFER_BYTES/2)
@@ -65,9 +37,12 @@ static volatile uint8_t full_transfer_flag = 0;
 static FIL wav_file;
 static WAV_Info wavinfo;
 
-// store the current WAV filename for display
-char current_filename[64];    // full path, e.g. "0:/test.wav"
-char current_song_name[64];   // pretty name, e.g. "test"
+uint32_t file_read_pos = 0;
+uint32_t bytes_remaining = 0;
+
+char current_filename[64];
+char current_song_name[64];
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -77,22 +52,14 @@ static void MX_DMA_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_SAI1_Init(void);
+
 /* USER CODE BEGIN PFP */
 void myprintf(const char *fmt, ...);
 /* USER CODE END PFP */
 
-/* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-UINT sd_read_bytes(uint8_t *buf, UINT len)
-{
-    UINT br;
-    // Read from wav_file, which is opened in start_wav_playback
-    FRESULT res = f_read(&wav_file, buf, len, &br);
-    (void)res;  // could check for errors if desired
-    return br;  // number of bytes actually read
-}
-
+// Simple UART printf
 void myprintf(const char *fmt, ...) {
   static char buffer[256];
   va_list args;
@@ -100,21 +67,29 @@ void myprintf(const char *fmt, ...) {
   vsnprintf(buffer, sizeof(buffer), fmt, args);
   va_end(args);
 
-  int len = strlen(buffer);
-  HAL_UART_Transmit(&huart2, (uint8_t*)buffer, len, HAL_MAX_DELAY);
+  HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
+}
+
+// Read bytes from WAV file (used by DMA refiller)
+UINT sd_read_bytes(uint8_t *buf, UINT len)
+{
+    UINT br;
+    f_read(&wav_file, buf, len, &br);
+    return br;
 }
 
 /////////////////////////////// LCD BEGIN ///////////////////////
 #include "stm32l476xx.h"
 
 #define LCD_Port GPIOB
-#define LCD_RS   (1 << 0) // PB0, RS: 0 = command, 1 = data
-#define LCD_EN   (1 << 1) // PB1, E
+#define LCD_RS   (1 << 0)
+#define LCD_EN   (1 << 1)
+#define LCD_D4   (1 << 2)
+#define LCD_D5   (1 << 3)
+#define LCD_D6   (1 << 4)
+#define LCD_D7   (1 << 5)
 
-#define LCD_D4   (1 << 2) // PB2
-#define LCD_D5   (1 << 3) // PB3
-#define LCD_D6   (1 << 4) // PB4
-#define LCD_D7   (1 << 5) // PB5
+#define delay_ms HAL_Delay
 
 void LCD_putNibble(uint8_t c) {
     if (c & 0x8) LCD_Port->ODR |=  LCD_D7; else LCD_Port->ODR &= ~LCD_D7;
@@ -122,9 +97,6 @@ void LCD_putNibble(uint8_t c) {
     if (c & 0x2) LCD_Port->ODR |=  LCD_D5; else LCD_Port->ODR &= ~LCD_D5;
     if (c & 0x1) LCD_Port->ODR |=  LCD_D4; else LCD_Port->ODR &= ~LCD_D4;
 }
-
-// reuse HAL_Delay
-#define delay_ms HAL_Delay
 
 void LCD_Pulse(void) {
     LCD_Port->ODR |= LCD_EN;
@@ -134,166 +106,114 @@ void LCD_Pulse(void) {
 }
 
 void LCD_WriteCom(unsigned char com) {
-    unsigned char com1 = com & 0x0F;
-    unsigned char com2 = (com >> 4) & 0x0F;
-
-    GPIOB->ODR &= ~LCD_RS;  // RS = 0 (command)
+    GPIOB->ODR &= ~LCD_RS;
     delay_ms(1);
 
-    LCD_putNibble(com2);
+    LCD_putNibble((com >> 4) & 0x0F);
     LCD_Pulse();
-
-    LCD_putNibble(com1);
+    LCD_putNibble(com & 0x0F);
     LCD_Pulse();
 }
 
 void LCD_WriteData(unsigned char dat) {
-    unsigned char dat1 = dat & 0x0F;
-    unsigned char dat2 = (dat >> 4) & 0x0F;
-
-    GPIOB->ODR |= LCD_RS;   // RS = 1 (data)
+    GPIOB->ODR |= LCD_RS;
     delay_ms(1);
 
-    LCD_putNibble(dat2);
+    LCD_putNibble((dat >> 4) & 0x0F);
     LCD_Pulse();
-
-    LCD_putNibble(dat1);
+    LCD_putNibble(dat & 0x0F);
     LCD_Pulse();
 }
 
 void LCD_Init(void) {
-    // Enable GPIOB clock (also done by MX_GPIO_Init, but double-enable is fine)
     RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN;
 
-    // Set PB0–PB5 as outputs: MODER bits = 01
     GPIOB->MODER &= 0xFFFFF000;
     GPIOB->MODER |= 0x00000555;
 
     delay_ms(30);
-    LCD_WriteCom(0x03);
-    delay_ms(5);
-    LCD_WriteCom(0x03);
-    delay_ms(5);
-    LCD_WriteCom(0x03);
-    delay_ms(5);
-    LCD_WriteCom(0x02);
-    delay_ms(5);
+    LCD_WriteCom(0x03); delay_ms(5);
+    LCD_WriteCom(0x03); delay_ms(5);
+    LCD_WriteCom(0x03); delay_ms(5);
+    LCD_WriteCom(0x02); delay_ms(5);
 
-    LCD_WriteCom(0x28); // 4-bit, 2 lines, 5x8 font
-    delay_ms(5);
-    LCD_WriteCom(0x0C); // display on, cursor off
-    delay_ms(5);
-    LCD_WriteCom(0x06); // entry mode: increment, no shift
-    delay_ms(5);
-    LCD_WriteCom(0x01); // clear
-    delay_ms(5);
+    LCD_WriteCom(0x28); delay_ms(5);
+    LCD_WriteCom(0x0C); delay_ms(5);
+    LCD_WriteCom(0x06); delay_ms(5);
+    LCD_WriteCom(0x01); delay_ms(5);
 }
 
-void LCD_Clear(void) {
+void LCD_Clear(void){
     LCD_WriteCom(0x01);
     delay_ms(5);
 }
 
 void LCD_DisplayString(unsigned int line, unsigned char *ptr) {
-    int i;
-    if (line == 0) {
-        LCD_WriteCom(0x80);  // line 0
-    } else {
-        LCD_WriteCom(0xC0);  // line 1
-    }
-    for (i = 0; i < 16 && ptr[i] != '\0'; i++) {
+    LCD_WriteCom(line ? 0xC0 : 0x80);
+    for (int i = 0; i < 16 && ptr[i] != '\0'; i++)
         LCD_WriteData(ptr[i]);
-    }
 }
 /////////////////////////////// LCD END /////////////////////////
 
+
+// DMA callbacks
 void HAL_SAI_TxHalfCpltCallback(SAI_HandleTypeDef *hsai) {
-    (void)hsai;
     half_transfer_flag = 1;
 }
-
 void HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hsai) {
-    (void)hsai;
     full_transfer_flag = 1;
 }
 
-/* refill_half_buffer:
- *  half == 0 -> fill first half (audio_buffer[0 .. half-1])
- *  half == 1 -> fill second half (audio_buffer[half .. end-1])
- *
- * We assume 16-bit PCM little-endian interleaved stereo or mono.
- * If WAV is mono, duplicate samples to produce stereo for MAX98357A stereo input.
- */
+
+// refill DMA half-buffer
 static void refill_half_buffer(uint8_t half) {
     uint8_t *ptr = audio_buffer + (half ? AUDIO_DMA_HALF : 0);
     uint32_t bytes_to_fill = AUDIO_DMA_HALF;
 
     if (wavinfo.num_channels == 2) {
-        // stereo 16-bit, data layout matches I2S (Left/Right interleaved)
         sd_read_bytes(ptr, bytes_to_fill);
-    } else if (wavinfo.num_channels == 1) {
-        // mono: read 16-bit samples and duplicate them L/R
-        uint32_t samples_needed = (bytes_to_fill / 2);   // 16-bit output samples (stereo)
-        uint32_t mono_bytes = samples_needed * 2 / 2;    // bytes of mono to read
-
+    }
+    else if (wavinfo.num_channels == 1) {
         uint8_t tmp[AUDIO_DMA_HALF/2];
-        UINT got = sd_read_bytes(tmp, mono_bytes);
+        UINT got = sd_read_bytes(tmp, AUDIO_DMA_HALF/2);
 
-        // duplicate each mono sample to L/R
-        for (uint32_t i = 0, out = 0; i < got; i += 2) {
+        uint32_t out = 0;
+        for (uint32_t i = 0; i < got; i += 2) {
             ptr[out++] = tmp[i];
             ptr[out++] = tmp[i+1];
             ptr[out++] = tmp[i];
             ptr[out++] = tmp[i+1];
         }
-        // pad with zeros if we hit EOF
-        if (got < mono_bytes) {
-            uint32_t out_pos = (got / 2) * 4;
-            memset(ptr + out_pos, 0, bytes_to_fill - out_pos);
-        }
-    } else {
-        // unsupported channels -> silence
+        memset(ptr + out, 0, bytes_to_fill - out);
+    }
+    else {
         memset(ptr, 0, bytes_to_fill);
     }
 }
 
-/* start_wav_playback:
- *  - opens file
- *  - parses WAV header
- *  - positions file pointer at start of PCM data
- *  - sets bytes_remaining
- *  - stores nice "song name" for LCD
- */
+
+// Open WAV and read header
 static int start_wav_playback(const char *filename) {
     FRESULT fr;
 
-    // Save full filename
     strncpy(current_filename, filename, sizeof(current_filename));
-    current_filename[sizeof(current_filename) - 1] = '\0';
+    current_filename[sizeof(current_filename)-1] = '\0';
 
-    // Build a "song name" without drive prefix and ".wav"
     const char *shortname = current_filename;
-
-    // Strip "0:/", "1:/", etc. if present: "<digit>:/"
-    if (shortname[0] != '\0' && shortname[1] == ':' && shortname[2] == '/') {
+    if (shortname[0] && shortname[1] == ':' && shortname[2] == '/')
         shortname += 3;
-    }
 
     strncpy(current_song_name, shortname, sizeof(current_song_name));
-    current_song_name[sizeof(current_song_name) - 1] = '\0';
+    current_song_name[sizeof(current_song_name)-1] = '\0';
 
-    // Strip ".wav" or ".WAV" extension
     char *dot = strrchr(current_song_name, '.');
-    if (dot) {
-        if ((dot[1] == 'w' || dot[1] == 'W') &&
-            (dot[2] == 'a' || dot[2] == 'A') &&
-            (dot[3] == 'v' || dot[3] == 'V') &&
-            dot[4] == '\0') {
-            *dot = '\0'; // terminate before extension
-        }
-    }
+    if (dot &&
+       (dot[1]=='w'||dot[1]=='W') &&
+       (dot[2]=='a'||dot[2]=='A') &&
+       (dot[3]=='v'||dot[3]=='V') &&
+        dot[4]=='\0')
+        *dot = '\0';
 
-    // Open WAV
     fr = f_open(&wav_file, filename, FA_READ);
     if (fr != FR_OK) return -1;
 
@@ -307,7 +227,6 @@ static int start_wav_playback(const char *filename) {
         return -3;
     }
 
-    // Position file pointer at PCM data start
     f_lseek(&wav_file, wavinfo.data_start);
     file_read_pos = wavinfo.data_start;
     bytes_remaining = wavinfo.data_bytes;
@@ -317,30 +236,15 @@ static int start_wav_playback(const char *filename) {
 
 /* USER CODE END 0 */
 
+
 /**
-  * @brief  The application entry point.
-  * @retval int
+  * @brief  Application entry point.
   */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
-  /* USER CODE END 1 */
-
-  /* MCU Configuration--------------------------------------------------------*/
-
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
-  /* USER CODE BEGIN Init */
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
   SystemClock_Config();
 
-  /* USER CODE BEGIN SysInit */
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_FATFS_Init();
@@ -348,40 +252,30 @@ int main(void)
   MX_USART2_UART_Init();
   MX_SAI1_Init();
 
-  /* USER CODE BEGIN 2 */
-
-  // LCD init and initial message
+  // LCD
   LCD_Init();
   LCD_Clear();
   LCD_DisplayString(0, (unsigned char *)"Mounting SD...");
 
   // Mount SD card
   if (f_mount(&USERFatFS, USERPath, 1) != FR_OK)
-  {
       Error_Handler();
-  }
 
-  // Start WAV playback from SD card
-  if (start_wav_playback("0:/test.wav") != 0) {
+  // Open and parse WAV file
+  if (start_wav_playback("0:/test.wav") != 0)
       Error_Handler();
-  }
 
-  // Now current_song_name is set from the WAV filename
   LCD_Clear();
   LCD_DisplayString(0, (unsigned char *)"Playing:");
   LCD_DisplayString(1, (unsigned char *)current_song_name);
 
-  // Pre-fill buffer and start audio DMA
+  // Prime audio buffers
   refill_half_buffer(0);
   refill_half_buffer(1);
 
-  // Start SAI DMA playback (length is in 16-bit words)
+  // Start DMA audio transmit
   HAL_SAI_Transmit_DMA(&hsai_BlockA1, (uint8_t*)audio_buffer, AUDIO_BUFFER_BYTES/2);
 
-  /* USER CODE END 2 */
-
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
   while (1)
   {
       if (half_transfer_flag) {
@@ -392,6 +286,11 @@ int main(void)
           full_transfer_flag = 0;
           refill_half_buffer(1);
       }
+  }
+}
+
+/* Rest of MCU init functions left unchanged ... */
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
