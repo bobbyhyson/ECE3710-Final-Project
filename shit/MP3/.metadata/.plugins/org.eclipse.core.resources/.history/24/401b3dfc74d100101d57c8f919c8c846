@@ -24,20 +24,11 @@
 
 /* USER CODE END PTD */
 
-/* Private define -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
-/* Audio buffer configuration:
- * - AUDIO_BUFFER_SAMPLES: number of int16_t samples in the entire buffer
- *   (stereo: L,R,L,R,...)
- * - We use a double-buffer (DMA half/full) scheme, so each half is
- *   AUDIO_DMA_HALF samples.
- *
- * 8192 samples * 2 bytes/sample = 16 KB total audio buffer.
- */
-#define AUDIO_BUFFER_SAMPLES 8192
-#define AUDIO_DMA_HALF       (AUDIO_BUFFER_SAMPLES / 2)
-#define AUDIO_BYTES_PER_HALF (AUDIO_DMA_HALF * 2)
+#define AUDIO_BUFFER_SAMPLES 2048  // number of 16-bit samples in the ring buffer (total = 4096 bytes)
+#define AUDIO_DMA_HALF       (AUDIO_BUFFER_SAMPLES/2)
 
 /* USER CODE END PD */
 
@@ -55,9 +46,6 @@ UART_HandleTypeDef huart2;
 /* USER CODE BEGIN PV */
 
 static int16_t audio_buffer[AUDIO_BUFFER_SAMPLES];
-static uint8_t stereo_tmp[AUDIO_BYTES_PER_HALF];
-static uint8_t mono_tmp[AUDIO_DMA_HALF];
-
 static volatile uint8_t half_transfer_flag = 0;
 static volatile uint8_t full_transfer_flag = 0;
 
@@ -86,7 +74,7 @@ void myprintf(const char *fmt, ...);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-// Simple UART printf using USART2
+// Simple UART printf
 void myprintf(const char *fmt, ...) {
   static char buffer[256];
   va_list args;
@@ -97,7 +85,7 @@ void myprintf(const char *fmt, ...) {
   HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
 }
 
-// Read bytes from WAV file (used by DMA refiller), zero-pad if short / at EOF
+// Read bytes from WAV file (used by DMA refiller), zero-pad if short
 UINT sd_read_bytes(uint8_t *buf, UINT len)
 {
     UINT br = 0;
@@ -219,30 +207,28 @@ void HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hsai) {
 }
 
 
-// Refill one half of the DMA buffer (half = 0 => first half, half = 1 => second half)
+// refill DMA half-buffer
 static void refill_half_buffer(uint8_t half) {
     int16_t *ptr = audio_buffer + (half ? AUDIO_DMA_HALF : 0);
     uint32_t samples_to_fill = AUDIO_DMA_HALF;
 
     if (wavinfo.num_channels == 2) {
-        // Stereo 16-bit PCM: file layout is [L0][R0][L1][R1]... each sample 2 bytes (little-endian)
-        // We want audio_buffer[] as 16-bit samples L0, R0, L1, R1, ...
-        UINT br = sd_read_bytes(stereo_tmp, sizeof(stereo_tmp));
+        // Stereo 16-bit PCM: file layout is [L0][R0][L1][R1]... (each sample is 2 bytes, little-endian)
+        // We want the buffer as 16-bit samples in the same order: L0, R0, L1, R1, ...
+        uint8_t tmp[AUDIO_DMA_HALF * 2];   // 2 bytes per 16-bit sample
+        UINT br = sd_read_bytes(tmp, sizeof(tmp));
 
         uint32_t out = 0;
         for (uint32_t i = 0; (i + 1) < br && out < samples_to_fill; i += 2) {
-            int16_t s = (int16_t)((uint16_t)stereo_tmp[i] |
-                                  ((uint16_t)stereo_tmp[i+1] << 8));
+            int16_t s = (int16_t)((uint16_t)tmp[i] | ((uint16_t)tmp[i+1] << 8));
             ptr[out++] = s;
         }
-
         // Pad any remaining samples with silence
         while (out < samples_to_fill) {
             ptr[out++] = 0;
         }
 
-        // Optional debug (only once)
-        /*
+        // --- DEBUG: print first 16 samples once ---
         static int printed = 0;
         if (!printed) {
             myprintf("First 16 samples:\r\n");
@@ -252,22 +238,20 @@ static void refill_half_buffer(uint8_t half) {
             myprintf("\r\n");
             printed = 1;
         }
-        */
+        // --- end debug ---
     }
     else if (wavinfo.num_channels == 1) {
         // Mono 16-bit PCM: duplicate each sample into left & right
-        // mono_tmp holds enough bytes for AUDIO_DMA_HALF/2 mono samples
-        UINT br = sd_read_bytes(mono_tmp, sizeof(mono_tmp));
+        uint8_t tmp[AUDIO_DMA_HALF];   // enough bytes for AUDIO_DMA_HALF/2 mono samples
+        UINT br = sd_read_bytes(tmp, sizeof(tmp));
         uint32_t in_samples = br / 2;
 
         uint32_t out = 0;
         for (uint32_t i = 0; i < in_samples && (out + 1) < samples_to_fill; i++) {
-            int16_t s = (int16_t)((uint16_t)mono_tmp[2*i] |
-                                  ((uint16_t)mono_tmp[2*i+1] << 8));
+            int16_t s = (int16_t)((uint16_t)tmp[2*i] | ((uint16_t)tmp[2*i+1] << 8));
             ptr[out++] = s; // left
             ptr[out++] = s; // right
         }
-
         // Pad remainder with silence
         while (out < samples_to_fill) {
             ptr[out++] = 0;
@@ -448,7 +432,7 @@ static void MX_SAI1_Init(void)
   hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
   hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
   hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
-  hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_22K;  // matches your 44.1kHz WAV
+  hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_44K;
   hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
   hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE; // stereo mode
   hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
@@ -476,7 +460,7 @@ static void MX_SPI1_Init(void)
   hspi1.Init.NSS = SPI_NSS_SOFT;
 
   // *** IMPORTANT: speed up SPI for SD card streaming ***
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;  // was 256 in original code
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;  // was 256
 
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
