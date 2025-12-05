@@ -302,9 +302,9 @@ static int start_wav_playback(const char *filename) {
         return -3;
     }
 
-    // Expect 22,050 Hz for smooth playback
-    if (wavinfo.sample_rate != 22050) {
-        myprintf("WARNING: WAV sample_rate=%lu Hz (expected 22050)\r\n",
+    // Optional: warn if sample_rate != 44100
+    if (wavinfo.sample_rate != 44100) {
+        myprintf("WARNING: WAV sample_rate=%lu Hz (expected ~44100)\r\n",
                  wavinfo.sample_rate);
     }
 
@@ -452,8 +452,8 @@ static void MX_SAI1_Init(void)
   hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
   hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
 
-  /* Now request ~22.05 kHz I2S audio */
-  hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_22K;
+  /* IMPORTANT: request 44.1 kHz I2S audio */
+  hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_44K;
 
   hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
   hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE; // stereo mode
