@@ -70,16 +70,12 @@ void myprintf(const char *fmt, ...) {
   HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
 }
 
-// Read bytes from WAV file (used by DMA refiller), zero-pad if short
+// Read bytes from WAV file (used by DMA refiller)
 UINT sd_read_bytes(uint8_t *buf, UINT len)
 {
-    UINT br = 0;
+    UINT br;
     FRESULT res = f_read(&wav_file, buf, len, &br);
-    (void)res;
-    if (br < len) {
-        // pad remainder with zeros (silence) at end of file
-        memset(buf + br, 0, len - br);
-    }
+    (void)res;  // could log errors if needed
     return br;
 }
 
@@ -173,52 +169,64 @@ void HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hsai) {
 
 
 // refill DMA half-buffer
+
 static void refill_half_buffer(uint8_t half) {
     uint8_t *ptr = audio_buffer + (half ? AUDIO_DMA_HALF : 0);
-    uint32_t bytes_to_fill = AUDIO_DMA_HALF;
+    uint32_t samples = AUDIO_DMA_HALF / 2; // 16-bit samples
 
-    if (wavinfo.num_channels == 2) {
-        sd_read_bytes(ptr, bytes_to_fill);
+    // Simple ramp waveform (sawtooth) on both channels
+    static uint16_t phase = 0;
 
-        // --- DEBUG: print first 16 samples once ---
-        static int printed = 0;
-        if (!printed) {
-            int16_t *s = (int16_t *)ptr;  // interpret as 16-bit signed
-            myprintf("First 16 samples:\r\n");
-            for (int i = 0; i < 16; i++) {
-                myprintf("%d ", s[i]);
-            }
-            myprintf("\r\n");
-            printed = 1;
-        }
-        // --- end debug ---
-    }
-    else if (wavinfo.num_channels == 1) {
-        uint8_t tmp[AUDIO_DMA_HALF/2];
-        UINT got = sd_read_bytes(tmp, AUDIO_DMA_HALF/2);
+    for (uint32_t i = 0; i < samples; i += 2) {
+        uint16_t sample = phase;
+        phase += 300; // change this value for different pitch
 
-        uint32_t out = 0;
-        for (uint32_t i = 0; i < got; i += 2) {
-            ptr[out++] = tmp[i];
-            ptr[out++] = tmp[i+1];
-            ptr[out++] = tmp[i];
-            ptr[out++] = tmp[i+1];
-        }
-        memset(ptr + out, 0, bytes_to_fill - out);
-    }
-    else {
-        memset(ptr, 0, bytes_to_fill);
+        // Left
+        ptr[2*i + 0] = sample & 0xFF;
+        ptr[2*i + 1] = (sample >> 8) & 0xFF;
+
+        // Right
+        ptr[2*i + 2] = sample & 0xFF;
+        ptr[2*i + 3] = (sample >> 8) & 0xFF;
     }
 }
+
+
+//static void refill_half_buffer(uint8_t half) {
+//    uint8_t *ptr = audio_buffer + (half ? AUDIO_DMA_HALF : 0);
+//    uint32_t bytes_to_fill = AUDIO_DMA_HALF;
+
+//    if (wavinfo.num_channels == 2) {
+//        sd_read_bytes(ptr, bytes_to_fill);
+//    }
+//    else if (wavinfo.num_channels == 1) {
+ //       uint8_t tmp[AUDIO_DMA_HALF/2];
+ //       UINT got = sd_read_bytes(tmp, AUDIO_DMA_HALF/2);
+
+ //       uint32_t out = 0;
+ //       for (uint32_t i = 0; i < got; i += 2) {
+ //           ptr[out++] = tmp[i];
+ //           ptr[out++] = tmp[i+1];
+ //           ptr[out++] = tmp[i];
+ //           ptr[out++] = tmp[i+1];
+ //       }
+  //      memset(ptr + out, 0, bytes_to_fill - out);
+ //   }
+ //   else {
+ //       memset(ptr, 0, bytes_to_fill);
+//    }
+//}
 
 
 // Open WAV and read header
 static int start_wav_playback(const char *filename) {
     FRESULT fr;
 
+    // store full filename
     strncpy(current_filename, filename, sizeof(current_filename));
     current_filename[sizeof(current_filename)-1] = '\0';
 
+    // derive a short name for LCD (remove "0:/" prefix if present)
     const char *shortname = current_filename;
     if (shortname[0] && shortname[1] == ':' && shortname[2] == '/')
         shortname += 3;
@@ -226,6 +234,7 @@ static int start_wav_playback(const char *filename) {
     strncpy(current_song_name, shortname, sizeof(current_song_name));
     current_song_name[sizeof(current_song_name)-1] = '\0';
 
+    // strip ".wav"/".WAV" extension if present
     char *dot = strrchr(current_song_name, '.');
     if (dot &&
        (dot[1]=='w'||dot[1]=='W') &&
@@ -234,19 +243,23 @@ static int start_wav_playback(const char *filename) {
         dot[4]=='\0')
         *dot = '\0';
 
+    // open the file
     fr = f_open(&wav_file, filename, FA_READ);
     if (fr != FR_OK) return -1;
 
+    // parse header
     if (wav_parse_header(&wav_file, &wavinfo) != 0) {
         f_close(&wav_file);
         return -2;
     }
 
+    // only support 16-bit
     if (wavinfo.bits_per_sample != 16) {
         f_close(&wav_file);
         return -3;
     }
 
+    // seek to data start
     f_lseek(&wav_file, wavinfo.data_start);
     file_read_pos = wavinfo.data_start;
     bytes_remaining = wavinfo.data_bytes;
@@ -277,7 +290,7 @@ int main(void)
   LCD_Clear();
   LCD_DisplayString(0, (unsigned char *)"Mounting SD...");
 
-  // --- DEBUG: mount SD ---
+  // --- DEBUG: Mount SD card ---
   myprintf("Mount...\r\n");
   if (f_mount(&USERFatFS, USERPath, 1) != FR_OK)
   {
@@ -286,7 +299,7 @@ int main(void)
   }
   myprintf("Mount OK\r\n");
 
-  // --- DEBUG: open + parse WAV ---
+  // --- DEBUG: Open and parse WAV file ---
   int r = start_wav_playback("0:/test.wav");
   myprintf("start_wav_playback returned %d\r\n", r);
   if (r != 0)
@@ -295,12 +308,14 @@ int main(void)
       Error_Handler();
   }
 
+  // --- DEBUG: print WAV info ---
   myprintf("WAV: rate=%lu, bits=%u, ch=%u, data=%lu bytes\r\n",
            wavinfo.sample_rate,
            wavinfo.bits_per_sample,
            wavinfo.num_channels,
            wavinfo.data_bytes);
 
+  // Update LCD with song name
   LCD_Clear();
   LCD_DisplayString(0, (unsigned char *)"Playing:");
   LCD_DisplayString(1, (unsigned char *)current_song_name);
@@ -317,13 +332,17 @@ int main(void)
       if (half_transfer_flag) {
           half_transfer_flag = 0;
           refill_half_buffer(0);
-          // myprintf("half\r\n");  // optional debug
+          myprintf("half\r\n");   // DEBUG: show half-buffer interrupt
       }
       if (full_transfer_flag) {
           full_transfer_flag = 0;
           refill_half_buffer(1);
-          // myprintf("full\r\n");  // optional debug
+          myprintf("full\r\n");   // DEBUG: show full-buffer interrupt
       }
+
+      // optional heartbeat:
+      // myprintf("loop\r\n");
+      // HAL_Delay(500);
   }
 }
 

@@ -30,6 +30,10 @@ UART_HandleTypeDef huart2;
 #define AUDIO_BUFFER_BYTES 4096
 #define AUDIO_DMA_HALF (AUDIO_BUFFER_BYTES/2)
 
+// set to 1 to generate a test tone (no SD/WAV needed)
+// set to 0 to play test.wav from SD
+#define USE_TEST_TONE 1
+
 static uint8_t audio_buffer[AUDIO_BUFFER_BYTES];
 static volatile uint8_t half_transfer_flag = 0;
 static volatile uint8_t full_transfer_flag = 0;
@@ -42,6 +46,9 @@ uint32_t bytes_remaining = 0;
 
 char current_filename[64];
 char current_song_name[64];
+
+// for test tone mode
+static uint16_t tone_phase = 0;
 
 /* USER CODE END PV */
 
@@ -70,18 +77,16 @@ void myprintf(const char *fmt, ...) {
   HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
 }
 
-// Read bytes from WAV file (used by DMA refiller), zero-pad if short
+#if !USE_TEST_TONE
+// Read bytes from WAV file (used by DMA refiller)
 UINT sd_read_bytes(uint8_t *buf, UINT len)
 {
-    UINT br = 0;
+    UINT br;
     FRESULT res = f_read(&wav_file, buf, len, &br);
     (void)res;
-    if (br < len) {
-        // pad remainder with zeros (silence) at end of file
-        memset(buf + br, 0, len - br);
-    }
     return br;
 }
+#endif
 
 /////////////////////////////// LCD BEGIN ///////////////////////
 #include "stm32l476xx.h"
@@ -177,21 +182,26 @@ static void refill_half_buffer(uint8_t half) {
     uint8_t *ptr = audio_buffer + (half ? AUDIO_DMA_HALF : 0);
     uint32_t bytes_to_fill = AUDIO_DMA_HALF;
 
+#if USE_TEST_TONE
+    // ---------- TEST TONE MODE ----------
+    // Generate a simple sawtooth wave on both channels
+    uint32_t samples = bytes_to_fill / 2; // 16-bit samples
+    for (uint32_t i = 0; i < samples; i += 2) {
+        uint16_t sample = tone_phase;
+        tone_phase += 300; // adjust for different pitch
+
+        // Left
+        ptr[2*i + 0] = sample & 0xFF;
+        ptr[2*i + 1] = (sample >> 8) & 0xFF;
+
+        // Right
+        ptr[2*i + 2] = sample & 0xFF;
+        ptr[2*i + 3] = (sample >> 8) & 0xFF;
+    }
+#else
+    // ---------- WAV PLAYBACK MODE ----------
     if (wavinfo.num_channels == 2) {
         sd_read_bytes(ptr, bytes_to_fill);
-
-        // --- DEBUG: print first 16 samples once ---
-        static int printed = 0;
-        if (!printed) {
-            int16_t *s = (int16_t *)ptr;  // interpret as 16-bit signed
-            myprintf("First 16 samples:\r\n");
-            for (int i = 0; i < 16; i++) {
-                myprintf("%d ", s[i]);
-            }
-            myprintf("\r\n");
-            printed = 1;
-        }
-        // --- end debug ---
     }
     else if (wavinfo.num_channels == 1) {
         uint8_t tmp[AUDIO_DMA_HALF/2];
@@ -209,9 +219,10 @@ static void refill_half_buffer(uint8_t half) {
     else {
         memset(ptr, 0, bytes_to_fill);
     }
+#endif
 }
 
-
+#if !USE_TEST_TONE
 // Open WAV and read header
 static int start_wav_playback(const char *filename) {
     FRESULT fr;
@@ -253,6 +264,7 @@ static int start_wav_playback(const char *filename) {
 
     return 0;
 }
+#endif
 
 /* USER CODE END 0 */
 
@@ -275,35 +287,23 @@ int main(void)
   // LCD
   LCD_Init();
   LCD_Clear();
+
+#if USE_TEST_TONE
+  LCD_DisplayString(0, (unsigned char *)"Test Tone Mode");
+#else
   LCD_DisplayString(0, (unsigned char *)"Mounting SD...");
-
-  // --- DEBUG: mount SD ---
-  myprintf("Mount...\r\n");
+  // Mount SD card
   if (f_mount(&USERFatFS, USERPath, 1) != FR_OK)
-  {
-      myprintf("Mount failed\r\n");
       Error_Handler();
-  }
-  myprintf("Mount OK\r\n");
 
-  // --- DEBUG: open + parse WAV ---
-  int r = start_wav_playback("0:/test.wav");
-  myprintf("start_wav_playback returned %d\r\n", r);
-  if (r != 0)
-  {
-      myprintf("Failed to open/parse test.wav\r\n");
+  // Open and parse WAV file
+  if (start_wav_playback("0:/test.wav") != 0)
       Error_Handler();
-  }
-
-  myprintf("WAV: rate=%lu, bits=%u, ch=%u, data=%lu bytes\r\n",
-           wavinfo.sample_rate,
-           wavinfo.bits_per_sample,
-           wavinfo.num_channels,
-           wavinfo.data_bytes);
 
   LCD_Clear();
   LCD_DisplayString(0, (unsigned char *)"Playing:");
   LCD_DisplayString(1, (unsigned char *)current_song_name);
+#endif
 
   // Prime audio buffers
   refill_half_buffer(0);
@@ -317,12 +317,10 @@ int main(void)
       if (half_transfer_flag) {
           half_transfer_flag = 0;
           refill_half_buffer(0);
-          // myprintf("half\r\n");  // optional debug
       }
       if (full_transfer_flag) {
           full_transfer_flag = 0;
           refill_half_buffer(1);
-          // myprintf("full\r\n");  // optional debug
       }
   }
 }
@@ -490,6 +488,10 @@ void Error_Handler(void)
 }
 
 #ifdef USE_FULL_ASSERT
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   (void)file;

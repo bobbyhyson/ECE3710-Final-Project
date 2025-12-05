@@ -179,19 +179,6 @@ static void refill_half_buffer(uint8_t half) {
 
     if (wavinfo.num_channels == 2) {
         sd_read_bytes(ptr, bytes_to_fill);
-
-        // --- DEBUG: print first 16 samples once ---
-        static int printed = 0;
-        if (!printed) {
-            int16_t *s = (int16_t *)ptr;  // interpret as 16-bit signed
-            myprintf("First 16 samples:\r\n");
-            for (int i = 0; i < 16; i++) {
-                myprintf("%d ", s[i]);
-            }
-            myprintf("\r\n");
-            printed = 1;
-        }
-        // --- end debug ---
     }
     else if (wavinfo.num_channels == 1) {
         uint8_t tmp[AUDIO_DMA_HALF/2];
