@@ -23,7 +23,7 @@
 /* USER CODE BEGIN PTD */
 /* USER CODE END PTD */
 
-/* Private define ------------------------------------------------------------*/
+/* Private define -----------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
 /* Audio buffer configuration:
@@ -32,10 +32,9 @@
  * - We use a double-buffer (DMA half/full) scheme, so each half is
  *   AUDIO_DMA_HALF samples.
  *
- * 16384 samples * 2 bytes/sample = 32 KB total audio buffer.
- * At 22.05 kHz stereo this is ~0.37 s of audio total, ~0.18 s per half.
+ * 8192 samples * 2 bytes/sample = 16 KB total audio buffer.
  */
-#define AUDIO_BUFFER_SAMPLES 24576
+#define AUDIO_BUFFER_SAMPLES 8192
 #define AUDIO_DMA_HALF       (AUDIO_BUFFER_SAMPLES / 2)
 #define AUDIO_BYTES_PER_HALF (AUDIO_DMA_HALF * 2)
 
@@ -224,6 +223,7 @@ static void refill_half_buffer(uint8_t half) {
 
     if (wavinfo.num_channels == 2) {
         // Stereo 16-bit PCM: file layout is [L0][R0][L1][R1]... each sample 2 bytes (little-endian)
+        // We want audio_buffer[] as 16-bit samples L0, R0, L1, R1, ...
         UINT br = sd_read_bytes(stereo_tmp, sizeof(stereo_tmp));
 
         uint32_t out = 0;
@@ -241,6 +241,7 @@ static void refill_half_buffer(uint8_t half) {
     }
     else if (wavinfo.num_channels == 1) {
         // Mono 16-bit PCM: duplicate each sample into left & right
+        // mono_tmp holds enough bytes for AUDIO_DMA_HALF/2 mono samples
         UINT br = sd_read_bytes(mono_tmp, sizeof(mono_tmp));
         uint32_t in_samples = br / 2;
 
@@ -297,12 +298,11 @@ static int start_wav_playback(const char *filename) {
     }
 
     if (wavinfo.bits_per_sample != 16) {
-        myprintf("Unsupported bits_per_sample=%u\r\n", wavinfo.bits_per_sample);
         f_close(&wav_file);
         return -3;
     }
 
-    // Expect 22,050 Hz for smooth playback with this config
+    // Expect 22,050 Hz for smooth playback
     if (wavinfo.sample_rate != 22050) {
         myprintf("WARNING: WAV sample_rate=%lu Hz (expected 22050)\r\n",
                  wavinfo.sample_rate);
@@ -311,12 +311,6 @@ static int start_wav_playback(const char *filename) {
     f_lseek(&wav_file, wavinfo.data_start);
     file_read_pos = wavinfo.data_start;
     bytes_remaining = wavinfo.data_bytes;
-
-    myprintf("WAV: rate=%lu, bits=%u, ch=%u, data=%lu bytes\r\n",
-             wavinfo.sample_rate,
-             wavinfo.bits_per_sample,
-             wavinfo.num_channels,
-             wavinfo.data_bytes);
 
     return 0;
 }
@@ -364,6 +358,12 @@ int main(void)
       myprintf("Failed to open/parse test.wav\r\n");
       Error_Handler();
   }
+
+  myprintf("WAV: rate=%lu, bits=%u, ch=%u, data=%lu bytes\r\n",
+           wavinfo.sample_rate,
+           wavinfo.bits_per_sample,
+           wavinfo.num_channels,
+           wavinfo.data_bytes);
 
   LCD_Clear();
   LCD_DisplayString(0, (unsigned char *)"Playing:");
@@ -452,11 +452,11 @@ static void MX_SAI1_Init(void)
   hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
   hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
 
-  /* Lower rate (22 kHz) to reduce SD bandwidth and crackles */
+  /* Now request ~22.05 kHz I2S audio */
   hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_22K;
 
   hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-  hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE; // stereo frame
+  hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE; // stereo mode
   hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
   hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
   if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD,

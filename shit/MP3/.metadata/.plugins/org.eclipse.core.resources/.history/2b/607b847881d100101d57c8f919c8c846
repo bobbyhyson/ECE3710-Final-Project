@@ -35,7 +35,7 @@
  * 16384 samples * 2 bytes/sample = 32 KB total audio buffer.
  * At 22.05 kHz stereo this is ~0.37 s of audio total, ~0.18 s per half.
  */
-#define AUDIO_BUFFER_SAMPLES 24576
+#define AUDIO_BUFFER_SAMPLES 16384
 #define AUDIO_DMA_HALF       (AUDIO_BUFFER_SAMPLES / 2)
 #define AUDIO_BYTES_PER_HALF (AUDIO_DMA_HALF * 2)
 
