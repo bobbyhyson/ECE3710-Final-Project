@@ -1,574 +1,1245 @@
 /* USER CODE BEGIN Header */
+
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
+
+******************************************************************************
+
+* @file : main.c
+
+* @brief : Main program body
+
+******************************************************************************
+
 */
+
 /* USER CODE END Header */
 
+
+
 /* Includes ------------------------------------------------------------------*/
+
 #include "main.h"
+
 #include "fatfs.h"
 
+
+
 /* Private includes ----------------------------------------------------------*/
+
 /* USER CODE BEGIN Includes */
+
 #include <stdio.h>
+
 #include <string.h>
+
 #include <stdarg.h>
+
 #include "wav.h"
+
 /* USER CODE END Includes */
 
+
+
 /* Private typedef -----------------------------------------------------------*/
+
 /* USER CODE BEGIN PTD */
+
 /* USER CODE END PTD */
 
+
+
 /* Private define ------------------------------------------------------------*/
+
 /* USER CODE BEGIN PD */
 
+
+
 /* Audio buffer configuration:
- * - AUDIO_BUFFER_SAMPLES: number of int16_t samples in the entire buffer
- *   (stereo: L,R,L,R,...)
- * - We use a double-buffer (DMA half/full) scheme, so each half is
- *   AUDIO_DMA_HALF samples.
- *
- * 16384 samples * 2 bytes/sample = 32 KB total audio buffer.
- * At 22.05 kHz stereo this is ~0.37 s of audio total, ~0.18 s per half.
- */
-#define AUDIO_BUFFER_SAMPLES 22000
-#define AUDIO_DMA_HALF       (AUDIO_BUFFER_SAMPLES / 2)
+
+* - AUDIO_BUFFER_SAMPLES: number of int16_t samples in the entire buffer
+
+* (stereo: L,R,L,R,...)
+
+* - We use a double-buffer (DMA half/full) scheme, so each half is
+
+* AUDIO_DMA_HALF samples.
+
+*
+
+* 16384 samples * 2 bytes/sample = 32 KB total audio buffer.
+
+* At 22.05 kHz stereo this is ~0.37 s of audio total, ~0.18 s per half.
+
+*/
+
+#define AUDIO_BUFFER_SAMPLES 24576
+
+#define AUDIO_DMA_HALF (AUDIO_BUFFER_SAMPLES / 2)
+
 #define AUDIO_BYTES_PER_HALF (AUDIO_DMA_HALF * 2)
+
+
 
 /* USER CODE END PD */
 
+
+
 /* Private macro -------------------------------------------------------------*/
+
 /* USER CODE BEGIN PM */
+
 /* USER CODE END PM */
 
+
+
 /* Private variables ---------------------------------------------------------*/
+
 SAI_HandleTypeDef hsai_BlockA1;
+
 DMA_HandleTypeDef hdma_sai1_a;
+
 SPI_HandleTypeDef hspi1;
+
 UART_HandleTypeDef huart2;
 
+
+
 /* USER CODE BEGIN PV */
+static uint8_t song_number = 0;
+char* songs[] = {"0:/song1.wav", "0:/song5.wav", "0:/song3.wav", "0:/song4.wav", "0:/song2.wav"};
+static uint8_t num_songs = 5;
 
 static int16_t audio_buffer[AUDIO_BUFFER_SAMPLES];
+
 static uint8_t stereo_tmp[AUDIO_BYTES_PER_HALF];
+
 static uint8_t mono_tmp[AUDIO_DMA_HALF];
 
+
+
 static volatile uint8_t half_transfer_flag = 0;
+
 static volatile uint8_t full_transfer_flag = 0;
 
+
+
 static FIL wav_file;
+
 static WAV_Info wavinfo;
 
+
+
 uint32_t file_read_pos = 0;
+
 uint32_t bytes_remaining = 0;
 
+
+
 char current_filename[64];
+
 char current_song_name[64];
+
+/* Pause flag toggled by PA0 */
+static volatile uint8_t paused = 0;
 
 /* USER CODE END PV */
 
+
+
 /* Private function prototypes -----------------------------------------------*/
+
 void SystemClock_Config(void);
+
 static void MX_GPIO_Init(void);
+
 static void MX_DMA_Init(void);
+
 static void MX_SPI1_Init(void);
+
 static void MX_USART2_UART_Init(void);
+
 static void MX_SAI1_Init(void);
+
 /* USER CODE BEGIN PFP */
+
 void myprintf(const char *fmt, ...);
+
 /* USER CODE END PFP */
+
+
 
 /* USER CODE BEGIN 0 */
 
-// Simple UART printf using USART2
-void myprintf(const char *fmt, ...) {
-  static char buffer[256];
-  va_list args;
-  va_start(args, fmt);
-  vsnprintf(buffer, sizeof(buffer), fmt, args);
-  va_end(args);
 
-  HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
+
+// Simple UART printf using USART2
+
+void myprintf(const char *fmt, ...) {
+
+static char buffer[256];
+
+va_list args;
+
+va_start(args, fmt);
+
+vsnprintf(buffer, sizeof(buffer), fmt, args);
+
+va_end(args);
+
+
+
+HAL_UART_Transmit(&huart2, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
+
 }
+
+
 
 // Read bytes from WAV file (used by DMA refiller), zero-pad if short / at EOF
+
 UINT sd_read_bytes(uint8_t *buf, UINT len)
+
 {
-    UINT br = 0;
 
-    if (bytes_remaining == 0) {
-        // Already at end of data chunk: just output silence
-        memset(buf, 0, len);
-        return 0;
-    }
+UINT br = 0;
 
-    UINT to_read = len;
-    if (to_read > bytes_remaining) {
-        to_read = (UINT)bytes_remaining;
-    }
 
-    FRESULT res = f_read(&wav_file, buf, to_read, &br);
-    (void)res;
 
-    if (br < len) {
-        // pad remainder with zeros (silence) at end of file
-        memset(buf + br, 0, len - br);
-    }
+if (bytes_remaining == 0) {
 
-    if (bytes_remaining >= br) {
-        bytes_remaining -= br;
-    } else {
-        bytes_remaining = 0;
-    }
+// Already at end of data chunk: just output silence
 
-    return br;
+memset(buf, 0, len);
+
+return 0;
+
 }
 
+
+
+UINT to_read = len;
+
+if (to_read > bytes_remaining) {
+
+to_read = (UINT)bytes_remaining;
+
+}
+
+
+
+FRESULT res = f_read(&wav_file, buf, to_read, &br);
+
+(void)res;
+
+
+
+if (br < len) {
+
+// pad remainder with zeros (silence) at end of file
+
+memset(buf + br, 0, len - br);
+
+}
+
+
+
+if (bytes_remaining >= br) {
+
+bytes_remaining -= br;
+
+} else {
+
+bytes_remaining = 0;
+
+}
+
+
+
+return br;
+
+}
+
+
+
 /////////////////////////////// LCD BEGIN ///////////////////////
+
 #include "stm32l476xx.h"
 
+
+
 #define LCD_Port GPIOB
-#define LCD_RS   (1 << 0)
-#define LCD_EN   (1 << 1)
-#define LCD_D4   (1 << 2)
-#define LCD_D5   (1 << 3)
-#define LCD_D6   (1 << 4)
-#define LCD_D7   (1 << 5)
+
+#define LCD_RS (1 << 0)
+
+#define LCD_EN (1 << 1)
+
+#define LCD_D4 (1 << 2)
+
+#define LCD_D5 (1 << 3)
+
+#define LCD_D6 (1 << 4)
+
+#define LCD_D7 (1 << 5)
+
+
 
 #define delay_ms HAL_Delay
 
+
+
 void LCD_putNibble(uint8_t c) {
-    if (c & 0x8) LCD_Port->ODR |=  LCD_D7; else LCD_Port->ODR &= ~LCD_D7;
-    if (c & 0x4) LCD_Port->ODR |=  LCD_D6; else LCD_Port->ODR &= ~LCD_D6;
-    if (c & 0x2) LCD_Port->ODR |=  LCD_D5; else LCD_Port->ODR &= ~LCD_D5;
-    if (c & 0x1) LCD_Port->ODR |=  LCD_D4; else LCD_Port->ODR &= ~LCD_D4;
+
+if (c & 0x8) LCD_Port->ODR |= LCD_D7; else LCD_Port->ODR &= ~LCD_D7;
+
+if (c & 0x4) LCD_Port->ODR |= LCD_D6; else LCD_Port->ODR &= ~LCD_D6;
+
+if (c & 0x2) LCD_Port->ODR |= LCD_D5; else LCD_Port->ODR &= ~LCD_D5;
+
+if (c & 0x1) LCD_Port->ODR |= LCD_D4; else LCD_Port->ODR &= ~LCD_D4;
+
 }
+
+
 
 void LCD_Pulse(void) {
-    LCD_Port->ODR |= LCD_EN;
-    delay_ms(4);
-    LCD_Port->ODR &= ~LCD_EN;
-    delay_ms(4);
+
+LCD_Port->ODR |= LCD_EN;
+
+delay_ms(4);
+
+LCD_Port->ODR &= ~LCD_EN;
+
+delay_ms(4);
+
 }
+
+
 
 void LCD_WriteCom(unsigned char com) {
-    GPIOB->ODR &= ~LCD_RS;
-    delay_ms(1);
 
-    LCD_putNibble((com >> 4) & 0x0F);
-    LCD_Pulse();
-    LCD_putNibble(com & 0x0F);
-    LCD_Pulse();
+GPIOB->ODR &= ~LCD_RS;
+
+delay_ms(1);
+
+
+
+LCD_putNibble((com >> 4) & 0x0F);
+
+LCD_Pulse();
+
+LCD_putNibble(com & 0x0F);
+
+LCD_Pulse();
+
 }
+
+
 
 void LCD_WriteData(unsigned char dat) {
-    GPIOB->ODR |= LCD_RS;
-    delay_ms(1);
 
-    LCD_putNibble((dat >> 4) & 0x0F);
-    LCD_Pulse();
-    LCD_putNibble(dat & 0x0F);
-    LCD_Pulse();
+GPIOB->ODR |= LCD_RS;
+
+delay_ms(1);
+
+
+
+LCD_putNibble((dat >> 4) & 0x0F);
+
+LCD_Pulse();
+
+LCD_putNibble(dat & 0x0F);
+
+LCD_Pulse();
+
 }
+
+
 
 void LCD_Init(void) {
-    RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN;
 
-    GPIOB->MODER &= 0xFFFFF000;
-    GPIOB->MODER |= 0x00000555;
+RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN;
 
-    delay_ms(30);
-    LCD_WriteCom(0x03); delay_ms(5);
-    LCD_WriteCom(0x03); delay_ms(5);
-    LCD_WriteCom(0x03); delay_ms(5);
-    LCD_WriteCom(0x02); delay_ms(5);
 
-    LCD_WriteCom(0x28); delay_ms(5);
-    LCD_WriteCom(0x0C); delay_ms(5);
-    LCD_WriteCom(0x06); delay_ms(5);
-    LCD_WriteCom(0x01); delay_ms(5);
+
+GPIOB->MODER &= 0xFFFFF000;
+
+GPIOB->MODER |= 0x00000555;
+
+
+
+delay_ms(30);
+
+LCD_WriteCom(0x03); delay_ms(5);
+
+LCD_WriteCom(0x03); delay_ms(5);
+
+LCD_WriteCom(0x03); delay_ms(5);
+
+LCD_WriteCom(0x02); delay_ms(5);
+
+
+
+LCD_WriteCom(0x28); delay_ms(5);
+
+LCD_WriteCom(0x0C); delay_ms(5);
+
+LCD_WriteCom(0x06); delay_ms(5);
+
+LCD_WriteCom(0x01); delay_ms(5);
+
 }
+
+
 
 void LCD_Clear(void){
-    LCD_WriteCom(0x01);
-    delay_ms(5);
+
+LCD_WriteCom(0x01);
+
+delay_ms(5);
+
 }
 
+
+
 void LCD_DisplayString(unsigned int line, unsigned char *ptr) {
-    LCD_WriteCom(line ? 0xC0 : 0x80);
-    for (int i = 0; i < 16 && ptr[i] != '\0'; i++)
-        LCD_WriteData(ptr[i]);
+
+LCD_WriteCom(line ? 0xC0 : 0x80);
+
+for (int i = 0; i < 16 && ptr[i] != '\0'; i++)
+
+LCD_WriteData(ptr[i]);
+
 }
+
 /////////////////////////////// LCD END /////////////////////////
 
 
+
+
+
 // DMA callbacks
+
 void HAL_SAI_TxHalfCpltCallback(SAI_HandleTypeDef *hsai) {
-    (void)hsai;
-    half_transfer_flag = 1;
+
+(void)hsai;
+
+half_transfer_flag = 1;
+
 }
+
 void HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hsai) {
-    (void)hsai;
-    full_transfer_flag = 1;
+
+(void)hsai;
+
+full_transfer_flag = 1;
+
 }
+
+
+
 
 
 // Refill one half of the DMA buffer (half = 0 => first half, half = 1 => second half)
+
 static void refill_half_buffer(uint8_t half) {
-    int16_t *ptr = audio_buffer + (half ? AUDIO_DMA_HALF : 0);
-    uint32_t samples_to_fill = AUDIO_DMA_HALF;
 
-    if (wavinfo.num_channels == 2) {
-        // Stereo 16-bit PCM: file layout is [L0][R0][L1][R1]... each sample 2 bytes (little-endian)
-        UINT br = sd_read_bytes(stereo_tmp, sizeof(stereo_tmp));
+int16_t *ptr = audio_buffer + (half ? AUDIO_DMA_HALF : 0);
 
-        uint32_t out = 0;
-        for (uint32_t i = 0; (i + 1) < br && out < samples_to_fill; i += 2) {
-            int16_t s = (int16_t)((uint16_t)stereo_tmp[i] |
-                                  ((uint16_t)stereo_tmp[i+1] << 8));
-            ptr[out++] = s;
-        }
+uint32_t samples_to_fill = AUDIO_DMA_HALF;
 
-        // Pad any remaining samples with silence
-        while (out < samples_to_fill) {
-            ptr[out++] = 0;
-        }
-
-    }
-    else if (wavinfo.num_channels == 1) {
-        // Mono 16-bit PCM: duplicate each sample into left & right
-        UINT br = sd_read_bytes(mono_tmp, sizeof(mono_tmp));
-        uint32_t in_samples = br / 2;
-
-        uint32_t out = 0;
-        for (uint32_t i = 0; i < in_samples && (out + 1) < samples_to_fill; i++) {
-            int16_t s = (int16_t)((uint16_t)mono_tmp[2*i] |
-                                  ((uint16_t)mono_tmp[2*i+1] << 8));
-            ptr[out++] = s; // left
-            ptr[out++] = s; // right
-        }
-
-        // Pad remainder with silence
-        while (out < samples_to_fill) {
-            ptr[out++] = 0;
-        }
-    }
-    else {
-        // Unsupported channel count: fill with silence
-        for (uint32_t i = 0; i < samples_to_fill; ++i) {
-            ptr[i] = 0;
-        }
-    }
+// Pause -> mute
+if (paused) {
+for (uint32_t i = 0; i < samples_to_fill; ++i) {
+ptr[i] = 0;
 }
+return;
+}
+
+if (wavinfo.num_channels == 2) {
+
+// Stereo 16-bit PCM: file layout is [L0][R0][L1][R1]... each sample 2 bytes (little-endian)
+
+UINT br = sd_read_bytes(stereo_tmp, sizeof(stereo_tmp));
+
+
+
+uint32_t out = 0;
+
+for (uint32_t i = 0; (i + 1) < br && out < samples_to_fill; i += 2) {
+
+int16_t s = (int16_t)((uint16_t)stereo_tmp[i] |
+
+((uint16_t)stereo_tmp[i+1] << 8));
+
+ptr[out++] = s;
+
+}
+
+
+
+// Pad any remaining samples with silence
+
+while (out < samples_to_fill) {
+
+ptr[out++] = 0;
+
+}
+
+
+
+}
+
+else if (wavinfo.num_channels == 1) {
+
+// Mono 16-bit PCM: duplicate each sample into left & right
+
+UINT br = sd_read_bytes(mono_tmp, sizeof(mono_tmp));
+
+uint32_t in_samples = br / 2;
+
+
+
+uint32_t out = 0;
+
+for (uint32_t i = 0; i < in_samples && (out + 1) < samples_to_fill; i++) {
+
+int16_t s = (int16_t)((uint16_t)mono_tmp[2*i] |
+
+((uint16_t)mono_tmp[2*i+1] << 8));
+
+ptr[out++] = s; // left
+
+ptr[out++] = s; // right
+
+}
+
+
+
+// Pad remainder with silence
+
+while (out < samples_to_fill) {
+
+ptr[out++] = 0;
+
+}
+
+}
+
+else {
+
+// Unsupported channel count: fill with silence
+
+for (uint32_t i = 0; i < samples_to_fill; ++i) {
+
+ptr[i] = 0;
+
+}
+
+}
+
+}
+
+
+
 
 
 // Open WAV and read header
+
 static int start_wav_playback(const char *filename) {
-    FRESULT fr;
 
-    strncpy(current_filename, filename, sizeof(current_filename));
-    current_filename[sizeof(current_filename)-1] = '\0';
+FRESULT fr;
 
-    const char *shortname = current_filename;
-    if (shortname[0] && shortname[1] == ':' && shortname[2] == '/')
-        shortname += 3;
 
-    strncpy(current_song_name, shortname, sizeof(current_song_name));
-    current_song_name[sizeof(current_song_name)-1] = '\0';
 
-    char *dot = strrchr(current_song_name, '.');
-    if (dot &&
-       (dot[1]=='w'||dot[1]=='W') &&
-       (dot[2]=='a'||dot[2]=='A') &&
-       (dot[3]=='v'||dot[3]=='V') &&
-        dot[4]=='\0')
-        *dot = '\0';
+strncpy(current_filename, filename, sizeof(current_filename));
 
-    fr = f_open(&wav_file, filename, FA_READ);
-    if (fr != FR_OK) return -1;
+current_filename[sizeof(current_filename)-1] = '\0';
 
-    if (wav_parse_header(&wav_file, &wavinfo) != 0) {
-        f_close(&wav_file);
-        return -2;
-    }
 
-    if (wavinfo.bits_per_sample != 16) {
-        myprintf("Unsupported bits_per_sample=%u\r\n", wavinfo.bits_per_sample);
-        f_close(&wav_file);
-        return -3;
-    }
 
-    // Expect 22,050 Hz for smooth playback with this config
-    if (wavinfo.sample_rate != 22050) {
-        myprintf("WARNING: WAV sample_rate=%lu Hz (expected 22050)\r\n",
-                 wavinfo.sample_rate);
-    }
+const char *shortname = current_filename;
 
-    f_lseek(&wav_file, wavinfo.data_start);
-    file_read_pos = wavinfo.data_start;
-    bytes_remaining = wavinfo.data_bytes;
+if (shortname[0] && shortname[1] == ':' && shortname[2] == '/')
 
-    myprintf("WAV: rate=%lu, bits=%u, ch=%u, data=%lu bytes\r\n",
-             wavinfo.sample_rate,
-             wavinfo.bits_per_sample,
-             wavinfo.num_channels,
-             wavinfo.data_bytes);
+shortname += 3;
 
-    return 0;
+
+
+strncpy(current_song_name, shortname, sizeof(current_song_name));
+
+current_song_name[sizeof(current_song_name)-1] = '\0';
+
+
+
+char *dot = strrchr(current_song_name, '.');
+
+if (dot &&
+
+(dot[1]=='w'||dot[1]=='W') &&
+
+(dot[2]=='a'||dot[2]=='A') &&
+
+(dot[3]=='v'||dot[3]=='V') &&
+
+dot[4]=='\0')
+
+*dot = '\0';
+
+
+
+fr = f_open(&wav_file, filename, FA_READ);
+
+if (fr != FR_OK) return -1;
+
+
+
+if (wav_parse_header(&wav_file, &wavinfo) != 0) {
+
+f_close(&wav_file);
+
+return -2;
+
 }
+
+
+
+if (wavinfo.bits_per_sample != 16) {
+
+myprintf("Unsupported bits_per_sample=%u\r\n", wavinfo.bits_per_sample);
+
+f_close(&wav_file);
+
+return -3;
+
+}
+
+
+
+// Expect 22,050 Hz for smooth playback with this config
+
+if (wavinfo.sample_rate != 22050) {
+
+myprintf("WARNING: WAV sample_rate=%lu Hz (expected 22050)\r\n",
+
+wavinfo.sample_rate);
+
+}
+
+
+
+f_lseek(&wav_file, wavinfo.data_start);
+
+file_read_pos = wavinfo.data_start;
+
+bytes_remaining = wavinfo.data_bytes;
+
+
+
+myprintf("WAV: rate=%lu, bits=%u, ch=%u, data=%lu bytes\r\n",
+
+wavinfo.sample_rate,
+
+wavinfo.bits_per_sample,
+
+wavinfo.num_channels,
+
+wavinfo.data_bytes);
+
+
+
+return 0;
+
+}
+
+
 
 /* USER CODE END 0 */
 
 
+
+
+
 /**
-  * @brief  Application entry point.
-  * @retval int
-  */
+
+* @brief Application entry point.
+
+* @retval int
+
+*/
+
 int main(void)
+
 {
-  /* MCU Configuration--------------------------------------------------------*/
 
-  HAL_Init();
-  SystemClock_Config();
+/* MCU Configuration--------------------------------------------------------*/
 
-  MX_GPIO_Init();
-  MX_DMA_Init();
-  MX_FATFS_Init();
-  MX_SPI1_Init();
-  MX_USART2_UART_Init();
-  MX_SAI1_Init();
 
-  // LCD
-  LCD_Init();
-  LCD_Clear();
-  LCD_DisplayString(0, (unsigned char *)"Mounting SD...");
 
-  // mount SD
-  myprintf("Mount...\r\n");
-  if (f_mount(&USERFatFS, USERPath, 1) != FR_OK)
-  {
-      myprintf("Mount failed\r\n");
-      Error_Handler();
-  }
-  myprintf("Mount OK\r\n");
+HAL_Init();
 
-  // open + parse WAV
-  int r = start_wav_playback("0:/test.wav");
-  myprintf("start_wav_playback returned %d\r\n", r);
-  if (r != 0)
-  {
-      myprintf("Failed to open/parse test.wav\r\n");
-      Error_Handler();
-  }
+SystemClock_Config();
 
-  LCD_Clear();
-  LCD_DisplayString(0, (unsigned char *)"Playing:");
-  LCD_DisplayString(1, (unsigned char *)current_song_name);
 
-  // Prime audio buffers
-  refill_half_buffer(0);
-  refill_half_buffer(1);
 
-  // Start DMA audio transmit (size = number of 16-bit samples)
-  HAL_SAI_Transmit_DMA(&hsai_BlockA1, (uint8_t*)audio_buffer, AUDIO_BUFFER_SAMPLES);
+MX_GPIO_Init();
 
-  while (1)
-  {
-      if (half_transfer_flag) {
-          half_transfer_flag = 0;
-          refill_half_buffer(0);
-      }
-      if (full_transfer_flag) {
-          full_transfer_flag = 0;
-          refill_half_buffer(1);
-      }
-  }
+MX_DMA_Init();
+
+MX_FATFS_Init();
+
+MX_SPI1_Init();
+
+MX_USART2_UART_Init();
+
+MX_SAI1_Init();
+
+
+
+// LCD
+
+LCD_Init();
+
+LCD_Clear();
+
+LCD_DisplayString(0, (unsigned char *)"Mounting SD...");
+
+
+
+// mount SD
+
+myprintf("Mount...\r\n");
+
+if (f_mount(&USERFatFS, USERPath, 1) != FR_OK)
+
+{
+
+myprintf("Mount failed\r\n");
+
+Error_Handler();
+
 }
 
+myprintf("Mount OK\r\n");
+
+
+
+// open + parse WAV
+
+int r = start_wav_playback(songs[song_number]);
+
+myprintf("start_wav_playback returned %d\r\n", r);
+
+if (r != 0)
+
+{
+
+myprintf("Failed to open/parse test.wav\r\n");
+
+Error_Handler();
+
+}
+
+
+
+LCD_Clear();
+
+LCD_DisplayString(0, (unsigned char *)"Playing:");
+
+LCD_DisplayString(1, (unsigned char *)current_song_name);
+
+
+
+// Prime audio buffers
+
+refill_half_buffer(0);
+
+refill_half_buffer(1);
+
+
+
+// Start DMA audio transmit (size = number of 16-bit samples)
+
+HAL_SAI_Transmit_DMA(&hsai_BlockA1, (uint8_t*)audio_buffer, AUDIO_BUFFER_SAMPLES);
+
+
+
+while (1)
+
+{
+
+static uint8_t initialized = 0;
+static uint8_t last_state0 = 1;
+static uint8_t last_state1 = 1;
+uint8_t state0 = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0);
+uint8_t state1 = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1);
+
+if (!initialized) {
+last_state0 = state0;
+last_state1 = state1;
+initialized = 1;
+
+}
+
+if (state0 == 0 && last_state0 == 1) {
+paused ^= 1;
+myprintf("Paused = %d\r\n", paused);
+// HAL_Delay(150);
+}
+if (state1 == 0 && last_state1 == 1) {
+myprintf("Yellow pressed!\r\n");
+song_number++;
+if (song_number > num_songs-1) {
+song_number = 0;
+}
+// mount SD
+
+myprintf("Mount...\r\n");
+
+if (f_mount(&USERFatFS, USERPath, 1) != FR_OK)
+
+{
+
+myprintf("Mount failed\r\n");
+
+Error_Handler();
+
+}
+
+myprintf("Mount OK\r\n");
+
+
+
+// open + parse WAV
+
+int r = start_wav_playback(songs[song_number]);
+
+myprintf("start_wav_playback returned %d\r\n", r);
+
+if (r != 0)
+
+{
+
+myprintf("Failed to open/parse test.wav\r\n");
+
+Error_Handler();
+
+}
+
+
+
+LCD_Clear();
+
+LCD_DisplayString(0, (unsigned char *)"Playing:");
+
+LCD_DisplayString(1, (unsigned char *)current_song_name);
+
+
+
+// Prime audio buffers
+
+refill_half_buffer(0);
+
+refill_half_buffer(1);
+
+
+
+// Start DMA audio transmit (size = number of 16-bit samples)
+
+HAL_SAI_Transmit_DMA(&hsai_BlockA1, (uint8_t*)audio_buffer, AUDIO_BUFFER_SAMPLES);
+}
+last_state0 = state0;
+last_state1 = state1;
+
+// myprintf("%d\r\n", paused);
+if (half_transfer_flag) {
+half_transfer_flag = 0;
+refill_half_buffer(0);
+}
+if (full_transfer_flag) {
+full_transfer_flag = 0;
+refill_half_buffer(1);
+}
+}
+}
+
+
+
+
+
+
+
 /**
-  * @brief System Clock Configuration
-  *        MSI (4 MHz) -> PLL -> 80 MHz SYSCLK
-  * @retval None
-  */
+
+* @brief System Clock Configuration
+
+* MSI (4 MHz) -> PLL -> 80 MHz SYSCLK
+
+* @retval None
+
+*/
+
 void SystemClock_Config(void)
+
 {
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /* Configure the main internal regulator output voltage */
-  if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
-  {
-    Error_Handler();
-  }
+RCC_OscInitTypeDef RCC_OscInitStruct = {0};
 
-  /* Initializes the RCC Oscillators: MSI ON, PLL from MSI to 80 MHz */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSICalibrationValue = 0;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6; // 4 MHz
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
-  RCC_OscInitStruct.PLL.PLLM = 1;
-  RCC_OscInitStruct.PLL.PLLN = 40;                 // 4 MHz * 40 = 160 MHz VCO
-  RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;      // 160 / 2 = 80 MHz SYSCLK
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;      // not used here
-  RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;      // not used here
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    Error_Handler();
-  }
+RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /* Initializes the CPU, AHB and APB buses clocks */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|
-                                RCC_CLOCKTYPE_SYSCLK|
-                                RCC_CLOCKTYPE_PCLK1|
-                                RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK; // 80 MHz
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
-  {
-    Error_Handler();
-  }
+
+/* Configure the main internal regulator output voltage */
+
+if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+
+{
+
+Error_Handler();
+
 }
 
+
+
+/* Initializes the RCC Oscillators: MSI ON, PLL from MSI to 80 MHz */
+
+RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+
+RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+
+RCC_OscInitStruct.MSICalibrationValue = 0;
+
+RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6; // 4 MHz
+
+RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+
+RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
+
+RCC_OscInitStruct.PLL.PLLM = 1;
+
+RCC_OscInitStruct.PLL.PLLN = 40; // 4 MHz * 40 = 160 MHz VCO
+
+RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2; // 160 / 2 = 80 MHz SYSCLK
+
+RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7; // not used here
+
+RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2; // not used here
+
+if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+
+{
+
+Error_Handler();
+
+}
+
+
+
+/* Initializes the CPU, AHB and APB buses clocks */
+
+RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|
+
+RCC_CLOCKTYPE_SYSCLK|
+
+RCC_CLOCKTYPE_PCLK1|
+
+RCC_CLOCKTYPE_PCLK2;
+
+RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK; // 80 MHz
+
+RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+
+RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+
+RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+
+
+if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
+
+{
+
+Error_Handler();
+
+}
+
+}
+
+
+
 /**
-  * @brief SAI1 Initialization Function
-  * @param None
-  * @retval None
-  */
+
+* @brief SAI1 Initialization Function
+
+* @param None
+
+* @retval None
+
+*/
+
 static void MX_SAI1_Init(void)
+
 {
-  hsai_BlockA1.Instance = SAI1_Block_A;
-  hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
-  hsai_BlockA1.Init.Synchro = SAI_ASYNCHRONOUS;
-  hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
-  hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
-  hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
 
-  /* Lower rate (22 kHz) to reduce SD bandwidth and crackles */
-  hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_22K;
+hsai_BlockA1.Instance = SAI1_Block_A;
 
-  hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-  hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE; // stereo frame
-  hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
-  hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
-  if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD,
-                           SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
-  {
-    Error_Handler();
-  }
+hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
+
+hsai_BlockA1.Init.Synchro = SAI_ASYNCHRONOUS;
+
+hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+
+hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
+
+hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+
+
+
+/* Lower rate (22 kHz) to reduce SD bandwidth and crackles */
+
+hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_22K;
+
+
+
+hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+
+hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE; // stereo frame
+
+hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
+
+hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+
+if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD,
+
+SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+
+{
+
+Error_Handler();
+
 }
 
+}
+
+
+
 /**
-  * @brief SPI1 Initialization Function
-  * @param None
-  * @retval None
-  */
+
+* @brief SPI1 Initialization Function
+
+* @param None
+
+* @retval None
+
+*/
+
 static void MX_SPI1_Init(void)
+
 {
-  hspi1.Instance = SPI1;
-  hspi1.Init.Mode = SPI_MODE_MASTER;
-  hspi1.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
-  hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
-  hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
-  hspi1.Init.NSS = SPI_NSS_SOFT;
 
-  /* From 80 MHz core, /4 gives 20 MHz on SCK (good for SD) */
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
+hspi1.Instance = SPI1;
 
-  hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
-  hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
-  hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-  hspi1.Init.CRCPolynomial = 7;
-  hspi1.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
-  hspi1.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
-  if (HAL_SPI_Init(&hspi1) != HAL_OK)
-  {
-    Error_Handler();
-  }
+hspi1.Init.Mode = SPI_MODE_MASTER;
+
+hspi1.Init.Direction = SPI_DIRECTION_2LINES;
+
+hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+
+hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+
+hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+
+hspi1.Init.NSS = SPI_NSS_SOFT;
+
+
+
+/* From 80 MHz core, /4 gives 20 MHz on SCK (good for SD) */
+
+hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
+
+
+
+hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+
+hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+
+hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+
+hspi1.Init.CRCPolynomial = 7;
+
+hspi1.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+
+hspi1.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+
+if (HAL_SPI_Init(&hspi1) != HAL_OK)
+
+{
+
+Error_Handler();
+
 }
 
+}
+
+
+
 /**
-  * @brief USART2 Initialization Function
-  * @param None
-  * @retval None
-  */
+
+* @brief USART2 Initialization Function
+
+* @param None
+
+* @retval None
+
+*/
+
 static void MX_USART2_UART_Init(void)
+
 {
-  huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
-  huart2.Init.WordLength = UART_WORDLENGTH_8B;
-  huart2.Init.StopBits = UART_STOPBITS_1;
-  huart2.Init.Parity = UART_PARITY_NONE;
-  huart2.Init.Mode = UART_MODE_TX_RX;
-  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
-  huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-  huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-  if (HAL_UART_Init(&huart2) != HAL_OK)
-  {
-    Error_Handler();
-  }
+
+huart2.Instance = USART2;
+
+huart2.Init.BaudRate = 115200;
+
+huart2.Init.WordLength = UART_WORDLENGTH_8B;
+
+huart2.Init.StopBits = UART_STOPBITS_1;
+
+huart2.Init.Parity = UART_PARITY_NONE;
+
+huart2.Init.Mode = UART_MODE_TX_RX;
+
+huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+
+huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+
+huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+
+huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+
+if (HAL_UART_Init(&huart2) != HAL_OK)
+
+{
+
+Error_Handler();
+
 }
 
+}
+
+
+
 /**
-  * Enable DMA controller clock
-  */
+
+* Enable DMA controller clock
+
+*/
+
 static void MX_DMA_Init(void)
-{
-  __HAL_RCC_DMA2_CLK_ENABLE();
 
-  /* DMA2_Channel1_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA2_Channel1_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA2_Channel1_IRQn);
+{
+
+__HAL_RCC_DMA2_CLK_ENABLE();
+
+
+
+/* DMA2_Channel1_IRQn interrupt configuration */
+
+HAL_NVIC_SetPriority(DMA2_Channel1_IRQn, 0, 0);
+
+HAL_NVIC_EnableIRQ(DMA2_Channel1_IRQn);
+
 }
 
+
+
 /**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
+
+* @brief GPIO Initialization Function
+
+* @param None
+
+* @retval None
+
+*/
+
 static void MX_GPIO_Init(void)
+
 {
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-  __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
+GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-  HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_RESET);
 
-  GPIO_InitStruct.Pin = SD_CS_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(SD_CS_GPIO_Port, &GPIO_InitStruct);
+
+__HAL_RCC_GPIOC_CLK_ENABLE();
+
+__HAL_RCC_GPIOA_CLK_ENABLE();
+
+__HAL_RCC_GPIOB_CLK_ENABLE();
+
+
+
+HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_RESET);
+
+
+
+GPIO_InitStruct.Pin = SD_CS_Pin;
+
+GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+
+GPIO_InitStruct.Pull = GPIO_PULLUP;
+
+GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+
+HAL_GPIO_Init(SD_CS_GPIO_Port, &GPIO_InitStruct);
+
+/* Configure PA0 as pause button. We assume button pulls line to GND when pressed. */
+GPIO_InitStruct.Pin = GPIO_PIN_0;
+GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+GPIO_InitStruct.Pull = GPIO_PULLUP;
+HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+GPIO_InitStruct.Pin = GPIO_PIN_1;
+GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+GPIO_InitStruct.Pull = GPIO_PULLUP;
+HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
 }
+
+
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
+
+* @brief This function is executed in case of error occurrence.
+
+* @retval None
+
+*/
+
 void Error_Handler(void)
+
 {
-  __disable_irq();
-  while (1)
-  {
-  }
+
+__disable_irq();
+
+while (1)
+
+{
+
 }
+
+}
+
+
 
 #ifdef USE_FULL_ASSERT
+
 void assert_failed(uint8_t *file, uint32_t line)
+
 {
-  (void)file;
-  (void)line;
+
+(void)file;
+
+(void)line;
+
 }
+
 #endif /* USE_FULL_ASSERT */
